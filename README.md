@@ -1,3 +1,7 @@
+# CodeCatalysts
+Naka Assoumatine, Jonathan Carranza Cortes, Allison Hidalgo, Gabe Hogan, and Sarah Lathrop
+
+
 # Picasso
 
 An application that allows the user to create expressions that

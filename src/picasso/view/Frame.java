@@ -22,6 +22,7 @@ public class Frame extends JFrame {
 		// create GUI components
 		Canvas canvas = new Canvas(this);
 		canvas.setSize(size);
+		setTitle("CodeCatalysts");
 
 		// add commands to test here
 		ButtonPanel commands = new ButtonPanel(canvas);

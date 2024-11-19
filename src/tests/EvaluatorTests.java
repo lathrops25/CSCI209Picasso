@@ -14,7 +14,7 @@ import picasso.parser.language.expressions.*;
 /**
  * Tests of the evaluation of expression trees
  * 
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Sarah Lathrop
  * 
  */
 public class EvaluatorTests {

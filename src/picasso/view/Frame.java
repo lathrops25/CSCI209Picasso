@@ -29,6 +29,10 @@ public class Frame extends JFrame {
 		commands.add("Open", new Reader());
 		commands.add("Evaluate", new ThreadedCommand<Pixmap>(canvas, new Evaluator()));
 		commands.add("Save", new Writer());
+		
+		// adding separate text box
+		TextBox inputTextBox = new TextBox();
+		inputTextBox.setVisible(true);
 
 		// add our container to Frame and show it
 		getContentPane().add(canvas, BorderLayout.CENTER);

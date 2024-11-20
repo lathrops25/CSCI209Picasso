@@ -56,9 +56,9 @@ public class TextBox extends JFrame{
 				
 				// Make sure the new text is visible, even if there was a selection in the text area
 				textArea.setCaretPosition(textArea.getDocument().getLength());
-				canvas.receiveInputString(text);
 				evaluator.receiveInputString(text);
 
+				
 			}
 		});
 		add(textField);

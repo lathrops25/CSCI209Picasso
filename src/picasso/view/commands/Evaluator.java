@@ -1,12 +1,15 @@
 package picasso.view.commands;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.Console;
 
 import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.util.Command;
+import picasso.view.Canvas;
 
 /**
  * Evaluate an expression for each pixel in a image.
@@ -17,12 +20,13 @@ import picasso.util.Command;
 public class Evaluator implements Command<Pixmap> {
 	public static final double DOMAIN_MIN = -1;
 	public static final double DOMAIN_MAX = 1;
+	public static String inputString;
 
 	/**
 	 * Evaluate an expression for each point in the image.
 	 */
 	public void execute(Pixmap target) {
-		// create the expression to evaluate just once
+
 		ExpressionTreeNode expr = createExpression();
 		// evaluate it for each pixel
 		Dimension size = target.getSize();
@@ -35,7 +39,7 @@ public class Evaluator implements Command<Pixmap> {
 			}
 		}
 	}
-
+	
 	/**
 	 * Convert from image space to domain space.
 	 */
@@ -53,13 +57,22 @@ public class Evaluator implements Command<Pixmap> {
 		// generate expression trees from strings, or you can create expression
 		// objects directly (as in the commented statement below).
 
-		String test = "floor(y)";
+//		String inputString = "floor(y)";
 		//String test = "x + y";
+		
 
 		ExpressionTreeGenerator expTreeGen = new ExpressionTreeGenerator();
-		return expTreeGen.makeExpression(test);
+		return expTreeGen.makeExpression(inputString);
 
 		// return new Multiply( new X(), new Y() );
+	}
+	/**
+	 * Setter method to receive input from the other GUI
+	 * and set it.
+	 * @param newString
+	 */
+	public void receiveInputString(String newString) {
+		inputString = newString;
 	}
 
 }

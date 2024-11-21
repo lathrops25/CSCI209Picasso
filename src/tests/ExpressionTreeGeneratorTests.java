@@ -92,7 +92,16 @@ public class ExpressionTreeGeneratorTests {
 	}
 	
 	@Test
-	public void sinFunctionTests() {
+	public void clampFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("clamp( x )");
+		assertEquals(new Clamp(new X()), e);
+
+		e = parser.makeExpression("clamp( x + x )");
+		assertEquals(new Clamp(new Addition(new X(), new X())), e);
+  }
+  
+  @Test
+   public void sinFunctionTests() {
 		ExpressionTreeNode e = parser.makeExpression("sin( x )");
 		assertEquals(new Sin(new X()), e);
 

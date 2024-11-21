@@ -69,8 +69,10 @@ public class Evaluator implements Command<Pixmap> {
 		// generate expression trees from strings, or you can create expression
 		// objects directly (as in the commented statement below).
 
+		//String test = "x + y";
 		// Take the current expression in the text field
 		inputString = textIn.getText();
+
 
 		ExpressionTreeGenerator expTreeGen = new ExpressionTreeGenerator();
 		return expTreeGen.makeExpression(inputString);

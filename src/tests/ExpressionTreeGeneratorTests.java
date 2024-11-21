@@ -20,6 +20,7 @@ import picasso.parser.tokens.operations.PlusToken;
  * compiler errors until some code is created.
  * 
  * @author Sara Sprenkle
+ * @author Naka Assoumatine
  * 
  */
 public class ExpressionTreeGeneratorTests {
@@ -89,6 +90,15 @@ public class ExpressionTreeGeneratorTests {
 
 		e = parser.makeExpression("floor( x + y )");
 		assertEquals(new Floor(new Addition(new X(), new Y())), e);
+	}
+	
+	@Test
+	public void sinFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("sin( x )");
+		assertEquals(new Sin(new X()), e);
+
+		e = parser.makeExpression("sin( x + y )");
+		assertEquals(new Sin(new Addition(new X(), new Y())), e);
 	}
 
 }

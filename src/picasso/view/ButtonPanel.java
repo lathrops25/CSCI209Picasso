@@ -2,6 +2,8 @@ package picasso.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import javax.swing.JButton;
 
@@ -14,10 +16,15 @@ import picasso.util.NamedCommand;
  * image.
  * 
  * @author Robert C Duvall
+ * @author Jonathan Carranza Cortes
  */
 @SuppressWarnings("serial")
 public class ButtonPanel extends JPanel {
+	
 	private Canvas myView;
+	/** adds ability to save each button and its action
+		lets you call specific buttons when added **/
+	public ArrayList<JButton> buttonList = new ArrayList<JButton>();
 
 	/**
 	 * Create panel that will update the given picasso.view.
@@ -44,6 +51,8 @@ public class ButtonPanel extends JPanel {
 			}
 		});
 		add(button);
+		// adding button to ArrayList
+		buttonList.add(button);
 	}
 
 	/**
@@ -54,5 +63,13 @@ public class ButtonPanel extends JPanel {
 	 */
 	public void add(NamedCommand<Pixmap> action) {
 		add(action.getName(), action);
+	}
+	/**
+	 * Get button from ArrayList at given index
+	 * @param index
+	 * @return
+	 */
+	public JButton getButton(int index) {
+		return buttonList.get(index);
 	}
 }

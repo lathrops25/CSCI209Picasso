@@ -100,4 +100,13 @@ public class ExpressionTreeGeneratorTests {
 		assertEquals(new Abs(new Addition(new X(), new Y())), e);
 	}
 
+	@Test
+	public void ceilFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("abs( x )");
+		assertEquals(new Ceil(new X()), e);
+
+		e = parser.makeExpression("abs( x + y )");
+		assertEquals(new Ceil(new Addition(new X(), new Y())), e);
+	}
+	// TODO: more tests
 }

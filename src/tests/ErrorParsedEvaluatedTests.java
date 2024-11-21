@@ -27,7 +27,7 @@ public class ErrorParsedEvaluatedTests {
 	@Test
 	public void errorConstantExpressionTest() {
 		assertThrows(ParseException.class, () -> {
-			parser.makeExpression("- 7");
+			parser.makeExpression("- .7");
 		});
 	}
 
@@ -41,35 +41,35 @@ public class ErrorParsedEvaluatedTests {
 	@Test
 	public void errorTooFewArgsTest() {
 		assertThrows(ParseException.class, () -> {
-			parser.makeExpression("( 7 + )");
+			parser.makeExpression("( .7 + )");
 		});
 	}
 
 	@Test
 	public void errorExtraOperandTest() {
 		assertThrows(ParseException.class, () -> {
-			parser.makeExpression("( 7 + 3 5)");
+			parser.makeExpression("( .7 + .3 .5)");
 		});
 	}
 
 	@Test
 	public void errorExtraOperandTest2() {
 		assertThrows(ParseException.class, () -> {
-			parser.makeExpression("( 7 * 3 ) 5");
+			parser.makeExpression("( .7 * .3 ) .5");
 		});
 	}
 
 	@Test
 	public void errorMissingRightParenTest() {
 		assertThrows(ParseException.class, () -> {
-			parser.makeExpression("( 7 * 3");
+			parser.makeExpression("( .7 * .3");
 		});
 	}
 
 	@Test
 	public void errorMissingLeftParenTest() {
 		assertThrows(ParseException.class, () -> {
-			parser.makeExpression("7 * 3 )");
+			parser.makeExpression(".7 * .3 )");
 		});
 	}
 	

@@ -3,26 +3,43 @@ package picasso.view.commands;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.JTextField;
+
 import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.util.Command;
+import picasso.view.Frame;
 
 /**
  * Evaluate an expression for each pixel in a image.
  * 
  * @author Robert C Duvall
  * @author Sara Sprenkle
+ * @author Jonathan Carranza Cortes
  */
 public class Evaluator implements Command<Pixmap> {
+
 	public static final double DOMAIN_MIN = -1;
 	public static final double DOMAIN_MAX = 1;
+
+	private static String inputString;
+	private JTextField textIn;
+
+	/**
+	 * Constructor that takes input from text field and saves it
+	 * 
+	 * @param text field
+	 */
+	public Evaluator(JTextField textIn) {
+		this.textIn = textIn;
+	}
 
 	/**
 	 * Evaluate an expression for each point in the image.
 	 */
 	public void execute(Pixmap target) {
-		// create the expression to evaluate just once
+
 		ExpressionTreeNode expr = createExpression();
 		// evaluate it for each pixel
 		Dimension size = target.getSize();
@@ -45,21 +62,19 @@ public class Evaluator implements Command<Pixmap> {
 	}
 
 	/**
-	 * 
-	 * A place holder for a more interesting way to build the expression.
+	 * Creates expression based on text in a text field
 	 */
 	private ExpressionTreeNode createExpression() {
 		// Note, when you're testing, you can use the ExpressionTreeGenerator to
 		// generate expression trees from strings, or you can create expression
 		// objects directly (as in the commented statement below).
 
-		String test = "floor(y)";
-		//String test = "x + y";
+		// String test = "x + y";
+		// Take the current expression in the text field
+		inputString = textIn.getText();
 
 		ExpressionTreeGenerator expTreeGen = new ExpressionTreeGenerator();
-		return expTreeGen.makeExpression(test);
-
-		// return new Multiply( new X(), new Y() );
+		return expTreeGen.makeExpression(inputString);
 	}
 
 }

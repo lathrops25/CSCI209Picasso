@@ -90,7 +90,7 @@ public class ExpressionTreeGeneratorTests {
 		e = parser.makeExpression("floor( x + y )");
 		assertEquals(new Floor(new Addition(new X(), new Y())), e);
 	}
-	
+
 	@Test
 	public void clampFunctionTests() {
 		ExpressionTreeNode e = parser.makeExpression("clamp( x )");
@@ -98,22 +98,31 @@ public class ExpressionTreeGeneratorTests {
 
 		e = parser.makeExpression("clamp( x + x )");
 		assertEquals(new Clamp(new Addition(new X(), new X())), e);
-  }
-  
-  @Test
-   public void sinFunctionTests() {
+	}
+
+	@Test
+	public void wrapFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("wrap( x )");
+		assertEquals(new Wrap(new X()), e);
+
+		e = parser.makeExpression("wrap( x + x )");
+		assertEquals(new Wrap(new Addition(new X(), new X())), e);
+	}
+
+	@Test
+	public void sinFunctionTests() {
 		ExpressionTreeNode e = parser.makeExpression("sin( x )");
 		assertEquals(new Sin(new X()), e);
 
 		e = parser.makeExpression("sin( x + y )");
 		assertEquals(new Sin(new Addition(new X(), new Y())), e);
-  }
+	}
 
- @Test
+	@Test
 	public void absFunctionTests() {
 		ExpressionTreeNode e = parser.makeExpression("abs( x )");
 		assertEquals(new Abs(new X()), e);
-		
+
 		e = parser.makeExpression("abs( x + y )");
 		assertEquals(new Abs(new Addition(new X(), new Y())), e);
 

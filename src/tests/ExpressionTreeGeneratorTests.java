@@ -92,7 +92,7 @@ public class ExpressionTreeGeneratorTests {
 	}
 
 	@Test
-	public void absFunctionTests() {
+	public void wrapFunctionTests() {
 		ExpressionTreeNode e = parser.makeExpression("wrap( x )");
 		assertEquals(new Wrap(new X()), e);
 

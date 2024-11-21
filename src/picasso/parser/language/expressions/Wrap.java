@@ -20,18 +20,14 @@ public class Wrap extends UnaryFunction {
 		super(param);
 	}
 
-	private static double wrap(double val) {
-		// Use modulo to keep the value in the range [-2, 2]
-		double wrappedVal = val % 2;
-
-		// Adjust for values outside [-1, 1]
-		if (wrappedVal > 1) {
-			return wrappedVal - 2;
-		} else if (wrappedVal < -1) {
-			return wrappedVal + 2;
-		} else {
-			return wrappedVal; // Already in the range [-1, 1]
+	private static double wrap(double value) {
+		while (value > 1) {
+			value -= 2;
 		}
+		while (value < -1) {
+			value += 2;
+		}
+		return value;
 	}
 
 	/**

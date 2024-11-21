@@ -91,4 +91,13 @@ public class ExpressionTreeGeneratorTests {
 		assertEquals(new Floor(new Addition(new X(), new Y())), e);
 	}
 
+	@Test
+	public void absFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("wrap( x )");
+		assertEquals(new Wrap(new X()), e);
+
+		e = parser.makeExpression("wrap( x + x )");
+		assertEquals(new Wrap(new Addition(new X(), new X())), e);
+	}
+
 }

@@ -73,6 +73,19 @@ public class EvaluatorTests {
 	public void testWrapEvaluation() {
 		Wrap myTree = new Wrap(new X());
 
+		// Test positive values that wrap around
+		assertEquals(-0.5, myTree.evaluate(1.5), 0.01);
+		assertEquals(0.5, myTree.evaluate(2.5), 0.01);
+
+		// Test negative values that wrap around
+		assertEquals(0.5, myTree.evaluate(-1.5), 0.01);
+		assertEquals(-1.0, myTree.evaluate(-3.0), 0.01);
+
+		// Test values within range
+		assertEquals(1.0, myTree.evaluate(1.0), 0.01);
+		assertEquals(-1.0, myTree.evaluate(-1.0), 0.01);
+		assertEquals(0.0, myTree.evaluate(0.0), 0.01);
+
 	}
 
 }

@@ -69,4 +69,10 @@ public class EvaluatorTests {
 
 	// TODO: More tests of evaluation
 
+	@Test
+	public void testWrapEvaluation() {
+		Wrap myTree = new Wrap(new X());
+
+	}
+
 }

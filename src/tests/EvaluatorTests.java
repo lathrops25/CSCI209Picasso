@@ -81,7 +81,7 @@ public class EvaluatorTests {
         // Test negative values that wrap around
         assertEquals(new RGBColor(0.5, 0.5, 0.5), myTree.evaluate(-1.5, 0));
         assertEquals(new RGBColor(-1.0, -1.0, -1.0), myTree.evaluate(-3.0, 0));
-        assertEquals(new RGBColor(1.0, 1.0, 1.0), myTree.evaluate(-5.0, 0));
+        assertEquals(new RGBColor(-1.0, -1.0, -1.0), myTree.evaluate(-5.0, 0));
 
         // Test values within range
         assertEquals(new RGBColor(1.0, 1.0, 1.0), myTree.evaluate(1.0, 0));
@@ -89,8 +89,8 @@ public class EvaluatorTests {
         assertEquals(new RGBColor(0.0, 0.0, 0.0), myTree.evaluate(0.0, 0));
 
         // Test zero crossing boundary conditions
-        assertEquals(new RGBColor(1.0, 1.0, 1.0), myTree.evaluate(-3.0, 0));
-        assertEquals(new RGBColor(-1.0, -1.0, -1.0), myTree.evaluate(3.0, 0));
+        assertEquals(new RGBColor(-1.0, -1.0, -1.0), myTree.evaluate(-3.0, 0));
+        assertEquals(new RGBColor(1.0, 1.0, 1.0), myTree.evaluate(3.0, 0));
 
 	}
 

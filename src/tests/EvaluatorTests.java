@@ -14,7 +14,7 @@ import picasso.parser.language.expressions.*;
 /**
  * Tests of the evaluation of expression trees
  * 
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Sarah Lathrop
  * 
  */
 public class EvaluatorTests {
@@ -65,6 +65,28 @@ public class EvaluatorTests {
 			assertEquals(new RGBColor(floorOfTestVal, floorOfTestVal, floorOfTestVal),
 					myTree.evaluate(testVal, testVal));
 		}
+	}
+	
+	@Test
+	public void testAbsEvaluation() {
+		Abs absTree = new Abs(new X());
+		//y values don't matter here
+		
+		//straightforward tests
+		assertEquals (new RGBColor(0, 0, 0), absTree.evaluate (0, .5));
+		assertEquals (new RGBColor (1, 1, 1), absTree.evaluate(-1, 0));
+		assertEquals (new RGBColor (1, 1, 1), absTree.evaluate(1, .25));
+		
+		//more tests
+		double[] tests = {-0.6, -.00001, .00001, .8};
+		
+		for (double testVal : tests) {
+			double absTestVal = Math.abs(testVal);
+			assertEquals(new RGBColor(absTestVal, absTestVal, absTestVal), absTree.evaluate(testVal, 1));
+			assertEquals(new RGBColor(absTestVal, absTestVal, absTestVal),
+					absTree.evaluate(testVal, testVal));
+		}
+	
 	}
 
 	@Test

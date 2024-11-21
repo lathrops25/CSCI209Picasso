@@ -19,7 +19,7 @@ import picasso.parser.tokens.operations.PlusToken;
  * Tests of creating an expression tree from a string expression. Will have
  * compiler errors until some code is created.
  * 
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Sarah Lathrop
  * 
  */
 public class ExpressionTreeGeneratorTests {
@@ -89,6 +89,15 @@ public class ExpressionTreeGeneratorTests {
 
 		e = parser.makeExpression("floor( x + y )");
 		assertEquals(new Floor(new Addition(new X(), new Y())), e);
+	}
+	
+	@Test
+	public void absFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("abs( x )");
+		assertEquals(new Abs(new X()), e);
+		
+		e = parser.makeExpression("abs( x + y )");
+		assertEquals(new Abs(new Addition(new X(), new Y())), e);
 	}
 
 	@Test

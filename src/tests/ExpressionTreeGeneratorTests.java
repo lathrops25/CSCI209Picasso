@@ -90,9 +90,9 @@ public class ExpressionTreeGeneratorTests {
 		e = parser.makeExpression("floor( x + y )");
 		assertEquals(new Floor(new Addition(new X(), new Y())), e);
 	}
-	
+
 	@Test
-	public void absFunctionTests() {
+	public void ceilFunctionTests() {
 		ExpressionTreeNode e = parser.makeExpression("abs( x )");
 		assertEquals(new Ceil(new X()), e);
 

@@ -68,5 +68,38 @@ public class EvaluatorTests {
 	}
 
 	// TODO: More tests of evaluation
-
+	@Test
+	public void testAdditionEvaluation() {
+		Addition myTree = new Addition(new X(), new Y());
+		
+		// some straightforward tests
+		assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(1, 1, 1), myTree.evaluate(1, 0)); 
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-1, 0));
+		
+		assertEquals(new RGBColor(0.5, 0.5, 0.5), myTree.evaluate(-.4, 0.9)); 
+		
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++ ) {
+			assertEquals(new RGBColor(i-i, i-i, i-i),myTree.evaluate(i, -i));
+			assertEquals(new RGBColor(i+i, i+i, i+i),myTree.evaluate(i, i));
+		}
+		
+		// test a range of integers
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				assertEquals(new RGBColor(i+j, i+j, i+j), myTree.evaluate(i, j));
+;			}
+		}
+	
+		double[] tests = {-.7, -.00001, .000001, .5};
+		
+		for (double testLeftVal : tests) {
+			for (double testRightVal : tests) {
+			double additionOfTestVal = testLeftVal + testRightVal;
+				assertEquals(new RGBColor(additionOfTestVal, additionOfTestVal, additionOfTestVal), 
+						myTree.evaluate(testLeftVal, testRightVal));
+			}
+		}
+	}
 }

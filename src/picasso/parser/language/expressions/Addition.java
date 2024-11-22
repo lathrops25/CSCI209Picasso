@@ -57,7 +57,7 @@ public class Addition extends ExpressionTreeNode {
 		Addition uf = (Addition) o;
 
 		// check if their parameters are equal
-		if (!this.left.equals(uf.left)) {
+		if ((!this.left.equals(uf.left)) || (!this.right.equals(uf.right))) {
 			return false;
 		}
 		return true;

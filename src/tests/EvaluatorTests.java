@@ -197,9 +197,23 @@ public class EvaluatorTests {
 
 		for (double testVal : tests) {
 			double sinOfTestVal = Math.sin(testVal);
-			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal), myTree.evaluate(testVal, -1));//////
+			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal), myTree.evaluate(testVal, -1));
 			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal),
 					myTree.evaluate(testVal, testVal));
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,13 +8,13 @@ import picasso.parser.language.ExpressionTreeNode;
  * Special color class for Picasso. Represents colors by their red, green, and
  * blue components. Each color component is on a scale of [-1,1]. When the color
  * is evaluated in the expression tree, it is the color.
- *
  */
 public class RGBColor extends ExpressionTreeNode {
 	public static final double COLOR_MIN = -1;
 	public static final double COLOR_MAX = 1;
 	public static final int JAVA_COLOR_MAX = 255;
 
+	/** for testing */
 	public static final double ERROR_TOLERANCE = 0.01;
 
 	private double myRed;
@@ -158,6 +158,13 @@ public class RGBColor extends ExpressionTreeNode {
 		return Math.max(COLOR_MIN, Math.min(COLOR_MAX, value));
 	}
 
+	/**
+	 * Returns this color
+	 * @param x
+	 * @param y
+	 * @return this color
+	 * @see picasso.parser.language.ExpressionTreeNode#evaluate(double, double)
+	 */
 	@Override
 	public RGBColor evaluate(double x, double y) {
 		return this;

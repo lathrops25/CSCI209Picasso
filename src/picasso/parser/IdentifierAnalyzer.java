@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import picasso.parser.language.ExpressionTreeNode;
+import picasso.parser.language.expressions.StringNode;
 import picasso.parser.language.expressions.X;
 import picasso.parser.language.expressions.Y;
 import picasso.parser.tokens.IdentifierToken;
@@ -26,10 +27,12 @@ public class IdentifierAnalyzer implements SemanticAnalyzerInterface {
 		idToExpression.put("y", new Y());
 	}
 
+	
 	@Override
 	public ExpressionTreeNode generateExpressionTree(Stack<Token> tokens) {
 		IdentifierToken t = (IdentifierToken) tokens.pop();
 		String id = t.getName();
+		// TODO something to check if file extension?
 		ExpressionTreeNode mapped = idToExpression.get(id);
 		if (mapped != null) {
 			return mapped;
@@ -37,7 +40,7 @@ public class IdentifierAnalyzer implements SemanticAnalyzerInterface {
 
 		// TODO : What should we do if we don't recognize the identifier?
 		// Is that an error? Or, could there a valid reason?
-		return null;
+		return new StringNode(id);
 	}
 
 }

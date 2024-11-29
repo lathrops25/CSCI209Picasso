@@ -13,6 +13,7 @@ import picasso.parser.Tokenizer;
 import picasso.parser.tokens.*;
 import picasso.parser.tokens.chars.*;
 import picasso.parser.tokens.functions.*;
+import picasso.parser.tokens.operations.*;
 
 /**
  * Tests that the tokenizer tokens as expected. 
@@ -92,6 +93,12 @@ public class TokenizerTest {
 		assertEquals(new RightParenToken(), tokens.get(3));
 	}
 
+	@Test
+	public void testTokenizeAssignmentExpression () {
+		String expression = "a = y";
+		tokens = tokenizer.parseTokens(expression);
+		assertEquals (new AssignmentToken(), tokens.get(0));
+	}
 	@Test
 	public void testTokenizeCombinedFunctionExpression() {
 		String expression = "perlinColor(floor(x), y)";

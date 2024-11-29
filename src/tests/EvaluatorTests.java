@@ -202,4 +202,23 @@ public class EvaluatorTests {
 					myTree.evaluate(testVal, testVal));
 		}
 	}
+	
+	@Test
+	public void testAssignmentEvaluation() {
+		Assignment myTree = new Assignment (new Variable("a"), new X());
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(i, i, i), myTree.evaluate(i, i));
+		}
+		Assignment myTree2 = new Assignment (new Variable("b"), new Addition (new X(), new Y()));
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				assertEquals(new RGBColor(i + j, i + j, i + j), myTree2.evaluate(i, j));
+			}
+		}
+	}
+	
+	@Test
+	public void testEvaluationWithAssignment() {
+		
+	}
 }

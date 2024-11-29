@@ -9,6 +9,7 @@ import java.util.Stack;
 import org.junit.jupiter.api.BeforeEach;
 
 import picasso.parser.ExpressionTreeGenerator;
+import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 import picasso.parser.tokens.IdentifierToken;
@@ -136,5 +137,26 @@ public class ExpressionTreeGeneratorTests {
 		e = parser.makeExpression("ceil( x + y )");
 		assertEquals(new Ceil(new Addition(new X(), new Y())), e);
 	}
+	
+	@Test
+	public void assignmentTests() {
+		ExpressionTreeNode e = parser.makeExpression("a = x");
+		assertEquals (new Assignment(new Variable("a"), new X()), e);
+	}
+	
+	@Test
+	public void assignmentTestsIllegalLH() {
+		assertThrows(ParseException.class, () -> {
+			parser.makeExpression("a + y = x");
+		});
+	}
+	
+	@Test
+	public void assignmentTestsIllegalLHY() {
+		assertThrows(ParseException.class, () -> {
+			parser.makeExpression("y = x");
+		});
+	}
+
 	// TODO: more tests
 }

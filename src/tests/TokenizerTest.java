@@ -97,7 +97,9 @@ public class TokenizerTest {
 	public void testTokenizeAssignmentExpression () {
 		String expression = "a = y";
 		tokens = tokenizer.parseTokens(expression);
-		assertEquals (new AssignmentToken(), tokens.get(0));
+		assertEquals (new IdentifierToken("a"), tokens.get(0));
+		assertEquals (new AssignmentToken(), tokens.get(1));
+		assertEquals (new IdentifierToken("y"), tokens.get(2));
 	}
 	@Test
 	public void testTokenizeCombinedFunctionExpression() {

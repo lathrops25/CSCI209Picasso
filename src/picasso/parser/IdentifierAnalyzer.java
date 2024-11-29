@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import picasso.parser.language.ExpressionTreeNode;
+import picasso.parser.language.expressions.Variable;
 import picasso.parser.language.expressions.X;
 import picasso.parser.language.expressions.Y;
 import picasso.parser.tokens.IdentifierToken;
@@ -13,7 +14,7 @@ import picasso.parser.tokens.Token;
 /**
  * Handle an identifier token 
  * 
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Sarah Lathrop
  *
  */
 public class IdentifierAnalyzer implements SemanticAnalyzerInterface {
@@ -31,13 +32,11 @@ public class IdentifierAnalyzer implements SemanticAnalyzerInterface {
 		IdentifierToken t = (IdentifierToken) tokens.pop();
 		String id = t.getName();
 		ExpressionTreeNode mapped = idToExpression.get(id);
-		if (mapped != null) {
-			return mapped;
+		if (mapped == null) {
+			idToExpression.put(id, new Variable (id));
+			mapped = idToExpression.get(id);
 		}
-
-		// TODO : What should we do if we don't recognize the identifier?
-		// Is that an error? Or, could there a valid reason?
-		return null;
+		return mapped;
 	}
 
 }

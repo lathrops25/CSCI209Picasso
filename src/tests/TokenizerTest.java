@@ -17,7 +17,7 @@ import picasso.parser.tokens.operations.*;
 
 /**
  * Tests that the tokenizer tokens as expected. 
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Sarah Lathrop
  */
 public class TokenizerTest {
 

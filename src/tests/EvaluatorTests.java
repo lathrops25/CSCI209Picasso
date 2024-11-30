@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import picasso.parser.ExpressionTreeGenerator;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 
@@ -201,6 +202,56 @@ public class EvaluatorTests {
 			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal),
 					myTree.evaluate(testVal, testVal));
 		}
+	}
+	
+	@Test
+	public void testAssignmentEvaluation() {
+		Assignment myTree = new Assignment (new Variable("a"), new X());
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(i, i, i), myTree.evaluate(i, i));
+		}
+		Assignment myTree2 = new Assignment (new Variable("b"), new Addition (new X(), new Y()));
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				assertEquals(new RGBColor(i + j, i + j, i + j), myTree2.evaluate(i, j));
+			}
+		}
+	}
+	
+	/**
+	 * Testing that the evaluation of "a = y", "a", "a = b", and then "b" is all equal to y
+	 */
+	@Test
+	public void testEvaluationWithSimpleAssignment() {
+		String testExpression1 = "a = y";
+		ExpressionTreeGenerator expTreeGen = new ExpressionTreeGenerator();
+		ExpressionTreeNode node1= expTreeGen.makeExpression(testExpression1);
+		Y y = new Y();
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(y.evaluate(i, i), node1.evaluate(i, i));
+		}
+		
+		String testExpression2 = "a";
+		ExpressionTreeGenerator expTreeGen2 = new ExpressionTreeGenerator();
+		ExpressionTreeNode node2= expTreeGen2.makeExpression(testExpression2);
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(y.evaluate(i, i), node2.evaluate(i, i));
+		}
+		
+		String testExpression3 = "b = a";
+		ExpressionTreeGenerator expTreeGen3 = new ExpressionTreeGenerator();
+		ExpressionTreeNode node3= expTreeGen3.makeExpression(testExpression3);
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(y.evaluate(i, i), node3.evaluate(i, i));
+		}
+		
+		String testExpression4 = "b = a";
+		ExpressionTreeGenerator expTreeGen4 = new ExpressionTreeGenerator();
+		ExpressionTreeNode node4= expTreeGen4.makeExpression(testExpression4);
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(y.evaluate(i, i), node4.evaluate(i, i));
+		}
+
 	}
 }
 

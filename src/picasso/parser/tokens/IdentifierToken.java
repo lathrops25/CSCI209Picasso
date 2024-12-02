@@ -10,9 +10,6 @@ package picasso.parser.tokens;
 public class IdentifierToken extends Token {
 
 	private final String myName;
-	// Used to check if string is an image
-	private String[] validExtensions = {"jpg", "png"};
-    private String fileEx;
 
 	public IdentifierToken(String value) {
 		super("Variable Token");
@@ -50,25 +47,6 @@ public class IdentifierToken extends Token {
 
 	@Override
 	public boolean isFunction() {
-		return false;
-	}
-	
-	/**
-	 * checks for a file extension
-	 * used to check if something is an image
-	 * @return true
-	 */
-	public boolean fileExtension() {
-	    int lastPeriod;
-	    String fileEx;
-	    lastPeriod = myName.lastIndexOf(".");
-	    fileEx = myName.substring(lastPeriod);
-	    
-	    for (String s: validExtensions) {
-	    	if (s.equals(fileEx) ){ 
-	    		return true;  
-	    			}
-	    }
 		return false;
 	}
 

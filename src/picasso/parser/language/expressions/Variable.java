@@ -15,7 +15,6 @@ public class Variable extends ExpressionTreeNode implements Comparable<Variable>
 
 	public Variable(String name) {
 		this.name = name;
-		System.out.println(name);
 	}
 
 	@Override

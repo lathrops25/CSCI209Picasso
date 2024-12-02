@@ -20,7 +20,7 @@ public class Wrap extends UnaryFunction {
 		super(param);
 	}
 
-	private static double wrap(double value) {
+	public static double wrap(double value) {
 		while (value > 1) {
 			value -= 2;
 		}

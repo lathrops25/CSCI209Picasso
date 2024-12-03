@@ -12,8 +12,8 @@ import picasso.parser.language.ExpressionTreeNode;
  *
  */
 public class Addition extends ExpressionTreeNode {
-	ExpressionTreeNode left;
-	ExpressionTreeNode right;
+	private ExpressionTreeNode left;
+	private ExpressionTreeNode right;
 	/**
 	 * 
 	 * @param left

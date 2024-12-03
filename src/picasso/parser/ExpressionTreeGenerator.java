@@ -97,6 +97,8 @@ public class ExpressionTreeGenerator {
 				postfixResult.push(token);
 			} else if (token instanceof IdentifierToken) {
 				postfixResult.push(token);
+			} else if (token instanceof StringToken) {
+				postfixResult.push(token);
 			} else if (token instanceof FunctionToken) {
 				operators.push(token);
 			} else if (token instanceof OperationInterface) {
@@ -133,7 +135,21 @@ public class ExpressionTreeGenerator {
 				if (operators.isEmpty() || !(operators.peek() instanceof LeftParenToken)) {
 					throw new ParseException("Parentheses were mismatched.");
 				}
+			} else if (token instanceof QuoteToken) {
+				// Until the token at the top of the stack is another
+				// quote, pop operators off the stack onto the output
+				// queue.
 
+				while (!operators.isEmpty() && !(operators.peek() instanceof QuoteToken)) {
+					postfixResult.push(operators.pop());
+				}
+
+				// If no left parentheses are encountered, either the
+				// separator was misplaced or parentheses were mismatched.
+				if (operators.isEmpty() || !(operators.peek() instanceof LeftParenToken)) {
+					throw new ParseException("Missing ending \".");
+				}
+			
 			} else if (token instanceof LeftParenToken) {
 				operators.push(token);
 			} else if (token instanceof RightParenToken) {

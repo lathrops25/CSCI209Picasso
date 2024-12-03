@@ -5,20 +5,18 @@ import java.util.Map;
 import java.util.Stack;
 
 import picasso.parser.language.ExpressionTreeNode;
+import picasso.parser.language.expressions.StringNode;
 import picasso.parser.language.expressions.Variable;
 import picasso.parser.language.expressions.X;
 import picasso.parser.language.expressions.Y;
-import picasso.parser.tokens.IdentifierToken;
+import picasso.parser.tokens.StringToken;
 import picasso.parser.tokens.Token;
 
 /**
- * Handle an identifier token 
- * 
- * @author Sara Sprenkle, Sarah Lathrop
- *
+ *  Handles parsing the quotations
  */
-public class IdentifierAnalyzer implements SemanticAnalyzerInterface {
-    
+public class StringAnalyzer implements SemanticAnalyzerInterface{
+	
 	static Map<String, ExpressionTreeNode> idToExpression = new HashMap<String, ExpressionTreeNode>();
 
 	static {
@@ -30,7 +28,7 @@ public class IdentifierAnalyzer implements SemanticAnalyzerInterface {
 	
 	@Override
 	public ExpressionTreeNode generateExpressionTree(Stack<Token> tokens) {
-		IdentifierToken t = (IdentifierToken) tokens.pop();
+		StringToken t = (StringToken) tokens.pop();
 		String id = t.getName();
 		ExpressionTreeNode mapped = idToExpression.get(id);
 		if (mapped == null) {
@@ -41,7 +39,6 @@ public class IdentifierAnalyzer implements SemanticAnalyzerInterface {
 		// TODO : What should we do if we don't recognize the identifier?
 		// Is that an error? Or, could there a valid reason?
 		
-		return mapped;
+		return new StringNode(id);
 	}
-	
 }

@@ -5,7 +5,7 @@ import picasso.parser.language.ExpressionTreeNode;
 
 /**
  * Represents the ImageWrap function in the Picasso language
- * @author Jonathan Carranza Cortes
+ * @author Jonathan Carranza Cortes, Sarah Lathrop
  */
 //public class ImageWrap extends UnaryFunction{
 public class ImageWrap extends ExpressionTreeNode{
@@ -44,6 +44,7 @@ public class ImageWrap extends ExpressionTreeNode{
 		return stringExp;
 	}
 	
+	@Override
 	public boolean equals(Object o) {
 		if (o == this) {
 			return true;
@@ -66,9 +67,6 @@ public class ImageWrap extends ExpressionTreeNode{
 			return false;
 		}
 		if (!this.xExp.equals(uf.xExp)) {
-			return false;
-		}
-		if (!this.thisOne.equals(uf.thisOne)) {
 			return false;
 		}
 		return true;

@@ -164,5 +164,35 @@ public class StringNode extends ExpressionTreeNode{
 
 		return new RGBColor(red, green, blue);
 	}
+	
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+
+		if (!(o instanceof StringNode)) {
+			return false;
+		}
+
+		// Make sure the objects are the same type
+
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+
+		StringNode uf = (StringNode) o;
+
+		// check if their parameters are equal
+		if (!this.myFileName.equals(uf.myFileName)) {
+			return false;
+		}
+		if (!this.myImage.equals(uf.myImage)) {
+			return false;
+		}
+		if (!this.mySize.equals(uf.mySize)) {
+			return false;
+		}
+		return true;
+	}
 
 }

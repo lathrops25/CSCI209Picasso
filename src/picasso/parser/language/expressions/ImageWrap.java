@@ -44,6 +44,35 @@ public class ImageWrap extends ExpressionTreeNode{
 		return stringExp;
 	}
 	
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+
+		if (!(o instanceof ImageWrap)) {
+			return false;
+		}
+
+		// Make sure the objects are the same type
+
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+
+		ImageWrap uf = (ImageWrap) o;
+
+		// check if their parameters are equal
+		if (!this.yExp.equals(uf.yExp)) {
+			return false;
+		}
+		if (!this.xExp.equals(uf.xExp)) {
+			return false;
+		}
+		if (!this.thisOne.equals(uf.thisOne)) {
+			return false;
+		}
+		return true;
+	}
 	
 	
 }

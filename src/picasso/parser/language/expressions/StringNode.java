@@ -26,6 +26,9 @@ public class StringNode extends ExpressionTreeNode{
 	private BufferedImage myImage;
 	private Dimension mySize;
 	
+	//instance variable
+	private String myString;
+	
 	// Used to check if string is an image
 	private String[] validExtensions = {".jpg", ".png"};
 	
@@ -37,6 +40,8 @@ public class StringNode extends ExpressionTreeNode{
 	 * @param file name as string
 	 */
 	public StringNode(String myString) {
+		this.myString = myString;
+		
 		// check if image has valid extension
 		if (!fileExtension(myString)) {
 			throw new IllegalArgumentException("File is not a .jpg or .png, OR missing set of quote");
@@ -163,6 +168,31 @@ public class StringNode extends ExpressionTreeNode{
 		double blue = convert((double)RGB.getBlue());
 
 		return new RGBColor(red, green, blue);
+	}
+	
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+
+		if (!(o instanceof StringNode)) {
+			return false;
+		}
+
+		// Make sure the objects are the same type
+
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+
+		StringNode uf = (StringNode) o;
+
+		// check if their parameters are equal
+		if (!this.myString.equals(uf.myString)) {
+			return false;
+		}
+	
+		return true;
 	}
 
 }

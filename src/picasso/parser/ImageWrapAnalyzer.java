@@ -6,8 +6,6 @@ import java.util.Stack;
 
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.ImageWrap;
-import picasso.parser.language.expressions.X;
-import picasso.parser.language.expressions.Y;
 import picasso.parser.tokens.StringToken;
 import picasso.parser.tokens.Token;
 
@@ -19,11 +17,6 @@ public class ImageWrapAnalyzer extends UnaryFunctionAnalyzer{
 	
 	static Map<String, ExpressionTreeNode> idToExpression = new HashMap<String, ExpressionTreeNode>();
 
-	static {
-		// We always have x and y defined.
-		idToExpression.put("x", new X());
-		idToExpression.put("y", new Y());
-	}
 	
 	public ExpressionTreeNode generateExpressionTree(Stack<Token> tokens) {
 		tokens.pop(); // Need to remove the imageWrap token

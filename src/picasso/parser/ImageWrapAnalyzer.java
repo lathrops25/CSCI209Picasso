@@ -19,11 +19,6 @@ public class ImageWrapAnalyzer extends UnaryFunctionAnalyzer{
 	
 	static Map<String, ExpressionTreeNode> idToExpression = new HashMap<String, ExpressionTreeNode>();
 
-	static {
-		// We always have x and y defined.
-		idToExpression.put("x", new X());
-		idToExpression.put("y", new Y());
-	}
 	
 	public ExpressionTreeNode generateExpressionTree(Stack<Token> tokens) {
 		tokens.pop(); // Need to remove the imageWrap token

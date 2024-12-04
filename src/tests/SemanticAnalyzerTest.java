@@ -63,7 +63,7 @@ class SemanticAnalyzerTest {
 		
 		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
 		
-		assertEquals(new ImageWrap(new Addition(new X(), new X() ), new Y(), "vortex.jpg"), actual);
+		assertEquals(new ImageWrap(new Y(), new Addition(new X(), new X() ), "vortex.jpg"), actual);
 		
 	}
 

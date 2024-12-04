@@ -13,6 +13,7 @@ public class ImageWrap extends ExpressionTreeNode{
 	private ExpressionTreeNode xExp;
 	private ExpressionTreeNode yExp;
 	private StringNode thisOne;
+	private String imageName;
 
 	
 	public ImageWrap(ExpressionTreeNode yExp, ExpressionTreeNode xExp, String imageName) {
@@ -22,6 +23,7 @@ public class ImageWrap extends ExpressionTreeNode{
 		this.xExp = xExp;
 		
 		// Used for the image
+		this.imageName = imageName;
 		thisOne = new StringNode(imageName);
 	}
 	
@@ -67,6 +69,9 @@ public class ImageWrap extends ExpressionTreeNode{
 			return false;
 		}
 		if (!this.xExp.equals(uf.xExp)) {
+			return false;
+		}
+		if (!this.imageName.equals(uf.imageName)) {
 			return false;
 		}
 		return true;

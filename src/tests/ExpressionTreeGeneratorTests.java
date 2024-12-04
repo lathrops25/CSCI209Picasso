@@ -156,6 +156,16 @@ public class ExpressionTreeGeneratorTests {
 		
 	}
 	
+	@Test 
+	public void stringNodeFunctionTest() {
+		ExpressionTreeNode e = parser.makeExpression("\"vortex.jpg\"");
+		assertEquals(new StringNode("vortex.jpg"), e);
+
+		ExpressionTreeNode e1 = parser.makeExpression("\"images/vortex.jpg\"");
+		assertEquals(new StringNode("images/vortex.jpg"), e1);
+	}
+	
+	
 	@Test
 	public void assignmentTests() {
 		ExpressionTreeNode e = parser.makeExpression("a = x");

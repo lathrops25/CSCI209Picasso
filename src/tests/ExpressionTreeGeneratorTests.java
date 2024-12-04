@@ -141,10 +141,10 @@ public class ExpressionTreeGeneratorTests {
 	@Test
 	public void imageWrapFunctionTest() {
 		ExpressionTreeNode e = parser.makeExpression("imageWrap( \"vortex.jpg\", x+x, y )");
-		assertEquals(new ImageWrap(new Addition(new X(), new X() ), new Y(), "vortex.jpg"), e);
+		assertEquals(new ImageWrap(new Y(), new Addition(new X(), new X()), "vortex.jpg"), e);
 		
-		e = parser.makeExpression("imageWrap( \"foo.jpg\", x, y + y");
-		assertEquals(new ImageWrap(new X(), new Addition(new Y(), new Y() ), "foo.jpg"), e);
+		ExpressionTreeNode e1 = parser.makeExpression("imageWrap(\"foo.jpg\", x, y + y)");
+		assertEquals(new ImageWrap(new Addition(new Y(), new Y()), new X(), "foo.jpg"), e1);
 	}
 	
 	@Test

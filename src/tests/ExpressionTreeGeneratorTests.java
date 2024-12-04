@@ -139,6 +139,34 @@ public class ExpressionTreeGeneratorTests {
 	}
 	
 	@Test
+	public void imageWrapFunctionTest() {
+		ExpressionTreeNode e = parser.makeExpression("imageWrap( \"vortex.jpg\", x+x, y )");
+		assertEquals(new ImageWrap(new Y(), new Addition(new X(), new X()), "vortex.jpg"), e);
+		
+		ExpressionTreeNode e1 = parser.makeExpression("imageWrap(\"foo.jpg\", x, y + y)");
+		assertEquals(new ImageWrap(new Addition(new Y(), new Y()), new X(), "foo.jpg"), e1);
+	}
+	
+	@Test
+	public void stringNodeTest() {
+		ExpressionTreeNode e = parser.makeExpression("test");
+		assertThrows(IllegalArgumentException.class, () -> {
+			new StringNode("test");
+		});
+		
+	}
+	
+	@Test 
+	public void stringNodeFunctionTest() {
+		ExpressionTreeNode e = parser.makeExpression("\"vortex.jpg\"");
+		assertEquals(new StringNode("vortex.jpg"), e);
+
+		ExpressionTreeNode e1 = parser.makeExpression("\"images/vortex.jpg\"");
+		assertEquals(new StringNode("images/vortex.jpg"), e1);
+	}
+	
+	
+	@Test
 	public void assignmentTests() {
 		ExpressionTreeNode e = parser.makeExpression("a = x");
 		assertEquals (new Assignment(new Variable("a"), new X()), e);

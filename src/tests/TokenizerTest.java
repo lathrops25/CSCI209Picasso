@@ -73,6 +73,16 @@ public class TokenizerTest {
 		tokens = tokenizer.parseTokens(expression);
 		assertEquals(new ColorToken(-1, 0, .5), tokens.get(0));
 	}
+	@Test 
+	public void testTokenizeString() {
+		String expression = "\"foo.jpg\"";
+		tokens = tokenizer.parseTokens(expression);
+		assertEquals(new StringToken("foo.jpg"), tokens.get(0));
+		
+		expression = "\"images/vortex.jpg\"";
+		tokens = tokenizer.parseTokens(expression);
+		assertEquals(new StringToken("images/vortex.jpg"), tokens.get(0));
+	}
 
 	@Test
 	public void testTokenizeInvalidColor() {
@@ -92,7 +102,7 @@ public class TokenizerTest {
 		assertEquals(new IdentifierToken("x"), tokens.get(2));
 		assertEquals(new RightParenToken(), tokens.get(3));
 	}
-
+	
 	@Test
 	public void testTokenizeAssignmentExpression () {
 		String expression = "a = y";
@@ -101,16 +111,44 @@ public class TokenizerTest {
 		assertEquals (new AssignmentToken(), tokens.get(1));
 		assertEquals (new IdentifierToken("y"), tokens.get(2));
 	}
+	
 	@Test
-	public void testTokenizeCombinedFunctionExpression() {
-		String expression = "perlinColor(floor(x), y)";
+	public void testTokenizeCombinefunctionExpression() {
+		String expression = "imageWrap(\"foo.jpg\", sin(y), wrap(y+x)))";
 		List<Token> tokens = tokenizer.parseTokens(expression);
-		// TODO: Check the tokens...
+		// get ready bc this is a lot
+		assertEquals(new ImageWrapToken(), tokens.get(0));
+		assertEquals(new LeftParenToken(), tokens.get(1));
+		assertEquals(new StringToken("foo.jpg"), tokens.get(2));
+		assertEquals(new CommaToken(), tokens.get(3));
+		assertEquals(new SinToken(), tokens.get(4));
+		assertEquals(new LeftParenToken(), tokens.get(5));
+		assertEquals(new IdentifierToken("y"), tokens.get(6));
+		assertEquals(new RightParenToken(), tokens.get(7));
+		assertEquals(new CommaToken(), tokens.get(8));
+		assertEquals(new WrapToken(), tokens.get(9));
+		assertEquals(new LeftParenToken(), tokens.get(10));
+		assertEquals(new IdentifierToken("y"), tokens.get(11));
+		assertEquals(new PlusToken(), tokens.get(12));
+		assertEquals(new IdentifierToken("x"), tokens.get(13));
+		assertEquals(new RightParenToken(), tokens.get(14));
+		assertEquals(new RightParenToken(), tokens.get(15));
+		assertEquals(new RightParenToken(), tokens.get(16));
 
-		expression = "sin(perlinColor(x, y))";
-		tokens = tokenizer.parseTokens(expression);
-		// TODO: Check the tokens...
 	}
+	
+	
+	
+//	@Test
+//	public void testTokenizeCombinedFunctionExpression() {
+//		String expression = "perlinColor(floor(x), y)";
+//		List<Token> tokens = tokenizer.parseTokens(expression);
+//		// TODO: Check the tokens...
+//
+//		expression = "sin(perlinColor(x, y))";
+//		tokens = tokenizer.parseTokens(expression);
+//		// TODO: Check the tokens...
+//	}
 
 	// TODO: Test arithmetic (rather than function-based) expressions ...
 

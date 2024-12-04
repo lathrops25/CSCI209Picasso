@@ -15,6 +15,7 @@ public class IdentifierToken extends Token {
 		super("Variable Token");
 		myName = value;
 	}
+	
 
 	public boolean equals(Object o) {
 		if( o == this ) {

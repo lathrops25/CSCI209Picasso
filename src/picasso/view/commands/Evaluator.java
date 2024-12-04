@@ -9,7 +9,6 @@ import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.util.Command;
-import picasso.view.Frame;
 
 /**
  * Evaluate an expression for each pixel in a image.

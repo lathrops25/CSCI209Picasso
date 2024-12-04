@@ -45,6 +45,8 @@ public class TokenFactory {
 			case '[':
 				// parse a color token if it starts with a [
 				return parseColorToken(tokenizer);
+			case '\"':
+				return new StringToken(tokenizer.sval);
 			default:
 				Token ct = CharTokenFactory.getToken(result);
 

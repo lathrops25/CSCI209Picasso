@@ -11,6 +11,7 @@ import picasso.parser.tokens.operations.*;
  * 
  * @author Owen Astrachan
  * @author Sara Sprenkle
+ * @author Jonathan Carranza Cortes
  */
 public class CharTokenFactory {
 
@@ -36,6 +37,7 @@ public class CharTokenFactory {
 		tokenList[CharConstants.EQUAL] = new AssignmentToken();
 		tokenList[CharConstants.COMMA] = new CommaToken();
 		tokenList[CharConstants.PLUS] = new PlusToken();
+		tokenList[CharConstants.QUOTE] = new QuoteToken();
 
 		// TODO: What other tokens should be in here?
 		// TODO: Need to create the associated Token classes too.

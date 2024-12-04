@@ -7,13 +7,12 @@ import java.util.Stack;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.StringNode;
 import picasso.parser.language.expressions.Variable;
-import picasso.parser.language.expressions.X;
-import picasso.parser.language.expressions.Y;
 import picasso.parser.tokens.StringToken;
 import picasso.parser.tokens.Token;
 
 /**
  *  Handles parsing the quotations
+ *  @author Jonathan
  */
 public class StringAnalyzer implements SemanticAnalyzerInterface{
 	
@@ -30,9 +29,6 @@ public class StringAnalyzer implements SemanticAnalyzerInterface{
 			mapped = idToExpression.get(id);
 		}
 
-		// TODO : What should we do if we don't recognize the identifier?
-		// Is that an error? Or, could there a valid reason?
-		
 		return new StringNode(id);
 	}
 }

@@ -157,7 +157,7 @@ public class StringNode extends ExpressionTreeNode{
 			if (XCord >= mySize.width) {
 				XCord = mySize.width-1;
 			}
-			if (YCord >= mySize.width) {
+			if (YCord >= mySize.height) {
 				YCord = mySize.height-1;
 			}
 		}

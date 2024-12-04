@@ -15,7 +15,6 @@ public class CeilAnalyzer extends UnaryFunctionAnalyzer{
 
 	@Override
 	public ExpressionTreeNode generateExpressionTree(Stack<Token> tokens) {
-		// TODO Auto-generated constructor stub
 		tokens.pop(); // Need to remove ceil token
 		// the parameter is the next token(s) on the stack
 		// But, it needs to be processed

@@ -148,6 +148,15 @@ public class ExpressionTreeGeneratorTests {
 	}
 	
 	@Test
+	public void stringNodeTest() {
+		ExpressionTreeNode e = parser.makeExpression("test");
+		assertThrows(IllegalArgumentException.class, () -> {
+			new StringNode("test");
+		});
+		
+	}
+	
+	@Test
 	public void assignmentTests() {
 		ExpressionTreeNode e = parser.makeExpression("a = x");
 		assertEquals (new Assignment(new Variable("a"), new X()), e);

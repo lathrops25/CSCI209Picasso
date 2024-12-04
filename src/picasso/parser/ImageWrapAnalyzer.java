@@ -6,8 +6,6 @@ import java.util.Stack;
 
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.ImageWrap;
-import picasso.parser.language.expressions.X;
-import picasso.parser.language.expressions.Y;
 import picasso.parser.tokens.StringToken;
 import picasso.parser.tokens.Token;
 

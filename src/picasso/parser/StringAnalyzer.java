@@ -19,12 +19,6 @@ public class StringAnalyzer implements SemanticAnalyzerInterface{
 	
 	static Map<String, ExpressionTreeNode> idToExpression = new HashMap<String, ExpressionTreeNode>();
 
-	static {
-		// We always have x and y defined.
-		idToExpression.put("x", new X());
-		idToExpression.put("y", new Y());
-	}
-
 	
 	@Override
 	public ExpressionTreeNode generateExpressionTree(Stack<Token> tokens) {

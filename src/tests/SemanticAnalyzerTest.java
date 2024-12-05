@@ -15,6 +15,7 @@ import picasso.parser.SemanticAnalyzer;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 import picasso.parser.tokens.*;
+import picasso.parser.tokens.functions.*;
 import picasso.parser.tokens.functions.ImageWrapToken;
 import picasso.parser.tokens.operations.*;
 
@@ -50,6 +51,17 @@ class SemanticAnalyzerTest {
 		assertEquals(new Addition(new X(), new Y()), actual);
 	}
 	
+	@Test
+	void testParseCos() {
+
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new CosToken());
+
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new Cos(new X()), actual);
+	}
 	@Test
 	void testParseImageWrap() {
 		

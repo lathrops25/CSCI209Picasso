@@ -2,7 +2,14 @@ package picasso.parser.language.expressions;
 
 import picasso.parser.language.ExpressionTreeNode;
 
+/**
+ * Represents the Assignment operator
+ * 
+ * @author Allison, Sarah 
+ */
 public class Clamp extends UnaryFunction {
+	public static final double COLOR_MIN = -1;
+	public static final double COLOR_MAX = 1;
 	/**
 	 * Create a clamp expression tree that takes as a parameter the given expression
 	 * 
@@ -34,8 +41,8 @@ public class Clamp extends UnaryFunction {
      * @param value the value to clamp
      * @return the clamped value
      */
-    private double clamp(double value) {
-        return Math.max(-1, Math.min(1, value));
+    public static double clamp(double value) {
+        return Math.max(COLOR_MIN, Math.min(COLOR_MAX, value));
     }
 
 }

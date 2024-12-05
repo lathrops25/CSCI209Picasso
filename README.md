@@ -1,5 +1,5 @@
 # CodeCatalysts
-Naka Assoumatine, Jonathan Carranza Cortes, Allison Hidalgo, Gabe Hogan, and Sarah Lathrop
+Authors: Naka Assoumatine, Jonathan Carranza Cortes, Allison Hidalgo, Gabe Hogan, and Sarah Lathrop
 
 
 # Picasso

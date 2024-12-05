@@ -7,8 +7,8 @@ import picasso.parser.language.ExpressionTreeNode;
  * @author Sarah Lathrop
  */
 public class Assignment extends ExpressionTreeNode {
-	Variable left;
-	ExpressionTreeNode right;
+	private Variable left;
+	private ExpressionTreeNode right;
 	
 	/**
 	 * Constructor 

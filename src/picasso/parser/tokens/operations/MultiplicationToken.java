@@ -8,8 +8,8 @@ import picasso.parser.tokens.chars.CharToken;
  * 
  * @Author Allison Hidalgo
  */
-public class MultiplyToken extends CharToken implements OperationInterface {
-    public MultiplyToken() {
-        super(CharConstants.MULTIPLY);
+public class MultiplicationToken extends CharToken implements OperationInterface {
+    public MultiplicationToken() {
+        super(CharConstants.STAR);
     }
 }

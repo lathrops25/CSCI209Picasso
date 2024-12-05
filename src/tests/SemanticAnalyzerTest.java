@@ -44,7 +44,7 @@ class SemanticAnalyzerTest {
 	    Stack<Token> tokens = new Stack<>();
 	    tokens.push(new IdentifierToken("x")); // Push the left operand
 	    tokens.push(new IdentifierToken("y")); // Push the right operand
-	    tokens.push(new MultiplyToken());     // Push the multiplication operator
+	    tokens.push(new MultiplicationToken());     // Push the multiplication operator
 
 	    // Generate the expression tree
 	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);

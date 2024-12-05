@@ -168,7 +168,17 @@ public class EvaluatorTests {
 			}
 		}
 	}
-
+	
+	@Test
+	public void testSubtractionEvaluation() {
+		Subtraction myTree = new Subtraction(new X(), new Y());
+		
+		//straightforward tests
+		assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, 0));
+		assertEquals()
+	}
+	
+	
 	@Test
 	public void testWrapEvaluation() {
 		Wrap myTree = new Wrap(new X());

@@ -27,7 +27,7 @@ public class ExpressionTreeGeneratorTests {
 
 	private ExpressionTreeGenerator parser;
 
-	@BeforeEach
+	@BeforeEach 
 	public void setUp() throws Exception {
 		parser = new ExpressionTreeGenerator();
 	}
@@ -185,6 +185,26 @@ public class ExpressionTreeGeneratorTests {
 			parser.makeExpression("y = x");
 		});
 	}
+	
+	@Test
+	public void multiplicationExpressionTests() {
+	    // Basic test for "x * y"
+	    ExpressionTreeNode e = parser.makeExpression("x * y");
+	    assertEquals(new Multiplication(new X(), new Y()), e);
+
+	    // Test with no spaces
+	    e = parser.makeExpression("x*y");
+	    assertEquals(new Multiplication(new X(), new Y()), e);
+
+	    // Test with a color constant and multiplication
+	    e = parser.makeExpression("[1,.3,-1] * y");
+	    assertEquals(new Multiplication(new RGBColor(1, .3, -1), new Y()), e);
+
+	    // Test chained multiplication
+	    e = parser.makeExpression("x * y * [ -.51, 0, 1]");
+	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
+	}
+	
 
 	// TODO: more tests
 }

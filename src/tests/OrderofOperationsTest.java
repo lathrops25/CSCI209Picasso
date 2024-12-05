@@ -9,8 +9,6 @@ import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.Addition;
 import picasso.parser.language.expressions.Multiplication;
 import picasso.parser.language.expressions.X;
-import picasso.parser.language.expressions.Y;
-import picasso.parser.language.expressions.Z;
 
 /**
  * Tests for verifying order of operations in the ExpressionTreeGenerator.
@@ -21,22 +19,22 @@ public class OrderofOperationsTest {
 
     @Test
     public void testAdditionAndMultiplicationPrecedence() {
-        // Test for "x + y * z" -> x + (y * z)
-        ExpressionTreeNode e = parser.makeExpression("x + y * z");
-        assertEquals(new Addition(new X(), new Multiplication(new Y(), new Z())), e);
+        // Test for "x + x * x" -> x + (x * x)
+        ExpressionTreeNode e = parser.makeExpression("x + x * x");
+        assertEquals(new Addition(new X(), new Multiplication(new X(), new X())), e);
     }
 
     @Test
     public void testMultiplicationAndAdditionPrecedence() {
-        // Test for "x * y + z" -> (x * y) + z
-        ExpressionTreeNode e = parser.makeExpression("x * y + z");
-        assertEquals(new Addition(new Multiplication(new X(), new Y()), new Z()), e);
+        // Test for "x * x + x" -> (x * x) + x
+        ExpressionTreeNode e = parser.makeExpression("x * x + x");
+        assertEquals(new Addition(new Multiplication(new X(), new X()), new X()), e);
     }
 
     @Test
     public void testParenthesesPrecedence() {
-        // Test for "x * (y + z)" -> x * (y + z)
-        ExpressionTreeNode e = parser.makeExpression("x * (y + z)");
-        assertEquals(new Multiplication(new X(), new Addition(new Y(), new Z())), e);
+        // Test for "x * (x + x)" -> x * (x + x)
+        ExpressionTreeNode e = parser.makeExpression("x * (x + x)");
+        assertEquals(new Multiplication(new X(), new Addition(new X(), new X())), e);
     }
 }

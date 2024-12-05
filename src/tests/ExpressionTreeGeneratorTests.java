@@ -139,6 +139,15 @@ public class ExpressionTreeGeneratorTests {
 	}
 	
 	@Test
+	public void logFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("log( x )");
+		assertEquals(new Log(new X()), e);
+		
+		e = parser.makeExpression("log( x + x )");
+		assertEquals(new Log(new Addition( new X(), new X())), e);
+	}
+	
+	@Test
 	public void imageWrapFunctionTest() {
 		ExpressionTreeNode e = parser.makeExpression("imageWrap( \"vortex.jpg\", x+x, y )");
 		assertEquals(new ImageWrap(new Y(), new Addition(new X(), new X()), "vortex.jpg"), e);

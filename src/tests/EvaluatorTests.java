@@ -15,7 +15,7 @@ import picasso.parser.language.expressions.*;
 /**
  * Tests of the evaluation of expression trees
  *
- * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine
+ * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine, Jonathan Carranza Cortes
  * 
  */
 public class EvaluatorTests {
@@ -221,6 +221,33 @@ public class EvaluatorTests {
 		}
 	}
 	
+	@Test
+	public void testLogEvaluation() {
+		Log myTree = new Log(new X());
+		
+		// some straightforward tests
+		assertEquals(new RGBColor(Math.log(2), Math.log(2), Math.log(2)), myTree.evaluate(2, 0));
+		assertEquals(new RGBColor(Math.log(4), Math.log(4), Math.log(4)), myTree.evaluate(4, 0));
+		assertEquals(new RGBColor(Math.log(8), Math.log(8), Math.log(8)), myTree.evaluate(8, 0));
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			// absolute value is for parameters, log can't be negative
+			i = Math.abs(i);
+			assertEquals(new RGBColor(Math.log(i), Math.log(i), Math.log(i)), myTree.evaluate(i, -i));
+			assertEquals(new RGBColor(Math.log(i), Math.log(i), Math.log(i)), myTree.evaluate(i, i));
+		}
+		
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testVal : tests) {
+			double logOfTestVal = Math.log(Math.abs(testVal));
+			assertEquals(new RGBColor(logOfTestVal, logOfTestVal, logOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(logOfTestVal, logOfTestVal, logOfTestVal),
+					myTree.evaluate(testVal, testVal));
+		}
+		
+	}
 	@Test
 	public void testAssignmentEvaluation() {
 		Assignment myTree = new Assignment (new Variable("a"), new X());

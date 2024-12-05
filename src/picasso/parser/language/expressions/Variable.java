@@ -19,8 +19,7 @@ public class Variable extends ExpressionTreeNode implements Comparable<Variable>
 
 	@Override
 	public RGBColor evaluate(double x, double y) {
-		// TODO Auto-generated method stub
-		// Should be set to some value using assignment.
+		//get the variable's expression
 		ExpressionTreeNode expression = gelementsToValue.get(this);
 		RGBColor value = expression.evaluate(x, y);
 		//evaluate expression

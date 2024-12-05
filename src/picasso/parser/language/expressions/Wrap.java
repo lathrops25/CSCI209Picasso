@@ -5,10 +5,13 @@ import picasso.parser.language.ExpressionTreeNode;
 /**
  * Represents the Wrap function in the Picasso language.
  * 
- * @author Gabriel Hogan
+ * @author Gabriel Hogan, Sarah Lathrop
  * 
  */
 public class Wrap extends UnaryFunction {
+	
+	public static final double COLOR_MIN = -1;
+	public static final double COLOR_MAX = 1;
 
 	/**
 	 * Create a Wrap expression tree that takes as a parameter the given expression
@@ -21,10 +24,10 @@ public class Wrap extends UnaryFunction {
 	}
 
 	public static double wrap(double value) {
-		while (value > 1) {
+		while (value > COLOR_MAX) {
 			value -= 2;
 		}
-		while (value < -1) {
+		while (value < COLOR_MIN) {
 			value += 2;
 		}
 		return value;

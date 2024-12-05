@@ -37,9 +37,6 @@ public class IdentifierAnalyzer implements SemanticAnalyzerInterface {
 			idToExpression.put(id, new Variable (id));
 			mapped = idToExpression.get(id);
 		}
-
-		// TODO : What should we do if we don't recognize the identifier?
-		// Is that an error? Or, could there a valid reason?
 		
 		return mapped;
 	}

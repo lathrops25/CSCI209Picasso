@@ -114,9 +114,13 @@ public class ExpressionTreeGenerator {
 				 * 
 				 * pop o2 off the stack, onto the output queue;
 				 */
+				// Chnages I (Allison made)
+				// While there are operators on the stack:
+				// - Pop operators with higher or equal precedence (for left-associative operators)
+				// - Stop at left parentheses or lower precedence operators
 				while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken)
-						&& orderOfOperation(token) <= orderOfOperation(operators.peek())) {
-					postfixResult.push(operators.pop());
+				        && orderOfOperation(token) <= orderOfOperation(operators.peek())) {
+				    postfixResult.push(operators.pop());
 				}
 
 				operators.push(token);
@@ -198,20 +202,18 @@ public class ExpressionTreeGenerator {
 	}
 
 	/**
-	 * 
+	 * Determines precedent level of given operator tokens 
 	 * @param token
 	 * @return
 	 */
 	private int orderOfOperation(Token token) {
 
-		// TODO: Need to finish with other operators.
-
-		// TODO: DISCUSS: Is it better to have a method in the OperatorToken
-		// class that gives the order of operation?
-
-		if (token instanceof PlusToken)
-			return ADD_OR_SUBTRACT;
-		else
-			return CONSTANT;
+		if (token instanceof PlusToken || token instanceof MinusToken) {
+	        return ADD_OR_SUBTRACT;
+	    } else if (token instanceof MultiplyToken || token instanceof DivideToken) {
+	        return MULTIPLY_OR_DIVIDE;
+	    } else {
+	        return CONSTANT;
+	    }
 	}
 }

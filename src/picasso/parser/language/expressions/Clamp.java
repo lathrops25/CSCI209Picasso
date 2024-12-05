@@ -6,7 +6,7 @@ public class Clamp extends UnaryFunction {
 	/**
 	 * Create a clamp expression tree that takes as a parameter the given expression
 	 * 
-	 * @param param the expression to floor
+	 * @param param the expression to clamp
 	 */
 	public Clamp(ExpressionTreeNode param) {
 		super(param);

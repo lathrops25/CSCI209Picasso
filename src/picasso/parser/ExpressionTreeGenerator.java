@@ -114,7 +114,7 @@ public class ExpressionTreeGenerator {
 				 * 
 				 * pop o2 off the stack, onto the output queue;
 				 */
-				// Chnages I (Allison made)
+
 				// While there are operators on the stack:
 				// - Pop operators with higher or equal precedence (for left-associative operators)
 				// - Stop at left parentheses or lower precedence operators

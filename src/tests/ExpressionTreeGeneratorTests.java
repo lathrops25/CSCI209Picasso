@@ -14,7 +14,7 @@ import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 import picasso.parser.tokens.IdentifierToken;
 import picasso.parser.tokens.Token;
-import picasso.parser.tokens.operations.PlusToken;
+import picasso.parser.tokens.operations.*;
 
 /**
  * Tests of creating an expression tree from a string expression. Will have
@@ -27,7 +27,7 @@ public class ExpressionTreeGeneratorTests {
 
 	private ExpressionTreeGenerator parser;
 
-	@BeforeEach
+	@BeforeEach 
 	public void setUp() throws Exception {
 		parser = new ExpressionTreeGenerator();
 	}
@@ -77,7 +77,7 @@ public class ExpressionTreeGeneratorTests {
 		expected.push(new IdentifierToken("x"));
 		expected.push(new IdentifierToken("y"));
 		expected.push(new IdentifierToken("x"));
-		//expected.push(new MultiplyToken());
+		expected.push(new MultiplicationToken());
 		expected.push(new PlusToken());
 
 		assertEquals(expected, stack);
@@ -185,6 +185,26 @@ public class ExpressionTreeGeneratorTests {
 			parser.makeExpression("y = x");
 		});
 	}
+	
+	@Test
+	public void multiplicationExpressionTests() {
+	    // Basic test for "x * y"
+	    ExpressionTreeNode e = parser.makeExpression("x * y");
+	    assertEquals(new Multiplication(new X(), new Y()), e);
+
+	    // Test with no spaces
+	    e = parser.makeExpression("x*y");
+	    assertEquals(new Multiplication(new X(), new Y()), e);
+
+	    // Test with a color constant and multiplication
+	    e = parser.makeExpression("[1,.3,-1] * y");
+	    assertEquals(new Multiplication(new RGBColor(1, .3, -1), new Y()), e);
+
+	    // Test chained multiplication
+	    e = parser.makeExpression("x * y * [ -.51, 0, 1]");
+	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
+	}
+	
 
 	// TODO: more tests
 }

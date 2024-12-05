@@ -38,6 +38,22 @@ class SemanticAnalyzerTest {
 	}
 
 	@Test
+	void testParseMultiplication() {
+
+	    // Set up the token stack for "x * y"
+	    Stack<Token> tokens = new Stack<>();
+	    tokens.push(new IdentifierToken("x")); // Push the left operand
+	    tokens.push(new IdentifierToken("y")); // Push the right operand
+	    tokens.push(new MultiplicationToken());     // Push the multiplication operator
+
+	    // Generate the expression tree
+	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+	    // Expected: Multiplication(x, y)
+	    assertEquals(new Multiplication(new X(), new Y()), actual);
+	}
+	
+	@Test
 	void testParseAddition() {
 
 		Stack<Token> tokens = new Stack<>();

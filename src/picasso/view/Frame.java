@@ -18,12 +18,14 @@ import picasso.view.commands.*;
  *
  * @author Robert Duvall (rcd@cs.duke.edu)
  * @author Jonathan Carranza Cortes
+ * @author Naka Assoumatine
  */
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
 
 	private JTextField textField;
 	private Evaluator eval;
+	private Reader aFile;
 
 	public Frame(Dimension size) {
 
@@ -37,11 +39,12 @@ public class Frame extends JFrame {
 		
 		// create an input text field
 		textField = new JTextField(40);
+		aFile = new Reader(textField);
 		eval = new Evaluator(textField);
-
+		
 		// add commands to test here
 		ButtonPanel commands = new ButtonPanel(canvas);
-		commands.add("Open", new Reader());
+		commands.add("Open", new ThreadedCommand<Pixmap>(canvas,aFile));
 		commands.add("Evaluate", new ThreadedCommand<Pixmap>(canvas, eval));
 		commands.add("Save", new Writer());
 		
@@ -61,5 +64,6 @@ public class Frame extends JFrame {
 		getContentPane().add(textField, BorderLayout.NORTH);
 		pack();
 	}
+	
 	
 }

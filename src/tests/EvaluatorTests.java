@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import picasso.parser.ExpressionTreeGenerator;
+import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 
@@ -372,6 +373,22 @@ public class EvaluatorTests {
 		for (int i = -1; i <= 1; i++) {
 			assertEquals(y.evaluate(i, i), node4.evaluate(i, i));
 		}
+	}
+	
+	// Tests illegal of evaluation of assignment since never assigned
+	@Test
+	public void errorNoEvaluationTest() {
+		Variable a = new Variable("testVar");
+		assertThrows(EvaluateException.class, () -> {
+			a.evaluate(1,1);
+		});
+		
+		String test = "z";
+		ExpressionTreeGenerator TreeGen = new ExpressionTreeGenerator();
+		ExpressionTreeNode node= TreeGen.makeExpression(test);
+		assertThrows(EvaluateException.class, () -> {
+			node.evaluate(0,0);
+		});
 	}
 	
 	@Test

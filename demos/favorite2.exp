@@ -1,0 +1,1 @@
+wrap(atan(y))*[0,1,1]+cos(x+x+y)+log(x*y+y+x)+cos(clamp(x+x*x+[-1,0.9, 0.5])) 

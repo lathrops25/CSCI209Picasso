@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import picasso.view.ErrorDialog;
 
 /**
  * Handles reading the available built-in functions from a file.
@@ -42,6 +43,9 @@ public class BuiltinFunctionsReader {
 			e1.printStackTrace();
 			// TODO: should pass the error up so that the user knows what the
 			// problem is.
+
+			// !! TODO: Temporary Error Display
+			ErrorDialog.showDialog("Error:" + e1.getMessage());
 			return;
 		}
 		while (reader.hasNextLine()) {

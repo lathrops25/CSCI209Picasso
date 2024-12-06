@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import picasso.model.Pixmap;
 import picasso.util.FileCommand;
+import picasso.view.ErrorDialog;
 
 /**
  * Open the chosen image file and display in the Pixmap target.
@@ -50,6 +51,8 @@ public class Reader extends FileCommand<Pixmap> {
 					fileReader = new BufferedReader(new FileReader(fileName));
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
+					// !! TODO: Temporary Error Display
+					ErrorDialog.showDialog("There was am error reading that file: " + e.getMessage());
 					return;
 				}
 			
@@ -69,6 +72,8 @@ public class Reader extends FileCommand<Pixmap> {
 					
 				} catch (IOException e) {
 					e.printStackTrace();
+					// !! TODO: Temporary Error Display
+					ErrorDialog.showDialog("There was am error reading that file: " + e.getMessage());
 				}
 				
 				textIn.setText(inputExpression.toString()); 

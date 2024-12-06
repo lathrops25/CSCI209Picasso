@@ -1,1 +1,1 @@
-imageWrap("Psych.png", tan(sin (x*y+y) + cos(y*x)), floor(x))
+imageWrap("Mirror.png", atan(x*x+y)*sin(y), cos(x) + tan(y) )

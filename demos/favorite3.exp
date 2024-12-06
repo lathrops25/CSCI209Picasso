@@ -1,0 +1,1 @@
+sin(log([.1,.6,.9]) + x*y) + atan(y*cos(x+y)) * abs(ceil(x + y +x*y))

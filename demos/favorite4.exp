@@ -1,0 +1,1 @@
+imageWrap("Oil.png", tan(x*y+x)+sin(y+cos(x*y)), atan(y+x))

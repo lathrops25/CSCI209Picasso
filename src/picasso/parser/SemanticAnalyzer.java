@@ -10,6 +10,7 @@ import picasso.parser.language.BuiltinFunctionsReader;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.tokens.Token;
 import picasso.parser.tokens.TokenFactory;
+import picasso.view.ErrorDialog;
 
 /**
  * SemanticAnalyzer calls appropriate SemanticAnalyzer for the given token

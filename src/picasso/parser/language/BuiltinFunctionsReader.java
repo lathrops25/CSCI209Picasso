@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import picasso.view.ErrorDialog;
 
 /**
  * Handles reading the available built-in functions from a file.

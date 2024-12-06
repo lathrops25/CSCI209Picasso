@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
+import picasso.view.ErrorDialog;
 
 /**
  * Class for manipulating graphics images, originally developed in C++.

@@ -2,6 +2,7 @@ package picasso.util;
 
 import javax.swing.JComponent;
 
+import picasso.view.ErrorDialog;
 
 /**
  * Execute a long running command in a separate thread and display the results
@@ -18,8 +19,8 @@ public class ThreadedCommand<T> implements Command<T> {
 	private boolean isDone;
 
 	/**
-	 * Create a command that runs the given command and updates the given view
-	 * over time.
+	 * Create a command that runs the given command and updates the given view over
+	 * time.
 	 */
 	public ThreadedCommand(JComponent view, Command<T> command) {
 		myCommand = command;
@@ -55,8 +56,8 @@ public class ThreadedCommand<T> implements Command<T> {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 
-								// !! TODO: Temporary Error Display
-			ErrorDialog.showDialog("An error occured in a ThreadedCommand: " + e.getMessage());
+						// !! TODO: Temporary Error Display
+						ErrorDialog.showDialog("An error occured in a ThreadedCommand: " + e.getMessage());
 					}
 				}
 			};

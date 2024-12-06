@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import picasso.model.Pixmap;
 import picasso.util.FileCommand;
+import picasso.view.ErrorDialog;
 
 /**
  * Open the chosen image file and display in the Pixmap target.

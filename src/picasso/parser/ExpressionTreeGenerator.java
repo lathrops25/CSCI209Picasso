@@ -179,6 +179,7 @@ public class ExpressionTreeGenerator {
 
 			} else {
 				System.out.println("ERROR: No match: " + token);
+				throw new ParseException("Invalid token: " + token);
 			}
 			// System.out.println("Postfix: " + postfixResult);
 		}

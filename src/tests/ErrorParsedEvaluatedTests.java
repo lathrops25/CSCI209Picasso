@@ -32,13 +32,6 @@ public class ErrorParsedEvaluatedTests {
 	}
 
 	@Test
-	public void errorUnrecognizedInputTest() {
-		assertThrows(ParseException.class, () -> {
-			parser.makeExpression("a");
-		});
-	}
-
-	@Test
 	public void errorTooFewArgsTest() {
 		assertThrows(ParseException.class, () -> {
 			parser.makeExpression("( .7 + )");

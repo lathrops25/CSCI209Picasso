@@ -9,6 +9,7 @@ import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.util.Command;
+import picasso.view.ErrorDialog;
 
 /**
  * Evaluate an expression for each pixel in a image.
@@ -39,17 +40,24 @@ public class Evaluator implements Command<Pixmap> {
 	 */
 	public void execute(Pixmap target) {
 
-		ExpressionTreeNode expr = createExpression();
-		// evaluate it for each pixel
-		Dimension size = target.getSize();
-		for (int imageY = 0; imageY < size.height; imageY++) {
-			double evalY = imageToDomainScale(imageY, size.height);
-			for (int imageX = 0; imageX < size.width; imageX++) {
-				double evalX = imageToDomainScale(imageX, size.width);
-				Color pixelColor = expr.evaluate(evalX, evalY).toJavaColor();
-				target.setColor(imageX, imageY, pixelColor);
+		try {
+			ExpressionTreeNode expr = createExpression();
+
+			// evaluate it for each pixel
+			Dimension size = target.getSize();
+			for (int imageY = 0; imageY < size.height; imageY++) {
+				double evalY = imageToDomainScale(imageY, size.height);
+				for (int imageX = 0; imageX < size.width; imageX++) {
+					double evalX = imageToDomainScale(imageX, size.width);
+					Color pixelColor = expr.evaluate(evalX, evalY).toJavaColor();
+					target.setColor(imageX, imageY, pixelColor);
+				}
 			}
+		} catch (Exception e) {
+			System.err.println("Error in Evaluator: " + e.getMessage());
+			ErrorDialog.showDialog("Error in Evaluator: <br/>" + e.getMessage());
 		}
+
 	}
 
 	/**

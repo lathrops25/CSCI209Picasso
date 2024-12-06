@@ -15,7 +15,7 @@ import picasso.parser.language.expressions.*;
 /**
  * Tests of the evaluation of expression trees
  *
- * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine
+ * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine, Jonathan Carranza Cortes
  * 
  */
 public class EvaluatorTests {
@@ -241,9 +241,9 @@ public class EvaluatorTests {
 		double[] tests = { -.7, -.00001, .000001, .5 };
 
 		for (double testVal : tests) {
-			double sinOfTestVal = Math.tan(testVal);
-			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal), myTree.evaluate(testVal, -1));
-			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal),
+			double tanOfTestVal = Math.tan(testVal);
+			assertEquals(new RGBColor(tanOfTestVal, tanOfTestVal, tanOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(tanOfTestVal, tanOfTestVal, tanOfTestVal),
 					myTree.evaluate(testVal, testVal));
 		}
 	}
@@ -268,9 +268,9 @@ public class EvaluatorTests {
 		double[] tests = { -.7, -.00001, .000001, .5 };
 
 		for (double testVal : tests) {
-			double sinOfTestVal = Math.atan(testVal);
-			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal), myTree.evaluate(testVal, -1));
-			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal),
+			double atanOfTestVal = Math.atan(testVal);
+			assertEquals(new RGBColor(atanOfTestVal, atanOfTestVal, atanOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(atanOfTestVal, atanOfTestVal, atanOfTestVal),
 					myTree.evaluate(testVal, testVal));
 		}
 	}

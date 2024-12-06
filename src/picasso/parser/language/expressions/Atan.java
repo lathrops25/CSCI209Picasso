@@ -11,17 +11,17 @@ public class Atan extends UnaryFunction{
 	/**
 	 * Creates a tan expression that takes as a parameter the given expression
 	 * 
-	 * @param param the expression to tan
+	 * @param param the expression to atan
 	 */
 	public Atan(ExpressionTreeNode param) {
 		super(param);
 	}
 
 	/**
-	 * Evaluates this expression at the given x,y point by evaluating tan of
+	 * Evaluates this expression at the given x,y point by evaluating atan of
 	 * the function's parameter.
 	 * 
-	 * @return the color from evaluating the sin of the expression's parameter
+	 * @return the color from evaluating the atan of the expression's parameter
 	 */
 	@Override
 	public RGBColor evaluate(double x, double y) {

@@ -22,7 +22,7 @@ public class Tan extends UnaryFunction{
 	 * Evaluates this expression at the given x,y point by evaluating tan of
 	 * the function's parameter.
 	 * 
-	 * @return the color from evaluating the sin of the expression's parameter
+	 * @return the color from evaluating the tan of the expression's parameter
 	 */
 	@Override
 	public RGBColor evaluate(double x, double y) {

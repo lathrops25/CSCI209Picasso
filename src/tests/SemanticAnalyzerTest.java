@@ -17,6 +17,7 @@ import picasso.parser.language.expressions.*;
 import picasso.parser.tokens.*;
 import picasso.parser.tokens.functions.*;
 import picasso.parser.tokens.functions.ImageWrapToken;
+import picasso.parser.tokens.functions.LogToken;
 import picasso.parser.tokens.operations.*;
 
 /**
@@ -39,6 +40,22 @@ class SemanticAnalyzerTest {
 	}
 
 	@Test
+	void testParseMultiplication() {
+
+	    // Set up the token stack for "x * y"
+	    Stack<Token> tokens = new Stack<>();
+	    tokens.push(new IdentifierToken("x")); // Push the left operand
+	    tokens.push(new IdentifierToken("y")); // Push the right operand
+	    tokens.push(new MultiplicationToken());     // Push the multiplication operator
+
+	    // Generate the expression tree
+	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+	    // Expected: Multiplication(x, y)
+	    assertEquals(new Multiplication(new X(), new Y()), actual);
+	}
+	
+	@Test
 	void testParseAddition() {
 
 		Stack<Token> tokens = new Stack<>();
@@ -49,6 +66,18 @@ class SemanticAnalyzerTest {
 		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
 
 		assertEquals(new Addition(new X(), new Y()), actual);
+	}
+	
+	@Test 
+	void testParseLog(){
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new LogToken());
+		
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new Log(new X()), actual);
+		
 	}
 	
 	@Test

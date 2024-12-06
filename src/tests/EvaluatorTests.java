@@ -15,7 +15,7 @@ import picasso.parser.language.expressions.*;
 /**
  * Tests of the evaluation of expression trees
  *
- * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine
+ * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine, Jonathan Carranza Cortes
  * 
  */
 public class EvaluatorTests {
@@ -242,12 +242,40 @@ public class EvaluatorTests {
 
 		for (double testVal : tests) {
 			double sinOfTestVal = Math.cos(testVal);
-			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal), myTree.evaluate(testVal, -1));
-			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal),
+			assertEquals(new RGBColor(cosOfTestVal, cosOfTestVal, cosOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(cosOfTestVal, cosOfTestVal, cosOfTestVal),
 					myTree.evaluate(testVal, testVal));
 		}
 	}
 	
+  
+  @Test
+	public void testLogEvaluation() {
+		Log myTree = new Log(new X());
+		
+		// some straightforward tests
+		assertEquals(new RGBColor(Math.log(2), Math.log(2), Math.log(2)), myTree.evaluate(2, 0));
+		assertEquals(new RGBColor(Math.log(4), Math.log(4), Math.log(4)), myTree.evaluate(4, 0));
+		assertEquals(new RGBColor(Math.log(8), Math.log(8), Math.log(8)), myTree.evaluate(8, 0));
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			// absolute value is for parameters, log can't be negative
+			i = Math.abs(i);
+			assertEquals(new RGBColor(Math.log(i), Math.log(i), Math.log(i)), myTree.evaluate(i, -i));
+			assertEquals(new RGBColor(Math.log(i), Math.log(i), Math.log(i)), myTree.evaluate(i, i));
+		}
+		
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testVal : tests) {
+			double logOfTestVal = Math.log(Math.abs(testVal));
+			assertEquals(new RGBColor(logOfTestVal, logOfTestVal, logOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(logOfTestVal, logOfTestVal, logOfTestVal),
+					myTree.evaluate(testVal, testVal));
+		}
+		
+	}
 	@Test
 	public void testAssignmentEvaluation() {
 		Assignment myTree = new Assignment (new Variable("a"), new X());
@@ -295,7 +323,38 @@ public class EvaluatorTests {
 		for (int i = -1; i <= 1; i++) {
 			assertEquals(y.evaluate(i, i), node4.evaluate(i, i));
 		}
+	}
+	
+	@Test
+	public void testMultiplicationEvaluation() {
+	    Multiplication myTree = new Multiplication(new X(), new Y());
 
+	    // Test straightforward cases
+	    assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, 0));
+	    assertEquals(new RGBColor(1, 1, 1), myTree.evaluate(1, 1));
+	    assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-1, 1));
+
+	    // Test cases with fractional values
+	    assertEquals(new RGBColor(-0.4 * 0.9, -0.4 * 0.9, -0.4 * 0.9), myTree.evaluate(-0.4, 0.9));
+
+	    // Test the multiplication of integers
+	    for (int i = -1; i <= 1; i++) {
+	        for (int j = -1; j <= 1; j++) {
+	            double result = i * j;
+	            assertEquals(new RGBColor(result, result, result), myTree.evaluate(i, j));
+	        }
+	    }
+
+	    // Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
+
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	            double multiplicationResult = testLeftVal * testRightVal;
+	            assertEquals(new RGBColor(multiplicationResult, multiplicationResult, multiplicationResult),
+	                    myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
 	}
 }
 

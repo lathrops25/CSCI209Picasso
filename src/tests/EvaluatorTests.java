@@ -221,7 +221,84 @@ public class EvaluatorTests {
 		}
 	}
 	
+  public void testCosEvaluation() {
+		Cos myTree = new Cos(new X());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(Math.cos(0), Math.cos(0), Math.cos(0)), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(Math.cos(1), Math.cos(1), Math.cos(1)), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(Math.cos(-1), Math.cos(-1), Math.cos(-1)), myTree.evaluate(-1, 0));
+
+		assertEquals(new RGBColor(Math.cos(-.4), Math.cos(-.4), Math.cos(-.4)), myTree.evaluate(-.4, 0.9));
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(Math.cos(i), Math.cos(i), Math.cos(i)), myTree.evaluate(i, -i));
+			assertEquals(new RGBColor(Math.cos(i), Math.cos(i), Math.cos(i)), myTree.evaluate(i, i));
+    }
+    double[] tests = { -.7, -.00001, .000001, .5 };
+  	for (double testVal : tests) {
+  	  double cosOfTestVal = Math.cos(testVal);
+			assertEquals(new RGBColor(cosOfTestVal, cosOfTestVal, cosOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(cosOfTestVal, cosOfTestVal, cosOfTestVal),
+      myTree.evaluate(testVal, testVal));
+      }
+  }
+      
+      
 	@Test
+	public void testTanEvaluation() {
+		Tan myTree = new Tan(new X());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(Math.tan(0), Math.tan(0), Math.tan(0)), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(Math.tan(1), Math.tan(1), Math.tan(1)), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(Math.tan(-1), Math.tan(-1), Math.tan(-1)), myTree.evaluate(-1, 0));
+
+		assertEquals(new RGBColor(Math.tan(-.4), Math.tan(-.4), Math.tan(-.4)), myTree.evaluate(-.4, 0.9));
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(Math.tan(i), Math.tan(i), Math.tan(i)), myTree.evaluate(i, -i));
+			assertEquals(new RGBColor(Math.tan(i), Math.tan(i), Math.tan(i)), myTree.evaluate(i, i));
+    }
+  	double[] tests = { -.7, -.00001, .000001, .5 };
+  	for (double testVal : tests) {
+			double tanOfTestVal = Math.tan(testVal);
+			assertEquals(new RGBColor(tanOfTestVal, tanOfTestVal, tanOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(tanOfTestVal, tanOfTestVal, tanOfTestVal),
+      myTree.evaluate(testVal, testVal));
+      }
+  }
+	
+	@Test
+	public void testAtanEvaluation() {
+		Atan myTree = new Atan(new X());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(Math.atan(0), Math.atan(0), Math.atan(0)), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(Math.atan(1), Math.atan(1), Math.atan(1)), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(Math.atan(-1), Math.atan(-1), Math.atan(-1)), myTree.evaluate(-1, 0));
+
+		assertEquals(new RGBColor(Math.atan(-.4), Math.atan(-.4), Math.atan(-.4)), myTree.evaluate(-.4, 0.9));
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(Math.atan(i), Math.atan(i), Math.atan(i)), myTree.evaluate(i, -i));
+			assertEquals(new RGBColor(Math.atan(i), Math.atan(i), Math.atan(i)), myTree.evaluate(i, i));
+		}
+
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testVal : tests) {
+			double atanOfTestVal = Math.atan(testVal);
+			assertEquals(new RGBColor(atanOfTestVal, atanOfTestVal, atanOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(atanOfTestVal, atanOfTestVal, atanOfTestVal),
+					myTree.evaluate(testVal, testVal));
+		}
+	}
+                   
+  @Test
 	public void testLogEvaluation() {
 		Log myTree = new Log(new X());
 		

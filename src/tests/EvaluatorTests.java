@@ -241,9 +241,9 @@ public class EvaluatorTests {
 		double[] tests = { -.7, -.00001, .000001, .5 };
 
 		for (double testVal : tests) {
-			double sinOfTestVal = Math.cos(testVal);
-			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal), myTree.evaluate(testVal, -1));
-			assertEquals(new RGBColor(sinOfTestVal, sinOfTestVal, sinOfTestVal),
+			double cosOfTestVal = Math.cos(testVal);
+			assertEquals(new RGBColor(cosOfTestVal, cosOfTestVal, cosOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(cosOfTestVal, cosOfTestVal, cosOfTestVal),
 					myTree.evaluate(testVal, testVal));
 		}
 	}

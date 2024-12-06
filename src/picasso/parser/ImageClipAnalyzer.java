@@ -31,7 +31,11 @@ static Map<String, ExpressionTreeNode> idToExpression = new HashMap<String, Expr
 				tokens);
 		
 		// final pop off to deal with string, last should be string token
-		StringToken t = (StringToken) tokens.pop();
+		Token token = tokens.pop();
+		if (!(token instanceof StringToken)) {
+			throw new IllegalArgumentException("Oops, first input must be a string");
+		}
+		StringToken t = (StringToken) token;
 		String id = t.getName();
 		ExpressionTreeNode mapped = idToExpression.get(id);
 		if (mapped != null) {

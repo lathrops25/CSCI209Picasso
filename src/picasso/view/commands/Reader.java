@@ -71,7 +71,7 @@ public class Reader extends FileCommand<Pixmap> {
 					e.printStackTrace();
 				}
 				
-				textIn.setText(inputExpression.toString());
+				textIn.setText(inputExpression.toString()); 
 	
 			}
 			

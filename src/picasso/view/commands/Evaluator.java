@@ -54,7 +54,6 @@ public class Evaluator implements Command<Pixmap> {
 				}
 			}
 		} catch (Exception e) {
-			System.err.println("Error in Evaluator: " + e.getMessage());
 			ErrorDialog.showDialog("Error in Evaluator: <br/>" + e.getMessage());
 		}
 

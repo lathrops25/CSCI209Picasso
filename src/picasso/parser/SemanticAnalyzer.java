@@ -133,8 +133,12 @@ public class SemanticAnalyzer implements SemanticAnalyzerInterface {
 			opProps.load(new FileReader(OPS_FILE));
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
+			// !! TODO: Temporary Error Display
+			ErrorDialog.showDialog("Error:" + e1.getMessage());
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			// !! TODO: Temporary Error Display
+			ErrorDialog.showDialog("Error:" + e1.getMessage());
 		}
 
 		for (Object op : opProps.keySet()) {

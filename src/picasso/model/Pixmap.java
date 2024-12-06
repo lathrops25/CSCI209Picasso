@@ -179,7 +179,7 @@ public class Pixmap {
 			myImage = ImageIO.read(new File(myFileName));
 			mySize = new Dimension(myImage.getWidth(), myImage.getHeight());
 		} catch (IOException e) {
-			e.printStackTrace();
+			ErrorDialog.showDialog("Error reading while reading file: " + e.getMessage());
 		}
 	}
 
@@ -192,7 +192,7 @@ public class Pixmap {
 		try {
 			ImageIO.write(myImage, "jpg", new File(fileName));
 		} catch (IOException e) {
-			e.printStackTrace();
+			ErrorDialog.showDialog("Error writing while writing file: " + e.getMessage());
 		}
 	}
 

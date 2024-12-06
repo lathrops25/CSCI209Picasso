@@ -42,6 +42,9 @@ public class BuiltinFunctionsReader {
 			e1.printStackTrace();
 			// TODO: should pass the error up so that the user knows what the
 			// problem is.
+
+			// !! TODO: Temporary Error Display
+			ErrorDialog.showDialog("Error:" + e1.getMessage());
 			return;
 		}
 		while (reader.hasNextLine()) {

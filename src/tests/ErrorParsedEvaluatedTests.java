@@ -72,5 +72,12 @@ public class ErrorParsedEvaluatedTests {
 			parser.makeExpression("floor(x");
 		});
 	}
+	
+	@Test
+	public void noParemetersTest() {
+		assertThrows(ParseException.class, () -> {
+			parser.makeExpression("random(x)");
+		});
+	}
 
 }

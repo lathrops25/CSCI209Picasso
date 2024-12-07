@@ -422,6 +422,22 @@ public class EvaluatorTests {
 	        }
 	    }
 	}
+	
+	
+	@Test
+	public void testRandomEvaluation() {
+		RandomFunction myTree = new RandomFunction(); 
+		double color1 = myTree.getRand1();
+		double color2 = myTree.getRand2();
+		double color3 = myTree.getRand3();
+		for (int i = -1; i <=1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				
+			assertEquals(new RGBColor (color1, color2, color3), myTree.evaluate(i, j));
+			}
+		}
+		
+	}
 }
 
 

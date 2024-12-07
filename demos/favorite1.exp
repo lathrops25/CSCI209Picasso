@@ -1,0 +1,1 @@
+imageWrap("Mirror.png", atan(x*x+y)*sin(y), cos(x) + tan(y) )

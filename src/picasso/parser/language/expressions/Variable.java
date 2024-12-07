@@ -21,8 +21,10 @@ public class Variable extends ExpressionTreeNode implements Comparable<Variable>
 	public RGBColor evaluate(double x, double y) {
 		//get the variable's expression
 		ExpressionTreeNode expression = gelementsToValue.get(this);
+		if (expression == null) {
+			throw new EvaluateException("Never assigned variable to a value");
+		}
 		RGBColor value = expression.evaluate(x, y);
-		//evaluate expression
 		return value;
 	}
 

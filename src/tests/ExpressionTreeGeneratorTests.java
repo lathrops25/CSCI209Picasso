@@ -14,20 +14,20 @@ import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 import picasso.parser.tokens.IdentifierToken;
 import picasso.parser.tokens.Token;
-import picasso.parser.tokens.operations.PlusToken;
+import picasso.parser.tokens.operations.*;
 
 /**
  * Tests of creating an expression tree from a string expression. Will have
  * compiler errors until some code is created.
  * 
- * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine
+ * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine, Jonathan Carranza Cortes
  * 
  */
 public class ExpressionTreeGeneratorTests {
 
 	private ExpressionTreeGenerator parser;
 
-	@BeforeEach
+	@BeforeEach 
 	public void setUp() throws Exception {
 		parser = new ExpressionTreeGenerator();
 	}
@@ -77,7 +77,7 @@ public class ExpressionTreeGeneratorTests {
 		expected.push(new IdentifierToken("x"));
 		expected.push(new IdentifierToken("y"));
 		expected.push(new IdentifierToken("x"));
-		//expected.push(new MultiplyToken());
+		expected.push(new MultiplicationToken());
 		expected.push(new PlusToken());
 
 		assertEquals(expected, stack);
@@ -118,6 +118,33 @@ public class ExpressionTreeGeneratorTests {
 		e = parser.makeExpression("sin( x + y )");
 		assertEquals(new Sin(new Addition(new X(), new Y())), e);
 	}
+  
+  @Test
+	public void cosFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("cos( x )");
+		assertEquals(new Cos(new X()), e);
+
+		e = parser.makeExpression("cos( x + y )");
+		assertEquals(new Cos(new Addition(new X(), new Y())), e);
+	}
+  
+	@Test
+	public void TanFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("tan( x )");
+		assertEquals(new Tan(new X()), e);
+
+		e = parser.makeExpression("tan( x + y )");
+		assertEquals(new Tan(new Addition(new X(), new Y())), e);
+	}
+	
+	@Test
+	public void AtanFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("atan( x )");
+		assertEquals(new Atan(new X()), e);
+
+		e = parser.makeExpression("atan( x + y )");
+		assertEquals(new Atan(new Addition(new X(), new Y())), e);
+  }
 
 	@Test
 	public void absFunctionTests() {
@@ -136,6 +163,15 @@ public class ExpressionTreeGeneratorTests {
 
 		e = parser.makeExpression("ceil( x + y )");
 		assertEquals(new Ceil(new Addition(new X(), new Y())), e);
+	}
+	
+	@Test
+	public void logFunctionTests() {
+		ExpressionTreeNode e = parser.makeExpression("log( x )");
+		assertEquals(new Log(new X()), e);
+		
+		e = parser.makeExpression("log( x + x )");
+		assertEquals(new Log(new Addition( new X(), new X())), e);
 	}
 	
 	@Test
@@ -185,6 +221,26 @@ public class ExpressionTreeGeneratorTests {
 			parser.makeExpression("y = x");
 		});
 	}
+	
+	@Test
+	public void multiplicationExpressionTests() {
+	    // Basic test for "x * y"
+	    ExpressionTreeNode e = parser.makeExpression("x * y");
+	    assertEquals(new Multiplication(new X(), new Y()), e);
+
+	    // Test with no spaces
+	    e = parser.makeExpression("x*y");
+	    assertEquals(new Multiplication(new X(), new Y()), e);
+
+	    // Test with a color constant and multiplication
+	    e = parser.makeExpression("[1,.3,-1] * y");
+	    assertEquals(new Multiplication(new RGBColor(1, .3, -1), new Y()), e);
+
+	    // Test chained multiplication
+	    e = parser.makeExpression("x * y * [ -.51, 0, 1]");
+	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
+	}
+	
 
 	// TODO: more tests
 }

@@ -10,6 +10,7 @@ import picasso.parser.language.BuiltinFunctionsReader;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.tokens.Token;
 import picasso.parser.tokens.TokenFactory;
+import picasso.view.ErrorDialog;
 
 /**
  * SemanticAnalyzer calls appropriate SemanticAnalyzer for the given token
@@ -133,8 +134,12 @@ public class SemanticAnalyzer implements SemanticAnalyzerInterface {
 			opProps.load(new FileReader(OPS_FILE));
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
+			// !! TODO: Temporary Error Display
+			ErrorDialog.showDialog("Error:" + e1.getMessage());
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			// !! TODO: Temporary Error Display
+			ErrorDialog.showDialog("Error:" + e1.getMessage());
 		}
 
 		for (Object op : opProps.keySet()) {

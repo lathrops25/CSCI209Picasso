@@ -137,6 +137,14 @@ public class TokenizerTest {
 
 	}
 	
+	@Test
+	public void testTokenizeSubtraction () {
+		String expression = "x - y";
+		tokens = tokenizer.parseTokens(expression);
+		assertEquals (new IdentifierToken("x"), tokens.get(0));
+		assertEquals (new MinusToken(), tokens.get(1));
+		assertEquals (new IdentifierToken("y"), tokens.get(2));
+	}
 	
 	
 //	@Test

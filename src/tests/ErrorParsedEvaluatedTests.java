@@ -86,5 +86,22 @@ public class ErrorParsedEvaluatedTests {
 			parser.makeExpression("imageClip(x, x, x)");
 		});
 	}
+	
+	@Test
+	public void errorFileDNEStringNodeTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("\"fileDNE.jpg\"");
+		});
+	}
+	
+	@Test
+	public void errorBadExtensionStringNodeTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("\"fileDNE\"");
+		});
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("\"fileDNE.pdf\"");
+		});
+	}
 
 }

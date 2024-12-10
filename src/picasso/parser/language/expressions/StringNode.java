@@ -44,7 +44,7 @@ public class StringNode extends ExpressionTreeNode{
 		
 		// check if image has valid extension
 		if (!fileExtension(myString)) {
-			throw new IllegalArgumentException("File is not a .jpg or .png, OR missing set of quote");
+			throw new IllegalArgumentException("File is not a .jpg or .png. Check to make sure its a valid extension");
 		}
 		
 		// checks if partial path is stated
@@ -93,7 +93,7 @@ public class StringNode extends ExpressionTreeNode{
 			myImage = ImageIO.read(new File(myFileName));
 			mySize = new Dimension(myImage.getWidth(), myImage.getHeight());
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new IllegalArgumentException("File does not exist, please see images folder for list of images");
 		}
 	}
 	

@@ -25,6 +25,13 @@ To run Picasso, run `picasso.Main`
 
 `images` - contains some sample images generated from Picasso. Some of the expressions for these images can be found in the `expressions` directory.
 
+## Extensions and Usage
+**Allowing users to use up and down arrows to access history**
+
+- Sometimes, user may have to press up and down arrow twice to change history. This is because of the cursor changing location in the text box.
+
+**Other extensions here**
+
 ## Code Base History
 
 This code base originated as a project in a course at Duke University.  The professors realized that the code could be designed better and refactored.  This code base has some code leftover from the original version.

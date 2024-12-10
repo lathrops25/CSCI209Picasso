@@ -72,5 +72,19 @@ public class ErrorParsedEvaluatedTests {
 			parser.makeExpression("floor(x");
 		});
 	}
+	
+	@Test
+	public void errorNoStringImageWrapTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("imageWrap(x, x, x)");
+		});
+	}
+	
+	@Test
+	public void errorNoStringImageClipTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("imageClip(x, x, x)");
+		});
+	}
 
 }

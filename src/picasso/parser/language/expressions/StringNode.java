@@ -1,11 +1,8 @@
 package picasso.parser.language.expressions;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import javax.imageio.*;
 
+import picasso.model.Pixmap;
 import picasso.parser.language.ExpressionTreeNode;
 
 /**
@@ -16,15 +13,13 @@ import picasso.parser.language.ExpressionTreeNode;
 
 public class StringNode extends ExpressionTreeNode{
 	
-	public static final Dimension DEFAULT_SIZE = new Dimension(300, 300);
-	public static final Color DEFAULT_COLOR = Color.BLACK;
-	public static final String DEFAULT_NAME = "Picasso";
+	private Pixmap testImage;
+	private int imageWidth;
+	private int imageHeight;
 
 	// relative pathname for images in image folders
 	private String preFix = "images/";
 	private String myFileName;
-	private BufferedImage myImage;
-	private Dimension mySize;
 	
 	//instance variable
 	private String myString;
@@ -55,64 +50,11 @@ public class StringNode extends ExpressionTreeNode{
 		else {
 			myFileName = preFix + myString;
 		}
-		getLocalPic(myFileName);
-	}
-
-	/**
-	 * Create a copy pixmap from the given local file
-	 * @param fileName complete pathname of local file
-	 */
-	public void getLocalPic(String fileName) {
-		if (fileName == null) {
-			createImage(DEFAULT_SIZE.width, DEFAULT_SIZE.height, DEFAULT_COLOR);
-		} else {
-			read(fileName);
-		}
-	}	
-	
-	
-	private void createImage(int width, int height, Color color) {
-		myFileName = DEFAULT_NAME;
-		myImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		mySize = new Dimension(width, height);
-		for( int i=0; i < width; i++ ) {
-			for(int j=0; j<width; j++ ) {
-				setColor(i, j, color);
-			}
-		}
-	}
-	
-	/**
-	 * Read the image named by fileName
-	 * 
-	 * @param fileName the name of the image file to be read in
-	 */
-	public void read(String fileName) {
-		try {
-			myFileName = fileName;
-			myImage = ImageIO.read(new File(myFileName));
-			mySize = new Dimension(myImage.getWidth(), myImage.getHeight());
-		} catch (IOException e) {
-			throw new IllegalArgumentException("File does not exist, please see images folder for list of images");
-		}
-	}
-	
-	public void setColor(int x, int y, Color value) {
-		if (isInBounds(x, y)) {
-			myImage.setRGB(x, y, value.getRGB());
-		}
-	}
-	
-	/**
-	 * Determine if the given (x,y) coordinate is within the bounds of this image.
-	 * 
-	 * @param x the x coordinate
-	 * @param y the y coordinate
-	 * @return true if the given (x,y) coordinate is within the bounds of this
-	 *         image.
-	 */
-	public boolean isInBounds(int x, int y) {
-		return (0 <= x && x < mySize.width) && (0 <= y && y < mySize.height);
+		
+		
+		testImage = new Pixmap(myFileName);
+		imageWidth = testImage.mySize.width;
+		imageHeight = testImage.mySize.height;
 	}
 	
 	/**
@@ -150,18 +92,18 @@ public class StringNode extends ExpressionTreeNode{
 	@Override
 	public RGBColor evaluate(double x, double y) {
 		
-		int XCord = imageToRegScale(x, mySize.width);
-		int YCord = imageToRegScale(y, mySize.height);
+		int XCord = imageToRegScale(x, imageWidth);
+		int YCord = imageToRegScale(y, testImage.mySize.height);
 		
-		if (!isInBounds(XCord, YCord)) {
-			if (XCord >= mySize.width) {
-				XCord = mySize.width-1;
+		if (!testImage.isInBounds(XCord, YCord)) {
+			if (XCord >= imageWidth) {
+				XCord = imageWidth-1;
 			}
-			if (YCord >= mySize.height) {
-				YCord = mySize.height-1;
+			if (YCord >= imageHeight) {
+				YCord = imageHeight-1;
 			}
 		}
-		Color RGB = new Color(myImage.getRGB(XCord, YCord));
+		Color RGB = new Color(testImage.myImage.getRGB(XCord, YCord));
 		
 		double red = convert((double)RGB.getRed());
 		double green = convert((double)RGB.getGreen());

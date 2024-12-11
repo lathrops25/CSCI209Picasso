@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
-import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 
@@ -173,7 +172,38 @@ public class EvaluatorTests {
 			}
 		}
 	}
+	
+	@Test
+	public void testSubtractionEvaluation() {
+		Subtraction myTree = new Subtraction(new X(), new Y());
+		
+		//straightforward tests
+		assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(-.5, -.5, -.5), myTree.evaluate(-.75, -.25));
+		assertEquals(new RGBColor(.75, .75, .75), myTree.evaluate(1, .25));
+		assertEquals(new RGBColor(.50, .50, .50), myTree.evaluate(.25, -.25));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-.4, .6));
+		// test a range of integers
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				assertEquals(new RGBColor(i - j, i - j, i - j), myTree.evaluate(i, j));
+			}
+		}
+		
+		double[] tests = { -.7, -.00001, .000001, .5 };
 
+		for (double testLeftVal : tests) {
+			for (double testRightVal : tests) {
+				double subtractionOfTestVal = testLeftVal - testRightVal;
+				assertEquals(new RGBColor(subtractionOfTestVal, subtractionOfTestVal, subtractionOfTestVal),
+						myTree.evaluate(testLeftVal, testRightVal));
+			}
+		}
+		
+	}
+	
+	
+	
 	@Test
 	public void testWrapEvaluation() {
 		Wrap myTree = new Wrap(new X());
@@ -498,6 +528,31 @@ public class EvaluatorTests {
 		RGB_Ex = myTree.evaluate(-0.75, 0.0).toJavaColor();
 		RGB_Ac = Tree.evaluate(-1.0, 0.0).toJavaColor();
 		assertEquals(RGB_Ac, RGB_Ex);
+	}
+
+	
+	@Test
+	public void testRandomEvaluation() {
+		RandomFunction myTree = new RandomFunction(); 
+		double color1 = myTree.getRand1();
+		double color2 = myTree.getRand2();
+		double color3 = myTree.getRand3();
+		for (int i = -1; i <=1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				
+			assertEquals(new RGBColor (color1, color2, color3), myTree.evaluate(i, j));
+			}
+		}
+		//testing twice to try to cover more options
+		RandomFunction myTree2 = new RandomFunction(); 
+		double color1b = myTree2.getRand1();
+		double color2b = myTree2.getRand2();
+		double color3b = myTree2.getRand3();
+		for (int a = -1; a <=1; a++) {
+			for (int b = -1; b <= 1; b++) {
+				assertEquals(new RGBColor (color1b, color2b, color3b), myTree2.evaluate(a, b));
+				}
+		}
 	}
 }
 

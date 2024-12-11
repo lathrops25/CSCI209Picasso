@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import picasso.parser.ExpressionTreeGenerator;
 import picasso.parser.language.ExpressionTreeNode;
-import picasso.parser.language.expressions.Addition;
-import picasso.parser.language.expressions.Multiplication;
-import picasso.parser.language.expressions.X;
+import picasso.parser.language.expressions.*;
 
 /**
  * Tests for verifying order of operations in the ExpressionTreeGenerator.
@@ -37,4 +35,5 @@ public class OrderofOperationsTest {
         ExpressionTreeNode e = parser.makeExpression("x * (x + x)");
         assertEquals(new Multiplication(new X(), new Addition(new X(), new X())), e);
     }
+    
 }

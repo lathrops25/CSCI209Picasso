@@ -184,6 +184,15 @@ public class ExpressionTreeGeneratorTests {
 	}
 	
 	@Test
+	public void imageClipFunctionTest() {
+		ExpressionTreeNode e = parser.makeExpression("imageClip( \"vortex.jpg\", x+x, y )");
+		assertEquals(new ImageClip(new Y(), new Addition(new X(), new X()), "vortex.jpg"), e);
+		
+		ExpressionTreeNode e1 = parser.makeExpression("imageClip(\"foo.jpg\", x, y + y)");
+		assertEquals(new ImageClip(new Addition(new Y(), new Y()), new X(), "foo.jpg"), e1);
+	}
+	
+	@Test
 	public void stringNodeTest() {
 		ExpressionTreeNode e = parser.makeExpression("test");
 		assertThrows(IllegalArgumentException.class, () -> {

@@ -72,5 +72,36 @@ public class ErrorParsedEvaluatedTests {
 			parser.makeExpression("floor(x");
 		});
 	}
+	
+	@Test
+	public void errorNoStringImageWrapTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("imageWrap(x, x, x)");
+		});
+	}
+	
+	@Test
+	public void errorNoStringImageClipTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("imageClip(x, x, x)");
+		});
+	}
+	
+	@Test
+	public void errorFileDNEStringNodeTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("\"fileDNE.jpg\"");
+		});
+	}
+	
+	@Test
+	public void errorBadExtensionStringNodeTest() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("\"fileDNE\"");
+		});
+		assertThrows(IllegalArgumentException.class, () -> {
+			parser.makeExpression("\"fileDNE.pdf\"");
+		});
+	}
 
 }

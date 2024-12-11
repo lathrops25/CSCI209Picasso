@@ -23,7 +23,7 @@ class RandomExpressionTest {
 	Random randGen;
 	Stack<Token> postfix;
 	ExpressionTreeGenerator expressionTree;
-	
+
 	@BeforeEach
 	void setUp() throws Exception {
 		int seed = 1234;
@@ -33,23 +33,22 @@ class RandomExpressionTest {
 
 	@Test
 	void buildTest() {
-		//get string, tokenize it to postfix, check that is within a certain size rage
+		// get string, tokenize it to postfix, check that is within a certain size rage
 		// the maximum size of an expression for depth i is 2^0 + 2^1 + ... + 2^i
 		// the minimum size of an expression for depth i is i+1
-		for (int i=0; i<=10; i++) {
-		String expression = RandomExpression.build(i, randGen);
-		System.out.println(expression);
-		postfix = expressionTree.infixToPostfix (expression);
-		System.out.println(postfix);
-		double sizeExpected = postfix.size();
-		double sizeMin = i + 1;
-		double sizeMax = 0;
-			for (int j=0; j<=i; j++) {
+		for (int i = 0; i <= 10; i++) {
+			String expression = RandomExpression.build(i);
+			System.out.println(expression);
+			postfix = expressionTree.infixToPostfix(expression);
+			System.out.println(postfix);
+			double sizeExpected = postfix.size();
+			double sizeMin = i + 1;
+			double sizeMax = 0;
+			for (int j = 0; j <= i; j++) {
 				sizeMax = sizeMax + Math.pow(2, i);
 			}
-		assertTrue((sizeExpected >= sizeMin) && (sizeExpected <= sizeMax));
+			assertTrue((sizeExpected >= sizeMin) && (sizeExpected <= sizeMax));
 		}
 	}
-	
 
 }

@@ -22,8 +22,11 @@ public class ExpressionTreeGenerator {
 	// TODO: Do these belong here?
 	private static final int CONSTANT = 0;
 	private static final int GROUPING = 1; // parentheses
-	private static final int ADD_OR_SUBTRACT = 2;
-	private static final int MULTIPLY_OR_DIVIDE = 3;
+	private static final int UNARY = 2;
+	private static final int EXPONENT = 3;
+	private static final int MULTIPLY_OR_DIVIDE = 4;
+	private static final int ADD_OR_SUBTRACT = 5;
+	private static final int COMMA = 6;
 
 	/**
 	 * Converts the given string into expression tree for easier manipulation.
@@ -104,6 +107,8 @@ public class ExpressionTreeGenerator {
 				handelRightParenthesis(operators, postfixResult);
 			} else if (token instanceof OperationInterface) {
                 handelOperator(token, operators, postfixResult);
+            } else if (token instanceof CommaToken){
+            	handleCommaToken(operators, postfixResult);
             } else {
                 throw new ParseException("Invalid token: " + token);
             }
@@ -127,7 +132,7 @@ public class ExpressionTreeGenerator {
 				// - Stop at left parentheses or lower precedence operators
 			while (!operators.isEmpty()) {
 				Token top = operators.pop();
-				if(top instanceof LeftParenToken) {
+				if(top instanceof LeftParenToken || top instanceof RightParenToken) {
 					throw new ParseException("Mismatch Parenthesis");
 				}
 				postfixResult.push(top);
@@ -137,7 +142,7 @@ public class ExpressionTreeGenerator {
 				// Until the token at the top of the stack is a left
 				// parenthesis, pop operators off the stack onto the output
 				// queue.
-
+	
 	/**
 	 * This checks if the token is an Number, color, identifier, or string
 	 * 
@@ -145,12 +150,11 @@ public class ExpressionTreeGenerator {
 	 * @return true if token is an operand
 	 */
 	private boolean isOperand(Token token) {
-		return token instanceof NumberToken || token instanceof ColorToken || token instanceof IdentifierToken || token instanceof StringToken;
-	}
-	
-	/*if (token.isOperand()) {
-		postfixResult.push(token);
-	}*/
+        return token instanceof NumberToken || 
+               token instanceof ColorToken || 
+               token instanceof IdentifierToken || 
+               token instanceof StringToken;
+    }
 	
 	/**
 	 * This handles the right parenthesis by popping the operators until a left parenthesis is found
@@ -177,10 +181,22 @@ public class ExpressionTreeGenerator {
 	 * This handles the operator token
 	 */
 	private void handelOperator(Token token, Stack<Token> operators, Stack<Token> postfixResults) {
-		while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken) && orderOfOperation(token) <= orderOfOperation(operators.peek())) {
+		while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken) && orderOfOperation(token) >= orderOfOperation(operators.peek())) {
 			postfixResults.push(operators.pop());
 		}
 		operators.push(token);
+	}
+	
+	/**
+	 * This handles the comma token 
+	 */
+	private void handleCommaToken(Stack<Token> operators, Stack<Token> postfixResult) {
+		while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken)) {
+			postfixResult.push(operators.pop());
+		}
+		if (operators.isEmpty()) {
+			throw new ParseException("Misplaed comma or mismatched parenthesis");
+		}
 	}
 
 	/**
@@ -189,13 +205,18 @@ public class ExpressionTreeGenerator {
 	 * @return precedence level
 	 */
 	private int orderOfOperation(Token token) {
-
-		if (token instanceof PlusToken) {
-	        return ADD_OR_SUBTRACT;
-	    } else if (token instanceof MultiplicationToken) {
-	        return MULTIPLY_OR_DIVIDE;
-	    } else {
-	        return CONSTANT;
-	    }
-	}
+        if (token instanceof CommaToken) {
+            return COMMA;
+        } else if (token instanceof PlusToken || token instanceof MinusToken) {
+            return ADD_OR_SUBTRACT;
+        } else if (token instanceof MultiplyToken || token instanceof DivideToken || token instanceof ModulusToken) {
+            return MULTIPLY_OR_DIVIDE;
+        } else if (token instanceof ExponentiateToken) {
+            return EXPONENT;
+        } else if (token instanceof UnaryOperatorToken) {
+            return UNARY;
+        } else {
+            return CONSTANT;
+        }
+    }
 }

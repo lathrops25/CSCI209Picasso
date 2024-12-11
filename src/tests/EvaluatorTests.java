@@ -456,63 +456,49 @@ public class EvaluatorTests {
 			}
 	}
 	
-	// TODO: tests for imageWrap
-//	@Test
-//	public void testImageWrapEvaluation() {
-//		Pixmap image = new Pixmap("images/foo.jpg");
-//		// domain of picasso
-//		int DOMAIN_MAX = 1;
-//		int DOMAIN_MIN = -1;
-//		// expression tested is imageWrap("images/foo.jpg", x+x, y)
-//		ImageWrap myTree = new ImageWrap(new Y(), new Addition(new X(), new X() ), "images/foo.jpg");
-//		// evaluate it for each pixel
-//		double range = DOMAIN_MAX - DOMAIN_MIN;
-//		Dimension size = image.getSize();
-//		for (int imageY = 0; imageY < size.height; imageY++) {
-//			double evalY = ((double) imageY / size.height) * range + DOMAIN_MIN;
-//			for (int imageX = 0; imageX < size.width; imageX++) {
-//				double evalX = ((double) imageX / size.width) * range + DOMAIN_MIN;
-//
-//				// get evaluated color
-//				Color RGB_Ex = myTree.evaluate(evalX, evalY).toJavaColor();
-//				int eRed = RGB_Ex.getRed();
-//				int eGreen = RGB_Ex.getGreen();
-//				int eBlue = RGB_Ex.getBlue();
-//				
-//				// get actual color from image
-//				System.out.println(Math.abs((imageX + imageX)));
-//				Color RGB_Ac = new Color(image.myImage.getRGB((imageX + imageX), imageY));
-//				int aRed = RGB_Ac.getRed();
-//				int aGreen = RGB_Ac.getGreen();
-//				int aBlue = RGB_Ac.getBlue();
-//				System.out.println("ex" + RGB_Ex + " ac " + RGB_Ac);
-//				// compare both colors with an error margin of 1
-//				// this is probably something with the conversion from RGBColor to Color
-//				assertEquals(eRed, aRed, 1);
-//				assertEquals(eGreen, aGreen, 1);
-//				assertEquals(eBlue, aBlue, 1);
-//				}
-//			}
-//	}
-//	@Test
-//	public void testImageClipEvaluation() {
-//		Pixmap image = new Pixmap("images/foo.jpg");
-//		// expression tested is imageWrap("images/foo.jpg", x+x, y)
-//		ImageClip myTree = new ImageClip(new Y(), new Addition(new X(), new X() ), "images/foo.jpg");
-//		// domain of picasso
-//		int DOMAIN_MAX = 1;
-//		int DOMAIN_MIN = -1;
-//		double range = DOMAIN_MAX - DOMAIN_MIN;
-//		Dimension size = image.getSize();
-//
-//		double evalY = ((double) imageY / size.height) * range + DOMAIN_MIN;
-//		double evalX = ((double) imageX / size.width) * range + DOMAIN_MIN;
-//
-//		Color RGB_Ex = myTree.evaluate(evalX, evalY).toJavaColor();
-//		Color RGB_Ac = new Color(image.myImage.getRGB(100, 200));
-//
-////		assertEquals = ()
-//	}
+	@Test
+	public void testImageWrapEvaluation() {
+		// testImage.jpg uses floor(x) as an expression so any -x is black, any +x is gray
+		String fileName = "images/testImage.jpg";
+		// using string node because it already has an evaluate method unlike Pixmap
+		StringNode Tree = new StringNode(fileName);
+		ImageWrap myTree = new ImageWrap(new Y(), new Addition(new X(), new X() ), fileName);
+		// evaluate it for each pixel
+	
+		Color RGB_Ex = myTree.evaluate(0.0, 0.0).toJavaColor();
+		Color RGB_Ac = Tree.evaluate(0.0, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+		
+		RGB_Ex = myTree.evaluate(0.75, 0.0).toJavaColor();
+		RGB_Ac = Tree.evaluate(-0.5, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+		
+		RGB_Ex = myTree.evaluate(-0.75, 0.0).toJavaColor();
+		RGB_Ac = Tree.evaluate(0.5, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+	}
+	
+	@Test
+	public void testImageClipEvaluation() {
+		// testImage.jpg uses floor(x) as an expression so any -x is black, any +x is gray
+		String fileName = "images/testImage.jpg";
+		// using string node because it already has an evaluate method unlike Pixmap
+		StringNode Tree = new StringNode(fileName);
+		ImageClip myTree = new ImageClip(new Y(), new Addition(new X(), new X() ), fileName);
+		// evaluate it for each pixel
+	
+		Color RGB_Ex = myTree.evaluate(0.0, 0.0).toJavaColor();
+		Color RGB_Ac = Tree.evaluate(0.0, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+		
+		RGB_Ex = myTree.evaluate(0.75, 0.0).toJavaColor();
+		RGB_Ac = Tree.evaluate(1.0, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+		
+		RGB_Ex = myTree.evaluate(-0.75, 0.0).toJavaColor();
+		RGB_Ac = Tree.evaluate(-1.0, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+	}
 }
 
 

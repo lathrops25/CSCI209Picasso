@@ -47,4 +47,5 @@ public abstract class Token {
 	 */
 	public abstract boolean isFunction();
 
+
 }

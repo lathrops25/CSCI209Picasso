@@ -45,7 +45,8 @@ public class ExpressionTreeGenerator {
 
 		ExpressionTreeNode root = semAnalyzer.generateExpressionTree(postfix);
 
-		// Is this the best place to put this check?
+		// Is this the best place to put this check? 
+			// it makes sure the tree is complete but then it doesn't detect the error until the tree is generated 
 		if (!postfix.isEmpty()) {
 			throw new ParseException("Extra operands without operators or functions");
 		}
@@ -84,25 +85,31 @@ public class ExpressionTreeGenerator {
 		Stack<Token> operators = new Stack<Token>();
 		Stack<Token> postfixResult = new Stack<Token>();
 
-		Iterator<Token> iter = tokens.iterator();
+		//Iterator<Token> iter = tokens.iterator();
 
+	//These are questions related to the old code 
 		// TO DISCUSS: Is this the correct way to design this code?
+			//the while loop makes it difficult to test since its responsible for determining the token and what to do with it 
 		// What is the code smell? What is the alternative?
-
-		while (iter.hasNext()) {
-			Token token = iter.next();
-			if (token instanceof NumberToken) {
+			// code smell is the repeated if statemnts, it makes it difficult to maintain and update 
+		
+		
+		//each token is being handeled explicitly and itll be easier to extend 
+		for(Token token : tokens) {
+			if (isOperand(token)) {
 				postfixResult.push(token);
-			} else if (token instanceof ColorToken) {
-				postfixResult.push(token);
-			} else if (token instanceof IdentifierToken) {
-				postfixResult.push(token);
-			} else if (token instanceof StringToken) {
-				postfixResult.push(token);
-			} else if (token instanceof FunctionToken) {
+			} else if (token instanceof FunctionToken || token instanceof LeftParenToken) {
 				operators.push(token);
+			} else if (token instanceof RightParenToken) {
+				handelRightParenthesis(operators, postfixResult);
 			} else if (token instanceof OperationInterface) {
-
+                handelOperator(token, operators, postfixResult);
+            } else {
+                throw new ParseException("Invalid token: " + token);
+            }
+        }
+				
+				
 				/*
 				 * while there is an operator, o2, at the top of the stack (this excludes left
 				 * parenthesis), and either
@@ -118,94 +125,68 @@ public class ExpressionTreeGenerator {
 				// While there are operators on the stack:
 				// - Pop operators with higher or equal precedence (for left-associative operators)
 				// - Stop at left parentheses or lower precedence operators
-				while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken)
-				        && orderOfOperation(token) <= orderOfOperation(operators.peek())) {
-				    postfixResult.push(operators.pop());
+			while (!operators.isEmpty()) {
+				Token top = operators.pop();
+				if(top instanceof LeftParenToken) {
+					throw new ParseException("Mismatch Parenthesis");
 				}
-
-				operators.push(token);
-
-			} else if (token instanceof CommaToken) {
+				postfixResult.push(top);
+			}
+			return postfixResult;
+	}
 				// Until the token at the top of the stack is a left
 				// parenthesis, pop operators off the stack onto the output
 				// queue.
 
-				while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken)) {
-					postfixResult.push(operators.pop());
-				}
-
-				// If no left parentheses are encountered, either the
-				// separator was misplaced or parentheses were mismatched.
-				if (operators.isEmpty() || !(operators.peek() instanceof LeftParenToken)) {
-					throw new ParseException("Parentheses were mismatched.");
-				}
-			} else if (token instanceof QuoteToken) {
-				// Until the token at the top of the stack is another
-				// quote, pop operators off the stack onto the output
-				// queue.
-
-				while (!operators.isEmpty() && !(operators.peek() instanceof QuoteToken)) {
-					postfixResult.push(operators.pop());
-				}
-
-				// If no left parentheses are encountered, either the
-				// separator was misplaced or parentheses were mismatched.
-				if (operators.isEmpty() || !(operators.peek() instanceof LeftParenToken)) {
-					throw new ParseException("Missing ending \".");
-				}
-			
-			} else if (token instanceof LeftParenToken) {
-				operators.push(token);
-			} else if (token instanceof RightParenToken) {
-				// Until the token at the top of the stack is a left
-				// parenthesis, pop operators off the stack onto the output
-				// queue.
-				while (operators.size() > 0 && !(operators.peek() instanceof LeftParenToken)) {
-					postfixResult.push(operators.pop());
-				}
-
-				// Pop the left parenthesis from the stack, but not onto the
-				// output queue.
-				if (operators.isEmpty()) {
-					throw new ParseException("Missing (");
-				}
-				operators.pop();
-
-				// If the token at the top of the stack is a function token, pop
-				// it onto the output queue.
-				if (operators.size() > 0 && operators.peek() instanceof FunctionToken) {
-					postfixResult.push(operators.pop());
-				}
-
-			} else {
-				System.out.println("ERROR: No match: " + token);
-				throw new ParseException("Invalid token: " + token);
-			}
-			// System.out.println("Postfix: " + postfixResult);
-		}
-
-		while (!operators.isEmpty()) {
-
-			// If the operator token on the top of the stack is a parenthesis,
-			// then there are mismatched parentheses.
-
-			Token top = operators.peek();
-
-			if (top.equals(CharTokenFactory.getToken('(')) || top.equals(CharTokenFactory.getToken(')'))) {
-				throw new ParseException("Mismatched Parentheses");
-			}
+	/**
+	 * This checks if the token is an Number, color, identifier, or string
+	 * 
+	 * @param token
+	 * @return true if token is an operand
+	 */
+	private boolean isOperand(Token token) {
+		return token instanceof NumberToken || token instanceof ColorToken || token instanceof IdentifierToken || token instanceof StringToken;
+	}
+	
+	/*if (token.isOperand()) {
+		postfixResult.push(token);
+	}*/
+	
+	/**
+	 * This handles the right parenthesis by popping the operators until a left parenthesis is found
+	 * 
+	 * @param operator
+	 */
+	private void handelRightParenthesis(Stack<Token>operators, Stack<Token> postfixResult) {
+		while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken)) {
 			postfixResult.push(operators.pop());
 		}
-
-		// System.out.println(postfixResult);
-		return postfixResult;
-
+		
+		if(operators.isEmpty() || !(operators.peek() instanceof LeftParenToken)) {
+			throw new ParseException("Mismatched Parenthesis");
+		}
+		
+		operators.pop();
+		
+		if(!operators.isEmpty() && operators.peek() instanceof FunctionToken) {
+			postfixResult.push(operators.pop());
+		}
+	}
+	
+	/**
+	 * This handles the operator token
+	 */
+	private void handelOperator(Token token, Stack<Token> operators, Stack<Token> postfixResults) {
+		while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken) && orderOfOperation(token) <= orderOfOperation(operators.peek())) {
+			postfixResults.push(operators.pop());
+		}
+		operators.push(token);
 	}
 
 	/**
 	 * Determines precedent level of given operator tokens 
 	 * @param token
-	 * @return
+	 * @return precedence level
 	 */
 	private int orderOfOperation(Token token) {
 

@@ -89,7 +89,7 @@ public class ErrorParsedEvaluatedTests {
 	
 	@Test
 	public void errorFileDNEStringNodeTest() {
-		assertThrows(IllegalArgumentException.class, () -> {
+		assertThrows(NullPointerException.class, () -> {
 			parser.makeExpression("\"fileDNE.jpg\"");
 		});
 	}

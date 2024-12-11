@@ -436,6 +436,16 @@ public class EvaluatorTests {
 			assertEquals(new RGBColor (color1, color2, color3), myTree.evaluate(i, j));
 			}
 		}
+		//testing twice to try to cover more options
+		RandomFunction myTree2 = new RandomFunction(); 
+		double color1b = myTree2.getRand1();
+		double color2b = myTree2.getRand2();
+		double color3b = myTree2.getRand3();
+		for (int a = -1; a <=1; a++) {
+			for (int b = -1; b <= 1; b++) {
+				assertEquals(new RGBColor (color1b, color2b, color3b), myTree2.evaluate(a, b));
+				}
+		}
 		
 	}
 }

@@ -76,6 +76,8 @@ public class RandomFunction extends ExpressionTreeNode{
 	}
 	
 	@Override
+	//the chances two RandomFunctions equaling each other is very slim
+	
 	public boolean equals(Object o) {
 		if (o == this) {
 			return true;

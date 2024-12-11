@@ -37,6 +37,13 @@ public class ErrorParsedEvaluatedTests {
 			parser.makeExpression("( .7 + )");
 		});
 	}
+	
+	@Test
+	public void errorTooFewArgsTestSub() {
+		assertThrows(ParseException.class, () -> {
+			parser.makeExpression("( .7 - )");
+		});
+	}
 
 	@Test
 	public void errorExtraOperandTest() {

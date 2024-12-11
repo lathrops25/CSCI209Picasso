@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import picasso.parser.ExpressionTreeGenerator;
-import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 
@@ -169,7 +168,38 @@ public class EvaluatorTests {
 			}
 		}
 	}
+	
+	@Test
+	public void testSubtractionEvaluation() {
+		Subtraction myTree = new Subtraction(new X(), new Y());
+		
+		//straightforward tests
+		assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(-.5, -.5, -.5), myTree.evaluate(-.75, -.25));
+		assertEquals(new RGBColor(.75, .75, .75), myTree.evaluate(1, .25));
+		assertEquals(new RGBColor(.50, .50, .50), myTree.evaluate(.25, -.25));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-.4, .6));
+		// test a range of integers
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				assertEquals(new RGBColor(i - j, i - j, i - j), myTree.evaluate(i, j));
+			}
+		}
+		
+		double[] tests = { -.7, -.00001, .000001, .5 };
 
+		for (double testLeftVal : tests) {
+			for (double testRightVal : tests) {
+				double subtractionOfTestVal = testLeftVal - testRightVal;
+				assertEquals(new RGBColor(subtractionOfTestVal, subtractionOfTestVal, subtractionOfTestVal),
+						myTree.evaluate(testLeftVal, testRightVal));
+			}
+		}
+		
+	}
+	
+	
+	
 	@Test
 	public void testWrapEvaluation() {
 		Wrap myTree = new Wrap(new X());

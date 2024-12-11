@@ -37,6 +37,13 @@ public class ErrorParsedEvaluatedTests {
 			parser.makeExpression("( .7 + )");
 		});
 	}
+	
+	@Test
+	public void errorTooFewArgsTestSub() {
+		assertThrows(ParseException.class, () -> {
+			parser.makeExpression("( .7 - )");
+		});
+	}
 
 	@Test
 	public void errorExtraOperandTest() {
@@ -74,6 +81,13 @@ public class ErrorParsedEvaluatedTests {
 	}
 	
 	@Test
+	public void noParemetersTest() {
+		assertThrows(ParseException.class, () -> {
+			parser.makeExpression("random(x)");
+		});
+	}
+	
+	@Test
 	public void errorNoStringImageWrapTest() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			parser.makeExpression("imageWrap(x, x, x)");
@@ -99,6 +113,7 @@ public class ErrorParsedEvaluatedTests {
 		assertThrows(IllegalArgumentException.class, () -> {
 			parser.makeExpression("\"fileDNE\"");
 		});
+		
 		assertThrows(IllegalArgumentException.class, () -> {
 			parser.makeExpression("\"fileDNE.pdf\"");
 		});

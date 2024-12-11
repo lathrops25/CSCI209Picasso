@@ -74,6 +74,13 @@ public class ErrorParsedEvaluatedTests {
 	}
 	
 	@Test
+	public void noParemetersTest() {
+		assertThrows(ParseException.class, () -> {
+			parser.makeExpression("random(x)");
+		});
+	}
+	
+	@Test
 	public void errorNoStringImageWrapTest() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			parser.makeExpression("imageWrap(x, x, x)");
@@ -99,6 +106,7 @@ public class ErrorParsedEvaluatedTests {
 		assertThrows(IllegalArgumentException.class, () -> {
 			parser.makeExpression("\"fileDNE\"");
 		});
+		
 		assertThrows(IllegalArgumentException.class, () -> {
 			parser.makeExpression("\"fileDNE.pdf\"");
 		});

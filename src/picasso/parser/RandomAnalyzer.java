@@ -14,9 +14,6 @@ public class RandomAnalyzer implements SemanticAnalyzerInterface {
 	
 	public ExpressionTreeNode generateExpressionTree(Stack<Token> tokens) {
 		tokens.pop(); 
-		if (!tokens.isEmpty()) {
-			throw new ParseException("Opps, can't pass in a parameter to random");
-		}
 		return new RandomFunction();
 	}
 

@@ -93,7 +93,7 @@ public class StringNode extends ExpressionTreeNode{
 	public RGBColor evaluate(double x, double y) {
 		
 		int XCord = imageToRegScale(x, imageWidth);
-		int YCord = imageToRegScale(y, testImage.mySize.height);
+		int YCord = imageToRegScale(y, imageHeight);
 		
 		if (!testImage.isInBounds(XCord, YCord)) {
 			if (XCord >= imageWidth) {
@@ -103,6 +103,23 @@ public class StringNode extends ExpressionTreeNode{
 				YCord = imageHeight-1;
 			}
 		}
+		Color RGB = new Color(testImage.myImage.getRGB(XCord, YCord));
+		
+		double red = convert((double)RGB.getRed());
+		double green = convert((double)RGB.getGreen());
+		double blue = convert((double)RGB.getBlue());
+
+		return new RGBColor(red, green, blue);
+	}
+	
+	/**
+	 * Evaluate each pixel in an image
+	 */
+	public RGBColor evaluate(int x, int y) {
+		
+		int XCord = x;
+		int YCord = y;
+		
 		Color RGB = new Color(testImage.myImage.getRGB(XCord, YCord));
 		
 		double red = convert((double)RGB.getRed());

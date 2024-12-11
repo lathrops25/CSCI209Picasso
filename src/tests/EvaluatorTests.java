@@ -5,6 +5,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -427,21 +428,90 @@ public class EvaluatorTests {
 	    }
 	}
 	
-	// TODO: string node evaluation test
+	@Test
+	public void testStringNodeEvaluation() {
+		Pixmap image = new Pixmap("images/foo.jpg");
+		StringNode myTree = new StringNode("images/foo.jpg");
+		
+		// evaluate it for each pixel
+		Dimension size = image.getSize();
+		for (int imageY = 0; imageY < size.height; imageY++) {
+			for (int imageX = 0; imageX < size.width; imageX++) {
+				// get evaluated color
+				Color RGB_Ex = myTree.evaluate(imageX, imageY).toJavaColor();
+				int eRed = RGB_Ex.getRed();
+				int eGreen = RGB_Ex.getGreen();
+				int eBlue = RGB_Ex.getBlue();
+				// get actual color from image
+				Color RGB_Ac = new Color(image.myImage.getRGB(imageX, imageY));
+				int aRed = RGB_Ac.getRed();
+				int aGreen = RGB_Ac.getGreen();
+				int aBlue = RGB_Ac.getBlue();
+				// compare both colors with an error margin of 1
+				// this is probably something with the conversion from RGBColor to Color
+				assertEquals(eRed, aRed, 1);
+				assertEquals(eGreen, aGreen, 1);
+				assertEquals(eBlue, aBlue, 1);
+				}
+			}
+	}
+	
+	// TODO: tests for imageWrap
 //	@Test
-//	public void testStringNodeEvaluation() {
+//	public void testImageWrapEvaluation() {
 //		Pixmap image = new Pixmap("images/foo.jpg");
-//		StringNode myTree = new StringNode("images/foo.jpg");
-//		
+//		// domain of picasso
+//		int DOMAIN_MAX = 1;
+//		int DOMAIN_MIN = -1;
+//		// expression tested is imageWrap("images/foo.jpg", x+x, y)
+//		ImageWrap myTree = new ImageWrap(new Y(), new Addition(new X(), new X() ), "images/foo.jpg");
 //		// evaluate it for each pixel
+//		double range = DOMAIN_MAX - DOMAIN_MIN;
 //		Dimension size = image.getSize();
-//		for (int imageY = 0; imageY < size.height/5; imageY++) {
-//			for (int imageX = 0; imageX < size.width/5; imageX++) {
-//				System.out.println("StringNode Color " + myTree.evaluate(imageX, imageY).toJavaColor());
-//				System.out.println("Pixmap color " + image.getColor(imageX, imageY));
-////				assertEquals(myTree.evaluate(imageX, imageY), image.getColor(imageX, imageY));
+//		for (int imageY = 0; imageY < size.height; imageY++) {
+//			double evalY = ((double) imageY / size.height) * range + DOMAIN_MIN;
+//			for (int imageX = 0; imageX < size.width; imageX++) {
+//				double evalX = ((double) imageX / size.width) * range + DOMAIN_MIN;
+//
+//				// get evaluated color
+//				Color RGB_Ex = myTree.evaluate(evalX, evalY).toJavaColor();
+//				int eRed = RGB_Ex.getRed();
+//				int eGreen = RGB_Ex.getGreen();
+//				int eBlue = RGB_Ex.getBlue();
+//				
+//				// get actual color from image
+//				System.out.println(Math.abs((imageX + imageX)));
+//				Color RGB_Ac = new Color(image.myImage.getRGB((imageX + imageX), imageY));
+//				int aRed = RGB_Ac.getRed();
+//				int aGreen = RGB_Ac.getGreen();
+//				int aBlue = RGB_Ac.getBlue();
+//				System.out.println("ex" + RGB_Ex + " ac " + RGB_Ac);
+//				// compare both colors with an error margin of 1
+//				// this is probably something with the conversion from RGBColor to Color
+//				assertEquals(eRed, aRed, 1);
+//				assertEquals(eGreen, aGreen, 1);
+//				assertEquals(eBlue, aBlue, 1);
 //				}
 //			}
+//	}
+//	@Test
+//	public void testImageClipEvaluation() {
+//		Pixmap image = new Pixmap("images/foo.jpg");
+//		// expression tested is imageWrap("images/foo.jpg", x+x, y)
+//		ImageClip myTree = new ImageClip(new Y(), new Addition(new X(), new X() ), "images/foo.jpg");
+//		// domain of picasso
+//		int DOMAIN_MAX = 1;
+//		int DOMAIN_MIN = -1;
+//		double range = DOMAIN_MAX - DOMAIN_MIN;
+//		Dimension size = image.getSize();
+//
+//		double evalY = ((double) imageY / size.height) * range + DOMAIN_MIN;
+//		double evalX = ((double) imageX / size.width) * range + DOMAIN_MIN;
+//
+//		Color RGB_Ex = myTree.evaluate(evalX, evalY).toJavaColor();
+//		Color RGB_Ac = new Color(image.myImage.getRGB(100, 200));
+//
+////		assertEquals = ()
 //	}
 }
 

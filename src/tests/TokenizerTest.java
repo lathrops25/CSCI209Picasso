@@ -113,6 +113,12 @@ public class TokenizerTest {
 	}
 	
 	@Test
+	public void testRandomFunctionExpression() {
+		String expression = "random()";
+		tokens = tokenizer.parseTokens(expression);
+		assertEquals (new RandomToken(), tokens.get(0));
+	}
+	@Test
 	public void testTokenizeCombinefunctionExpression() {
 		String expression = "imageWrap(\"foo.jpg\", sin(y), wrap(y+x)))";
 		List<Token> tokens = tokenizer.parseTokens(expression);

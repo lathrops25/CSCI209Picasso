@@ -19,6 +19,7 @@ import picasso.view.commands.*;
  * @author Robert Duvall (rcd@cs.duke.edu)
  * @author Jonathan Carranza Cortes
  * @author Naka Assoumatine
+ * @author Allison Hidalgo
  */
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
@@ -48,6 +49,17 @@ public class Frame extends JFrame {
 		commands.add("Evaluate", new ThreadedCommand<Pixmap>(canvas, eval));
 		commands.add("Save", new Writer());
 		
+		//New button panel
+		JButton newPanelButton = new JButton("New Panel");
+		newPanelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createNewFrame(size);
+			}
+		});
+		commands.add("New Panel", newPanelButton);
+		
+		
 		// evaluate when pressing enter
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -65,5 +77,15 @@ public class Frame extends JFrame {
 		pack();
 	}
 	
+	/**
+	 * This creates a new frame with the same dimensions
+	 * 
+	 * @pram new frame size
+	 */
+	private void createNewFrame(Dimension size) {
+		Frame newFrame = new Frame(size);
+		newFrame.setLocationRelativeTo(null);
+		newFrame.setVisible(true);
+	}
 	
 }

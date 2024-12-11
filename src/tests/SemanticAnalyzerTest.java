@@ -195,4 +195,20 @@ class SemanticAnalyzerTest {
 			semAnalyzer.generateExpressionTree(tokens);
 		});
 	}
+	
+	@Test
+	void testParseDivision() {
+
+	    // Set up the token stack for "x * y"
+	    Stack<Token> tokens = new Stack<>();
+	    tokens.push(new IdentifierToken("x")); // Push the left operand
+	    tokens.push(new IdentifierToken("y")); // Push the right operand
+	    tokens.push(new DivisionToken());     // Push the multiplication operator
+
+	    // Generate the expression tree
+	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+	    // Expected: Multiplication(x, y)
+	    assertEquals(new Division(new X(), new Y()), actual);
+	}
 }

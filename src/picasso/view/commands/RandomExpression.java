@@ -27,12 +27,12 @@ public class RandomExpression implements Command<Pixmap>{
 	
 	//class variables (can import these using prop and conf but it was becoming too complicated)
 	// add when add new function/operator
-	 private static final String[] BINARYOPERATORS = {"+", "*"};
-	 private static final String[] UNARYFUNCTIONS = {"tan", "abs", "log", "cos", "sin", "ceil", "floor", "wrap", "atan", "clamp"};
-	 private static final String[] NODEPTHOPERATORS = {"x", "y", "constant"}; //TODO: add random()
-	 //private static final String[] UNARYOPERATOR;
-	 //private static final String[] MULTIFUNCTIONS;
-	 private static final String[] ALLOPSFUNC = {"+", "*", "tan", "abs", "log", "cos", "sin", "ceil", "floor", "wrap", "atan", "clamp"}; //add more when needed
+	 private static final String[] BINARYOPERATORS = {"+", "*", "^", "/", "%", "-"};
+	 private static final String[] UNARYFUNCTIONS = {"!", "tan", "abs", "log", "cos", "sin", "ceil", "floor", "wrap", "atan", "clamp", "exp", "rgbToYCrCb", "yCrCbToRGB"};
+	 private static final String[] NODEPTHOPERATORS = {"x", "y", "constant", "random()"}; //TODO: add random()
+	 private static final String[] MULTIFUNCTIONS = {"perlinColor", "perlinBW"};
+	 private static final String[] ALLOPSFUNC = 
+		 {"+", "*", "^", "/", "%", "-", "tan", "abs", "log", "cos", "sin", "ceil", "floor", "wrap", "atan", "clamp", "exp", "rgbToYCrCb", "yCrCbToRGB", "x", "y", "constant", "random()", "!", "perlinColor", "perlinBW"}; //add more when needed
 	 
 
 	/**
@@ -73,6 +73,7 @@ public class RandomExpression implements Command<Pixmap>{
 		StringBuilder builder = new StringBuilder();
 		String parentR = ")";
 		String parentL = "(";
+		String comma = ",";
 		
 		//used all nesting depth, should return the String
 		if (depth <= 0) {
@@ -101,7 +102,8 @@ public class RandomExpression implements Command<Pixmap>{
 				builder.append(build(depth-1, randGen));
 				builder.append(parentR);
 			} 
-			// if choice is a unary function
+			// if choice is a unary function or unary operator --> 
+			//Syntax is "sin" + "(" + build + ")" if unary function or "!" + "(" + build + ")"
 			else if (Arrays.asList(UNARYFUNCTIONS).contains(choice)) {
 				
 				builder.append(choice);
@@ -109,8 +111,17 @@ public class RandomExpression implements Command<Pixmap>{
 				builder.append(build((depth - 1), randGen));
 				builder.append(parentR);
 			}
-			
-			//check others when add
+			// if choice is a function that takes in 2 parameters
+			// syntax is "perlinColor" + "(" + build + "," + build + ")"
+			else if (Arrays.asList(MULTIFUNCTIONS).contains(choice)) {
+				builder.append(choice);
+				builder.append(parentL);
+				builder.append(build((depth - 1), randGen));
+				builder.append(comma);
+				builder.append(build((depth - 1), randGen));
+				builder.append(parentR);
+				
+			}
 		}
 		
 		String randomExpression = builder.toString();

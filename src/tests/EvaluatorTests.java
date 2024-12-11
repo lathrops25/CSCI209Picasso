@@ -5,9 +5,12 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.Dimension;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
 import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
@@ -222,6 +225,7 @@ public class EvaluatorTests {
 		}
 	}
 	
+   @Test
   public void testCosEvaluation() {
 		Cos myTree = new Cos(new X());
 
@@ -422,6 +426,23 @@ public class EvaluatorTests {
 	        }
 	    }
 	}
+	
+	// TODO: string node evaluation test
+//	@Test
+//	public void testStringNodeEvaluation() {
+//		Pixmap image = new Pixmap("images/foo.jpg");
+//		StringNode myTree = new StringNode("images/foo.jpg");
+//		
+//		// evaluate it for each pixel
+//		Dimension size = image.getSize();
+//		for (int imageY = 0; imageY < size.height/5; imageY++) {
+//			for (int imageX = 0; imageX < size.width/5; imageX++) {
+//				System.out.println("StringNode Color " + myTree.evaluate(imageX, imageY).toJavaColor());
+//				System.out.println("Pixmap color " + image.getColor(imageX, imageY));
+////				assertEquals(myTree.evaluate(imageX, imageY), image.getColor(imageX, imageY));
+//				}
+//			}
+//	}
 }
 
 

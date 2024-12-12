@@ -241,6 +241,17 @@ public class ExpressionTreeGeneratorTests {
 	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
 	
+	
+	@Test
+	public void rgbToYCrCbExpressionTests() {
+	    // Basic test for "rgbToYCrCb(x)"
+	    ExpressionTreeNode e = parser.makeExpression("rgbToYCrCb(x)");
+	    assertEquals(new RgbToYCrCb(new X()), e);
 
+	    // Test with a color constant and rgbToYCrCb
+	    e = parser.makeExpression("rgbToYCrCb([1,.3,-1])");
+	    assertEquals(new RgbToYCrCb(new RGBColor(1, .3, -1)), e);
+}
+	
 	// TODO: more tests
 }

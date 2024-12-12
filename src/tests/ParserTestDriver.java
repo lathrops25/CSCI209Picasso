@@ -3,8 +3,8 @@ package tests;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-import picasso.parser.ParseException;
 import picasso.parser.ExpressionTreeGenerator;
+import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 
 /**
@@ -40,14 +40,14 @@ public class ParserTestDriver {
 					ExpressionTreeNode expression = parser.makeExpression(line);
 					System.out.println("Created expression: " + expression);
 				} catch (ParseException e) {
-					System.out.println("Invalid expression: " + line
-							+ "\n --- " + e.getMessage());
+					System.out.println("Invalid expression: " + line + "\n --- " + e.getMessage());
 				}
 			}
 			numExpressions++;
 			System.out.print(numExpressions + PROMPT);
 		}
-	}
 
+		input.close();
+	}
 
 }

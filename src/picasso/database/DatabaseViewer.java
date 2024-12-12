@@ -74,7 +74,9 @@ public class DatabaseViewer extends JFrame {
 
 				Frame temp = new Frame(Main.SIZE);
 				temp.setExpression(expr.getExpStr());
-				temp.evaluateInNewPanel(Main.SIZE);
+				temp.evaluateInNewPanel(Main.SIZE, expr.getExpStr());
+				// Help the garbage collector
+				temp = null;
 			}
 		});
 

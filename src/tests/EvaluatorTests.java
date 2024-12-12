@@ -457,6 +457,40 @@ public class EvaluatorTests {
 	    }
 	}
 	
+	
+	@Test
+	public void testModuloEvaluation() {
+		Modulo myTree = new Modulo(new X(), new Y());
+
+	    // Test straightforward cases
+	    assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(0, 0));
+	    assertEquals(new RGBColor(1%1, 1%1, 1%1), myTree.evaluate(1, 1));
+	    assertEquals(new RGBColor(-1%1, -1%1, -1%1), myTree.evaluate(-1, 1));
+
+	    // Test cases with fractional values
+	    assertEquals(new RGBColor(-0.4 % 0.9, -0.4 % 0.9, -0.4 % 0.9), myTree.evaluate(-0.4, 0.9));
+
+	    // Test the Modulo of integers
+	    assertEquals (new RGBColor(0, 0, 0), myTree. evaluate(0, 1));
+	    assertEquals (new RGBColor(0, 0, 0), myTree. evaluate(0, -1));
+	    assertEquals (new RGBColor(-1%-1, -1%-1, -1%-1), myTree. evaluate(-1, -1));
+	    assertEquals (new RGBColor(-1, -1, -1), myTree. evaluate(-1, 0));
+	    assertEquals (new RGBColor(-1, -1, -1), myTree. evaluate(1, 0));
+
+	    
+
+	    // Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
+
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	            double moduloResult = testLeftVal % testRightVal;
+	            assertEquals(new RGBColor(moduloResult, moduloResult, moduloResult),  myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
+	}
+	
+	
 	@Test
 	public void testPerlinBWEvaluation() {
 		PerlinBW myTree = new PerlinBW(new X(), new Y());
@@ -787,8 +821,8 @@ public class EvaluatorTests {
 
 	    for (double testLeftVal : tests) {
 	        for (double testRightVal : tests) {
-	            assertEquals(new RGBColor(ImprovedNoise.noise(testLeftVal+0.3, testRightVal+0.3, 0), ImprovedNoise.noise(testLeftVal-0.8, testRightVal-0.8, 0), ImprovedNoise.noise(testLeftVal+0.1, testRightVal+0.1, 0)),
-	                    myTree.evaluate(testLeftVal, testRightVal));
+	            assertEquals(new RGBColor(ImprovedNoise.noise(testLeftVal+0.3, testRightVal+0.3, 0), ImprovedNoise.noise(testLeftVal-0.8, testRightVal-0.8, 0), ImprovedNoise.noise(testLeftVal+0.1, testRightVal+0.1, 0)),  myTree.evaluate(testLeftVal, testRightVal));
+	                 
 	        }
 	    }
 	}

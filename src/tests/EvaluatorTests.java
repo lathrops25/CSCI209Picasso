@@ -7,15 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import picasso.model.Pixmap;
+import picasso.model.ImprovedNoise;
 import picasso.parser.ExpressionTreeGenerator;
-// import picasso.parser.ParseException;
-
-//import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 
@@ -732,14 +728,35 @@ public class EvaluatorTests {
 		}
 	}
 
+	
+	@Test
+	public void testPerlinColorEvaluation() {
+		PerlinColor myTree = new PerlinColor(new X(), new Y());
+
+	    // Test straightforward cases
+	    assertEquals(new RGBColor(ImprovedNoise.noise(0+0.3, 0+0.3, 0), ImprovedNoise.noise(0-0.8, 0-0.8, 0), ImprovedNoise.noise(0+0.1, 0+0.1, 0)), myTree.evaluate(0, 0));
+	    assertEquals(new RGBColor(ImprovedNoise.noise(1+0.3, 1+0.3, 0), ImprovedNoise.noise(1-0.8, 1-0.8, 0), ImprovedNoise.noise(1+0.1, 1+0.1, 0)), myTree.evaluate(1, 1));
+	    assertEquals(new RGBColor(ImprovedNoise.noise(-1+0.3, 1+0.3, 0), ImprovedNoise.noise(-1-0.8, 1-0.8, 0), ImprovedNoise.noise(-1+0.1, 1+0.1, 0)), myTree.evaluate(-1, 1));
+
+	    // Test cases with fractional values
+	    assertEquals(new RGBColor(ImprovedNoise.noise(-0.4+0.3, 0.9+0.3, 0), ImprovedNoise.noise(-0.4-0.8, 0.9-0.8, 0), ImprovedNoise.noise(-0.4+0.1, 0.9+0.1, 0)), myTree.evaluate(-0.4, 0.9));
+
+	    // Test the perlinColor
+	    for (int i = -1; i <= 1; i++) {
+	        for (int j = -1; j <= 1; j++) {
+	            assertEquals(new RGBColor(ImprovedNoise.noise(i+0.3, j+0.3, 0), ImprovedNoise.noise(i-0.8, j-0.8, 0), ImprovedNoise.noise(i+0.1, j+0.1, 0)), myTree.evaluate(i, j));
+	            
+	        }
+	    }
+
+	    // Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
+
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	            assertEquals(new RGBColor(ImprovedNoise.noise(testLeftVal+0.3, testRightVal+0.3, 0), ImprovedNoise.noise(testLeftVal-0.8, testRightVal-0.8, 0), ImprovedNoise.noise(testLeftVal+0.1, testRightVal+0.1, 0)),
+	                    myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
+	}
 }
-
-
-
-
-
-
-
-
-
-

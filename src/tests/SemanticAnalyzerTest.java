@@ -280,4 +280,20 @@ class SemanticAnalyzerTest {
 		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
 		assertEquals(new Exponentiate(new X(), new X()), actual);
 	}
+	
+	@Test
+	void testParsePerlinColor() {
+
+	    // Set up the token stack for "perlinColor(x, y)"
+	    Stack<Token> tokens = new Stack<>();
+	    tokens.push(new IdentifierToken("x")); // Push the left operand
+	    tokens.push(new IdentifierToken("y")); // Push the right operand
+	    tokens.push(new PerlinColorToken());     // Push the perlinColor function
+
+	    // Generate the expression tree
+	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+	    // Expected: perlinColor(x, y)
+	    assertEquals(new PerlinColor(new X(), new Y()), actual);
+	}
 }

@@ -22,7 +22,7 @@ import picasso.parser.tokens.operations.*;
  * Test the parsing from the Stack (not as easy as using a String as input, but
  * helps to isolate where the problem is)
  * 
- * @author Sara Sprenkle, Sarah Lathrop
+ * @author Sara Sprenkle, Sarah Lathrop, Allison Hidalgo 
  *
  */
 class SemanticAnalyzerTest {
@@ -223,5 +223,15 @@ class SemanticAnalyzerTest {
 
 	    // Expected: Multiplication(x, y)
 	    assertEquals(new Division(new X(), new Y()), actual);
+	}
+	
+	@Test
+	void testExp() {
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new ExpToken());
+		
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+		assertEquals(new Exp(new X()), actual);
 	}
 }

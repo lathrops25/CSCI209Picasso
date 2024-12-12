@@ -11,7 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import picasso.Main;
 import picasso.view.Frame;
@@ -41,7 +43,7 @@ public class DatabaseViewer extends JFrame {
 		db.createTable();
 
 		setTitle("CodeCatalysts - Expression DB Viewer");
-		setSize(600, 400);
+		setSize(800, 400);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		tableModel = new ExpressionTableModel();
@@ -50,6 +52,20 @@ public class DatabaseViewer extends JFrame {
 
 		expressionTable = new JTable(tableModel);
 		expressionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		// Set the table to be left aligned
+		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+		leftRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+		for (int i = 0; i < expressionTable.getColumnCount(); i++) {
+			expressionTable.getColumnModel().getColumn(i).setCellRenderer(leftRenderer);
+		}
+
+		// Set fixed width for the first column
+		int fixedWidth = 40;
+		expressionTable.getColumnModel().getColumn(0).setPreferredWidth(fixedWidth);
+		expressionTable.getColumnModel().getColumn(0).setMinWidth(fixedWidth);
+		expressionTable.getColumnModel().getColumn(0).setMaxWidth(fixedWidth);
+
 		JScrollPane scrollPane = new JScrollPane(expressionTable);
 
 		refreshButton = new JButton("Refresh");
@@ -119,7 +135,7 @@ public class DatabaseViewer extends JFrame {
 	 */
 	class ExpressionTableModel extends AbstractTableModel {
 		private List<StoredExpression> expressions;
-		private String[] columnNames = { "Database ID", "Name", "Expression", "Evaluated At" };
+		private String[] columnNames = { "DB ID", "Name", "Expression", "Evaluated At" };
 
 		public void setExpressions(List<StoredExpression> expressions) {
 			this.expressions = expressions;

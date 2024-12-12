@@ -241,6 +241,19 @@ public class ExpressionTreeGeneratorTests {
 	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
 	
+	@Test
+	public void moduloExpressionTests() {
+	    // Basic test for "x % y"
+	    ExpressionTreeNode e = parser.makeExpression("x % y");
+	    assertEquals(new Modulo(new X(), new Y()), e);
 
-	// TODO: more tests
+	    // Test with no spaces
+	    e = parser.makeExpression("x%y");
+	    assertEquals(new Modulo(new X(), new Y()), e);
+
+	    // Test with a color constant and modulo
+	    e = parser.makeExpression("[1,.3,-1] % y");
+	    assertEquals(new Modulo(new RGBColor(1, .3, -1), new Y()), e);
+
+	}
 }

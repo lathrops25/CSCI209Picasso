@@ -1,6 +1,5 @@
 package picasso.parser;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -183,16 +182,6 @@ public class ExpressionTreeGenerator {
 	    operators.push(token);
 	}
 	
-	/**
-	 * Determines if the operator is left-associative.
-	 *
-	 * @param token the operator token
-	 * @return true if the operator is left-associative
-	 */
-//	private boolean isLeftAssociative(Token token) {
-//	    // Exponentiation (^) is right-associative; everything else is left-associative
-//	    return !(token instanceof ExponentiateToken);
-//	}
 	
 	/**
 	 * This handles the comma token.

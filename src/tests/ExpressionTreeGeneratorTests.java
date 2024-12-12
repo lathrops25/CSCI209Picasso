@@ -286,6 +286,34 @@ public class ExpressionTreeGeneratorTests {
 	    e = parser.makeExpression("x * y * [ -.51, 0, 1]");
 	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
+	
+	@Test
+	public void yCrCbToRGBExpressionTests() {
+	    // Basic test for "rgbToYCrCb(x)"
+	    ExpressionTreeNode e = parser.makeExpression("yCrCbToRGB(x)");
+	    assertEquals(new YCrCbToRGB(new X()), e);
+	    
+	    // Test with a color constant and rgbToYCrCb
+	    e = parser.makeExpression("yCrCbToRGB([1,.3,-1])");
+	    assertEquals(new YCrCbToRGB(new RGBColor(1, .3, -1)), e);
+	}
+	
+	@Test
+	public void perlinColornExpressionTests() {
+	    // Basic test for "x * y"
+	    ExpressionTreeNode e = parser.makeExpression("perlinColor(x, y)");
+	    assertEquals(new PerlinColor(new X(), new Y()), e);
+
+	    // Test with no spaces
+	    e = parser.makeExpression("perlinColor(x,y)");
+	    assertEquals(new PerlinColor(new X(), new Y()), e);
+
+	    // Test with a color constant and PerlinColor
+	    e = parser.makeExpression("perlinColor([1,.3,-1], y)");
+	    assertEquals(new PerlinColor(new RGBColor(1, .3, -1), new Y()), e);    
+	}
+	
+	
 
 	@Test
 	public void divisionExpressionTests() {
@@ -302,6 +330,43 @@ public class ExpressionTreeGeneratorTests {
 		e = parser.makeExpression("x / y / [ -.51, 0, 1]");
 		assertEquals(new Division(new Division(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
+	
+	
+	@Test
+	public void rgbToYCrCbExpressionTests() {
+	    // Basic test for "rgbToYCrCb(x)"
+	    ExpressionTreeNode e = parser.makeExpression("rgbToYCrCb(x)");
+	    assertEquals(new RgbToYCrCb(new X()), e);
+	}
 
-	// TODO: more tests
+	@Test
+	public void negationTest() {
+		ExpressionTreeNode e = parser.makeExpression("!x");
+		assertEquals(new Negation(new X()), e);
+	}
+	
+	@Test
+	public void expExpressionTest() {
+		ExpressionTreeNode e = parser.makeExpression("exp(x)");
+		assertEquals(new Exp(new X()), e);
+		
+	}
+
+	@Test
+	public void RGbTOYCrCbTest() {
+	    // Test with a color constant and rgbToYCrCb
+	    ExpressionTreeNode e = parser.makeExpression("rgbToYCrCb([1,.3,-1])");
+	    assertEquals(new RgbToYCrCb(new RGBColor(1, .3, -1)), e);
+	}
+	
+	@Test
+	public void exponentiateTest() {
+		ExpressionTreeNode e = parser.makeExpression("x^x");
+		assertEquals(new Exponentiate(new X(), new X()), e);
+		
+		ExpressionTreeNode e2 = parser.makeExpression("x ^ y");
+		assertEquals(new Exponentiate(new X(), new Y()), e2);
+		
+	}
+	
 }

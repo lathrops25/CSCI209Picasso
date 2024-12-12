@@ -14,11 +14,7 @@ public class MultiplicationToken extends CharToken implements OperationInterface
 	
 	public MultiplicationToken() {
         super(CharConstants.STAR);
-    }
-	
-	@Override
-    public int getPrecedence() {
-        return Token.MULTIPLY_OR_DIVIDE;  // Return the precedence for multiplication/division
+        precedence= Token.MULTIPLY_OR_DIVIDE;
     }
 	
 	/**

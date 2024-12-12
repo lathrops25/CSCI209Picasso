@@ -12,12 +12,8 @@ public class MinusToken extends CharToken implements OperationInterface {
 	
 	public MinusToken() {
 		super(CharConstants.MINUS);
+		precedence= Token.ADD_OR_SUBTRACT;
 	}
-	
-	@Override
-    public int getPrecedence() {
-		return Token.ADD_OR_SUBTRACT;
-    }
 	
 	@Override
     public boolean isLeftAssociative() {

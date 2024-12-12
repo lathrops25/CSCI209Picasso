@@ -54,14 +54,4 @@ public class IdentifierToken extends Token {
 		return true;
 	}
 	
-	/**
-     * Specifies precedence of a IdentifierToken as CONSTANT
-     * 
-     * @return precedence level for constants
-     */
-    @Override
-    public int getPrecedence() {
-        return Token.CONSTANT;
-    }
-
 }

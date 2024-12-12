@@ -66,14 +66,5 @@ public class Constant extends ExpressionTreeNode {
 		Constant other = (Constant) obj;
 		return Double.compare(other.value, value) == 0;
 	}
-	
-	/**
-     * Precedence of constant.
-     * 
-     * Constants have the lowest precedence
-     */
-    @Override
-    public int getPrecedence() {
-        return 0; // Constants have the lowest precedence
-    }
+
 }

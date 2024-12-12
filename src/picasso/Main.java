@@ -11,6 +11,7 @@ import picasso.view.Frame;
  * Starting point for Picasso.
  * 
  * @author Robert Duvall (rcd@cs.duke.edu)
+ * @author Gabriel Hogan
  */
 public class Main {
 	public static final Dimension SIZE = new Dimension(600, 600);
@@ -24,12 +25,12 @@ public class Main {
 
 			// Initialize the Database
 			db = new ExpressionDB();
-			
+
 			if (ExpressionDB.dbEnabled) {
 				System.out.println("Database Enabled!");
 				db.createTable();
 				viewer = new DatabaseViewer();
-				viewer.setVisible(true);
+
 			} else {
 				System.out.println("Database Disabled :(");
 			}
@@ -37,8 +38,14 @@ public class Main {
 			Frame frame = new Frame(SIZE);
 			frame.setVisible(true);
 
-		} catch (Exception e) {
+			if (ExpressionDB.dbEnabled && viewer != null) {
+				viewer.setVisible(true);
+			}
+
+		} catch (RuntimeException e) {
 			ErrorDialog.showDialog("An error occurred: <br/>" + e.getMessage());
+		} catch (Exception e) {
+			ErrorDialog.showDialog("An unknown error occurred: <br/>" + e.getMessage());
 		}
 	}
 }

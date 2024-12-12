@@ -55,7 +55,7 @@ public class ExpressionDB {
 			return;
 		}
 		dbEnabled = true;
-		
+
 		DB_URL = "jdbc:sqlite:file:" + dbName;
 
 		try (Connection conn = DriverManager.getConnection(DB_URL + "?mode=rwc")) {
@@ -73,7 +73,6 @@ public class ExpressionDB {
 	public ExpressionDB() {
 		this("expression.db");
 	}
-
 
 	/**
 	 * Creates the EXPRESSION table if it does not exist.

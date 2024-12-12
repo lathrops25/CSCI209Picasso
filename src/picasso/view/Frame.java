@@ -176,17 +176,34 @@ public class Frame extends JFrame {
 	 * evaluated
 	 * 
 	 * @param size of new frame
+	 * @throws IllegalArgumentException if the expression is not found in frame
 	 */
 	public void evaluateInNewPanel(Dimension size) {
 		if (textField.getText().isBlank()) {
-			System.out.println("No expression provided");
-			return;
+			throw new IllegalArgumentException("No expression provided");
+		}
+
+		this.evaluateInNewPanel(size, textField.getText());
+	}
+
+	/**
+	 * This is taking the input and opening a new frame with the expression
+	 * evaluated
+	 * 
+	 * @param size   of new frame
+	 * @param expStr expression to evaluate, if blank, throws exception
+	 * @throws IllegalArgumentException if the expression is blank
+	 */
+	public void evaluateInNewPanel(Dimension size, String expStr) {
+		if (expStr.isBlank()) {
+			throw new IllegalArgumentException("No expression provided");
 		}
 
 		try {
 			Pixmap evaluatedImage = new Pixmap(size.width, size.height);
 			eval.execute(evaluatedImage);
 			Frame newFrame = new Frame(size, evaluatedImage);
+			newFrame.setExpression(expStr);
 			newFrame.setLocationRelativeTo(null);
 			newFrame.setVisible(true);
 		} catch (Exception e) {

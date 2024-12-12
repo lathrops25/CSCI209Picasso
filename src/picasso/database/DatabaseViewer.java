@@ -3,6 +3,8 @@ package picasso.database;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -11,14 +13,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import picasso.Main;
 import picasso.view.Frame;
 
 /**
  * A simple java swing based database viewer for the ExpressionDB.
- * 
  * 
  * @author Gabriel Hogan
  */
@@ -42,7 +45,7 @@ public class DatabaseViewer extends JFrame {
 		db.createTable();
 
 		setTitle("CodeCatalysts - Expression DB Viewer");
-		setSize(600, 400);
+		setSize(800, 400);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		tableModel = new ExpressionTableModel();
@@ -51,6 +54,25 @@ public class DatabaseViewer extends JFrame {
 
 		expressionTable = new JTable(tableModel);
 		expressionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		// Set the table to be left aligned
+		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+		leftRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+		for (int i = 0; i < expressionTable.getColumnCount(); i++) {
+			expressionTable.getColumnModel().getColumn(i).setCellRenderer(leftRenderer);
+		}
+
+		// Set fixed width for the first column
+		int idColWidth = 40;
+		expressionTable.getColumnModel().getColumn(0).setPreferredWidth(idColWidth);
+		expressionTable.getColumnModel().getColumn(0).setMinWidth(idColWidth);
+		expressionTable.getColumnModel().getColumn(0).setMaxWidth(idColWidth);
+
+		// Set preferred & max width for the last column
+		int datetimeColWidth = 170;
+		expressionTable.getColumnModel().getColumn(3).setPreferredWidth(datetimeColWidth);
+		expressionTable.getColumnModel().getColumn(3).setMaxWidth(datetimeColWidth);
+
 		JScrollPane scrollPane = new JScrollPane(expressionTable);
 
 		refreshButton = new JButton("Refresh");
@@ -74,7 +96,9 @@ public class DatabaseViewer extends JFrame {
 
 				Frame temp = new Frame(Main.SIZE);
 				temp.setExpression(expr.getExpStr());
-				temp.evaluateInNewPanel(Main.SIZE);
+				temp.evaluateInNewPanel(Main.SIZE, expr.getExpStr());
+				// Help the garbage collector
+				temp = null;
 			}
 		});
 
@@ -118,7 +142,7 @@ public class DatabaseViewer extends JFrame {
 	 */
 	class ExpressionTableModel extends AbstractTableModel {
 		private List<StoredExpression> expressions;
-		private String[] columnNames = { "Database ID", "Name", "Expression", "Evaluated At" };
+		private String[] columnNames = { "DB ID", "Name", "Expression", "Evaluated At" };
 
 		public void setExpressions(List<StoredExpression> expressions) {
 			this.expressions = expressions;
@@ -155,7 +179,11 @@ public class DatabaseViewer extends JFrame {
 			case 2:
 				return expr.getExpStr();
 			case 3:
-				return expr.getEvaluatedAt();
+
+				return ZonedDateTime.parse(expr.getEvaluatedAt())
+						.format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")) + " UTC";
+
+//				return expr.getEvaluatedAt();
 			}
 			return null;
 		}
@@ -175,7 +203,7 @@ public class DatabaseViewer extends JFrame {
 		@Override
 		public boolean isCellEditable(int rowIndex, int columnIndex) {
 			// if the column is the name allow it to be edited
-			return columnIndex == 1;
+			return columnIndex == 1 || columnIndex == 2;
 		}
 
 		@Override
@@ -183,13 +211,24 @@ public class DatabaseViewer extends JFrame {
 			StoredExpression expr = getExpressionAt(rowIndex);
 			if (expr == null)
 				return;
+
 			switch (columnIndex) {
 			case 1:
-				System.out.println("Updating expression name to: " + value);
+				// System.out.println("Updating expression name to: " + value);
 				db.updateExpression(expr.getExpId(), null, (String) value);
-				loadData();
+				break;
+			case 2:
+				if (expr.getExpName().equals(expr.getExpStr())) {
+					// System.out.println("Updating expression and name to: " + value);
+					db.updateExpression(expr.getExpId(), (String) value, (String) value);
+				} else {
+					// System.out.println("Updating expression to: " + value);
+					db.updateExpression(expr.getExpId(), (String) value, null);
+				}
 				break;
 			}
+
+			loadData();
 		}
 
 	}

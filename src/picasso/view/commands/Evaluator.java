@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.JTextField;
 
+import picasso.Main;
+import picasso.database.ExpressionDB;
 import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
 import picasso.parser.language.ExpressionTreeNode;
@@ -26,14 +28,14 @@ public class Evaluator implements Command<Pixmap> {
 
 	private static String inputString;
 	private JTextField textIn;
-	private List history;
+	private List<String> history;
 
 	/**
 	 * Constructor that takes input from text field and saves it
 	 * 
 	 * @param text field
 	 */
-	public Evaluator(JTextField textIn, List history) {
+	public Evaluator(JTextField textIn, List<String> history) {
 		this.textIn = textIn;
 		this.history = history;
 	}
@@ -58,6 +60,14 @@ public class Evaluator implements Command<Pixmap> {
 			}
 		} catch (Exception e) {
 			ErrorDialog.showDialog("Error in Evaluator: <br/>" + e.getMessage());
+			return;
+		}
+
+		if (ExpressionDB.dbEnabled) {
+			ExpressionDB db = new ExpressionDB();
+			long newId = db.insertExpression(inputString);
+			System.out.println("Inserted new expression with ID: " + newId);
+			Main.viewer.loadData();
 		}
 
 	}
@@ -82,6 +92,7 @@ public class Evaluator implements Command<Pixmap> {
 		// Take the current expression in the text field
 		inputString = textIn.getText();
 		history.add(inputString);
+
 		ExpressionTreeGenerator expTreeGen = new ExpressionTreeGenerator();
 		return expTreeGen.makeExpression(inputString);
 	}

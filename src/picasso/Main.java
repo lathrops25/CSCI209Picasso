@@ -24,8 +24,7 @@ public class Main {
 
 			// Initialize the Database
 			db = new ExpressionDB();
-			db.init();
-
+			
 			if (ExpressionDB.dbEnabled) {
 				System.out.println("Database Enabled!");
 				db.createTable();

@@ -46,6 +46,16 @@ public class ExpressionDB {
 	 * @param dbName Database file name.
 	 */
 	public ExpressionDB(String dbName) {
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e) {
+			dbEnabled = false;
+			ErrorDialog.showDialog(
+					"You are missing the required library to run the database. Please add the JAR file contained in the lib directory to your classpath. You can also safely close this message to use the app without database functionality.");
+			return;
+		}
+		dbEnabled = true;
+		
 		DB_URL = "jdbc:sqlite:file:" + dbName;
 
 		try (Connection conn = DriverManager.getConnection(DB_URL + "?mode=rwc")) {
@@ -54,7 +64,6 @@ public class ExpressionDB {
 			throw new RuntimeException("There was an error while creating or reading the database ", e);
 		} finally {
 			DB_URL = DB_URL + "?mode=rw";
-			init();
 		}
 	}
 
@@ -65,17 +74,6 @@ public class ExpressionDB {
 		this("expression.db");
 	}
 
-	public void init() {
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-			dbEnabled = false;
-			ErrorDialog.showDialog(
-					"You are missing the required library to run the database. Please add the JAR file contained in the lib directory to your classpath. You can also safely close this message to use the app without database functionality.");
-			return;
-		}
-		dbEnabled = true;
-	}
 
 	/**
 	 * Creates the EXPRESSION table if it does not exist.

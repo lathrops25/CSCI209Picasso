@@ -292,11 +292,27 @@ public class ExpressionTreeGeneratorTests {
 	    // Basic test for "rgbToYCrCb(x)"
 	    ExpressionTreeNode e = parser.makeExpression("yCrCbToRGB(x)");
 	    assertEquals(new YCrCbToRGB(new X()), e);
-
+	    
 	    // Test with a color constant and rgbToYCrCb
 	    e = parser.makeExpression("yCrCbToRGB([1,.3,-1])");
 	    assertEquals(new YCrCbToRGB(new RGBColor(1, .3, -1)), e);
-}
+	}
+	
+	@Test
+	public void perlinColornExpressionTests() {
+	    // Basic test for "x * y"
+	    ExpressionTreeNode e = parser.makeExpression("perlinColor(x, y)");
+	    assertEquals(new PerlinColor(new X(), new Y()), e);
+
+	    // Test with no spaces
+	    e = parser.makeExpression("perlinColor(x,y)");
+	    assertEquals(new PerlinColor(new X(), new Y()), e);
+
+	    // Test with a color constant and PerlinColor
+	    e = parser.makeExpression("perlinColor([1,.3,-1], y)");
+	    assertEquals(new PerlinColor(new RGBColor(1, .3, -1), new Y()), e);    
+	}
+	
 	
 
 	@Test
@@ -353,5 +369,4 @@ public class ExpressionTreeGeneratorTests {
 		
 	}
 	
-	// TODO: more tests
 }

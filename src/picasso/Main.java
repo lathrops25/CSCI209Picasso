@@ -11,6 +11,7 @@ import picasso.view.Frame;
  * Starting point for Picasso.
  * 
  * @author Robert Duvall (rcd@cs.duke.edu)
+ * @author Gabriel Hogan
  */
 public class Main {
 	public static final Dimension SIZE = new Dimension(600, 600);

@@ -19,7 +19,6 @@ import picasso.view.Frame;
 /**
  * A simple java swing based database viewer for the ExpressionDB.
  * 
- * 
  * @author Gabriel Hogan
  */
 
@@ -177,7 +176,7 @@ public class DatabaseViewer extends JFrame {
 		@Override
 		public boolean isCellEditable(int rowIndex, int columnIndex) {
 			// if the column is the name allow it to be edited
-			return columnIndex == 1;
+			return columnIndex == 1 || columnIndex == 2;
 		}
 
 		@Override
@@ -185,13 +184,24 @@ public class DatabaseViewer extends JFrame {
 			StoredExpression expr = getExpressionAt(rowIndex);
 			if (expr == null)
 				return;
+
 			switch (columnIndex) {
 			case 1:
-//				System.out.println("Updating expression name to: " + value);
+				// System.out.println("Updating expression name to: " + value);
 				db.updateExpression(expr.getExpId(), null, (String) value);
-				loadData();
+				break;
+			case 2:
+				if (expr.getExpName().equals(expr.getExpStr())) {
+					// System.out.println("Updating expression and name to: " + value);
+					db.updateExpression(expr.getExpId(), (String) value, (String) value);
+				} else {
+					// System.out.println("Updating expression to: " + value);
+					db.updateExpression(expr.getExpId(), (String) value, null);
+				}
 				break;
 			}
+
+			loadData();
 		}
 
 	}

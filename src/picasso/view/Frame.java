@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,12 +30,18 @@ public class Frame extends JFrame {
 	private JTextField textField;
 	private Evaluator eval;
 	private Reader aFile;
+	private List<String> history;
+	private int historyPTR;
 
 	public Frame(Dimension size) {
 
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+		// setting up history
+		history = new ArrayList<>();
+		historyPTR = -1;
+		
 		// create GUI components
 		Canvas canvas = new Canvas(this);
 		canvas.setSize(size);
@@ -40,7 +50,7 @@ public class Frame extends JFrame {
 		// create an input text field
 		textField = new JTextField(40);
 		aFile = new Reader(textField);
-		eval = new Evaluator(textField);
+		eval = new Evaluator(textField, history);
 		
 		// add commands to test here
 		ButtonPanel commands = new ButtonPanel(canvas);
@@ -52,18 +62,50 @@ public class Frame extends JFrame {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				// getting evaluate button to execute
+				history.add(textField.getText());
 				JButton evalButton = new JButton();
 				evalButton = commands.getButton(1);
 				evalButton.doClick();	// simulates clicking the evaluate button
+				historyPTR = history.size();
 			}
 		});
 		
+		textField.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_UP) {
+					historyPTR--;
+					if (historyPTR < 0) {
+						historyPTR = 0;
+					}
+					textField.setText(history.get(historyPTR));;
+				}
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					historyPTR++;
+					if (historyPTR >= history.size()) {
+						historyPTR = history.size()-1;
+					}
+					textField.setText(history.get(historyPTR));;
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// No action needed, has to be included for KeyListener()
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// no action needed, has to be included for KeyListener()
+			}});
+					
 		// add our container to Frame and show it
 		getContentPane().add(canvas, BorderLayout.SOUTH);
 		getContentPane().add(commands, BorderLayout.CENTER);
 		getContentPane().add(textField, BorderLayout.NORTH);
 		pack();
 	}
-	
-	
+		
+		
 }

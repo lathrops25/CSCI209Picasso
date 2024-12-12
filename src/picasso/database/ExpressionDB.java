@@ -12,6 +12,13 @@ import java.util.List;
 
 import picasso.view.ErrorDialog;
 
+/**
+ * The ExpressionDB, a simple SQLite database implementation for storing
+ * expressions.
+ * 
+ * @author Gabriel Hogan
+ * 
+ */
 public class ExpressionDB {
 
 	public static boolean dbEnabled = false;

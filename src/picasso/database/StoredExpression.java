@@ -1,5 +1,10 @@
 package picasso.database;
 
+/*
+ * Represents an expression stored in the database.
+ * 
+ * @author Gabriel Hogan
+ */
 public class StoredExpression {
 	private long expId;
 	private String expStr;

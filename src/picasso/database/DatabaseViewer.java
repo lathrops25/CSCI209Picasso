@@ -13,6 +13,13 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * A simple java swing based database viewer for the ExpressionDB.
+ * 
+ * 
+ * @author Gabriel Hogan
+ */
+
 @SuppressWarnings("serial")
 public class DatabaseViewer extends JFrame {
 
@@ -23,11 +30,15 @@ public class DatabaseViewer extends JFrame {
 	private JButton deleteButton;
 	private JButton refreshButton;
 
+	/**
+	 * Constructor for the DatabaseViewer
+	 * 
+	 */
 	public DatabaseViewer() {
 		db = new ExpressionDB();
 		db.createTable();
 
-		setTitle("CodeCatalysts - Expression Viewer");
+		setTitle("CodeCatalysts - Expression DB Viewer");
 		setSize(600, 400);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -90,12 +101,17 @@ public class DatabaseViewer extends JFrame {
 
 	}
 
+	/**
+	 * Load the data from the database into the table model
+	 */
 	public void loadData() {
 		List<StoredExpression> expressions = db.getAllExpressions();
 		tableModel.setExpressions(expressions);
 	}
 
-	// TableModel for displaying Expression objects
+	/**
+	 * Model for the table used on the DatabaseViewer
+	 */
 	class ExpressionTableModel extends AbstractTableModel {
 		private List<StoredExpression> expressions;
 		private String[] columnNames = { "Database ID", "Name", "Expression", "Evaluated At" };

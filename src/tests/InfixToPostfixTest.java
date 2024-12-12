@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import picasso.parser.tokens.Token;
 import picasso.parser.ExpressionTreeGenerator;
+import picasso.parser.ParseException;
 import picasso.parser.tokens.IdentifierToken;
 import picasso.parser.tokens.operations.*;
 
@@ -56,5 +57,13 @@ class InfixToPostfixTest {
 	    assertEquals(new PlusToken(), postfix.pop());
 		assertEquals (new IdentifierToken("y"), postfix.pop());
 		assertEquals (new IdentifierToken("x"), postfix.pop());
+	}
+	
+	@Test
+	void testInvalidToken () {
+		String expression = "&";
+		assertThrows(ParseException.class, () -> {
+			expressionTree.infixToPostfix (expression);
+		});
 	}
 }

@@ -187,7 +187,7 @@ public class DatabaseViewer extends JFrame {
 				return;
 			switch (columnIndex) {
 			case 1:
-				System.out.println("Updating expression name to: " + value);
+//				System.out.println("Updating expression name to: " + value);
 				db.updateExpression(expr.getExpId(), null, (String) value);
 				loadData();
 				break;

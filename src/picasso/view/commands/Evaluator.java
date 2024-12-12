@@ -10,7 +10,9 @@ import picasso.Main;
 import picasso.database.ExpressionDB;
 import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
+import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
+import picasso.parser.language.expressions.EvaluateException;
 import picasso.util.Command;
 import picasso.view.ErrorDialog;
 
@@ -66,7 +68,7 @@ public class Evaluator implements Command<Pixmap> {
 		if (ExpressionDB.dbEnabled) {
 			ExpressionDB db = new ExpressionDB();
 			long newId = db.insertExpression(inputString);
-			System.out.println("Inserted new expression with ID: " + newId);
+//			System.out.println("Inserted new expression with ID: " + newId);z
 			Main.viewer.loadData();
 		}
 

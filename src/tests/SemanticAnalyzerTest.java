@@ -210,6 +210,18 @@ class SemanticAnalyzerTest {
 	}
 	
 	@Test
+	void testParsergbToYCrCb() {
+
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new RgbToYCrCbToken());
+
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new RgbToYCrCb(new X()), actual);
+	}
+
+	@Test
 	void testNegation() {
 		Stack<Token> tokens = new Stack<>();
 		tokens.push(new IdentifierToken("x"));

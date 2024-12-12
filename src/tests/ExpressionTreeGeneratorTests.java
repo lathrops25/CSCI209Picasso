@@ -303,17 +303,33 @@ public class ExpressionTreeGeneratorTests {
 		assertEquals(new Division(new Division(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
 	
+	
+	@Test
+	public void rgbToYCrCbExpressionTests() {
+	    // Basic test for "rgbToYCrCb(x)"
+	    ExpressionTreeNode e = parser.makeExpression("rgbToYCrCb(x)");
+	    assertEquals(new RgbToYCrCb(new X()), e);
+	}
+
 	@Test
 	public void negationTest() {
 		ExpressionTreeNode e = parser.makeExpression("!x");
 		assertEquals(new Negation(new X()), e);
 	}
 	
+	@Test
 	public void expExpressionTest() {
 		ExpressionTreeNode e = parser.makeExpression("exp(x)");
 		assertEquals(new Exp(new X()), e);
 		
 	}
 
+	@Test
+	public void RGbTOYCrCbTest() {
+	    // Test with a color constant and rgbToYCrCb
+	    ExpressionTreeNode e = parser.makeExpression("rgbToYCrCb([1,.3,-1])");
+	    assertEquals(new RgbToYCrCb(new RGBColor(1, .3, -1)), e);
+}
+	
 	// TODO: more tests
 }

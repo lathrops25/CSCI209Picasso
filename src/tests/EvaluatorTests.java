@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import picasso.parser.ExpressionTreeGenerator;
-import picasso.parser.ParseException;
+// import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 
@@ -418,6 +418,40 @@ public class EvaluatorTests {
 	        for (double testRightVal : tests) {
 	            double multiplicationResult = testLeftVal * testRightVal;
 	            assertEquals(new RGBColor(multiplicationResult, multiplicationResult, multiplicationResult),
+	                    myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
+	}
+	
+	
+	@Test
+	public void testModuloEvaluation() {
+		Modulo myTree = new Modulo(new X(), new Y());
+
+	    // Test straightforward cases
+	    assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(0, 0));
+	    assertEquals(new RGBColor(1%1, 1%1, 1%1), myTree.evaluate(1, 1));
+	    assertEquals(new RGBColor(-1%1, -1%1, -1%1), myTree.evaluate(-1, 1));
+
+	    // Test cases with fractional values
+	    assertEquals(new RGBColor(-0.4 % 0.9, -0.4 % 0.9, -0.4 % 0.9), myTree.evaluate(-0.4, 0.9));
+
+	    // Test the Modulo of integers
+	    assertEquals (new RGBColor(0, 0, 0), myTree. evaluate(0, 1));
+	    assertEquals (new RGBColor(0, 0, 0), myTree. evaluate(0, -1));
+	    assertEquals (new RGBColor(-1%-1, -1%-1, -1%-1), myTree. evaluate(-1, -1));
+	    assertEquals (new RGBColor(-1, -1, -1), myTree. evaluate(-1, 0));
+	    assertEquals (new RGBColor(-1, -1, -1), myTree. evaluate(1, 0));
+
+	    
+
+	    // Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
+
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	            double moduloResult = testLeftVal % testRightVal;
+	            assertEquals(new RGBColor(moduloResult, moduloResult, moduloResult),
 	                    myTree.evaluate(testLeftVal, testRightVal));
 	        }
 	    }

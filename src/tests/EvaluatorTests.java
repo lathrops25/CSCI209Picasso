@@ -664,26 +664,18 @@ public class EvaluatorTests {
 	    // assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-1, 0.5));
 
 	    // Test cases with fractional values
-	    // assertEquals(new RGBColor(Math.pow(-0.4, 0.9), Math.pow(-0.4, 0.9), Math.pow(-0.4, 0.9)), myTree.evaluate(-0.4, 0.9));
+	    assertEquals(new RGBColor(Math.pow(-0.4, 0.9), Math.pow(-0.4, 0.9), Math.pow(-0.4, 0.9)), myTree.evaluate(-0.4, 0.9));
 
-	    // Test the exponentiate of integers
-//	    for (int i = -1; i <= 1; i++) {
-//	        for (int j = -1; j <= 1; j++) {
-//	            double result = Math.pow(i, j);
-//	            assertEquals(new RGBColor(result, result, result), myTree.evaluate(i, j));
-//	        }
-//	    }
+	     //Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
 
-	    // Test a range of floating-point values
-//	    double[] tests = { -.7, -.00001, .000001, .5 };
-//
-//	    for (double testLeftVal : tests) {
-//	        for (double testRightVal : tests) {
-//	            double exponentiateResult = Math.pow(testLeftVal, testRightVal);
-//	            assertEquals(new RGBColor(exponentiateResult, exponentiateResult, exponentiateResult),
-//	                    myTree.evaluate(testLeftVal, testRightVal));
-//	        }
-//	    }
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	            double exponentiateResult = Math.pow(testLeftVal, testRightVal);
+	            assertEquals(new RGBColor(exponentiateResult, exponentiateResult, exponentiateResult),
+	                    myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
 	}
 	
 	@Test

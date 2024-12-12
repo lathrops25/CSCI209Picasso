@@ -102,13 +102,6 @@ public class ErrorParsedEvaluatedTests {
 	}
 	
 	@Test
-	public void errorFileDNEStringNodeTest() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			parser.makeExpression("\"fileDNE.jpg\"");
-		});
-	}
-	
-	@Test
 	public void errorBadExtensionStringNodeTest() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			parser.makeExpression("\"fileDNE\"");

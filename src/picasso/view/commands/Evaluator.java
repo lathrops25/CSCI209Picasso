@@ -28,14 +28,14 @@ public class Evaluator implements Command<Pixmap> {
 
 	private static String inputString;
 	private JTextField textIn;
-	private List history;
+	private List<String> history;
 
 	/**
 	 * Constructor that takes input from text field and saves it
 	 * 
 	 * @param text field
 	 */
-	public Evaluator(JTextField textIn, List history) {
+	public Evaluator(JTextField textIn, List<String> history) {
 		this.textIn = textIn;
 		this.history = history;
 	}

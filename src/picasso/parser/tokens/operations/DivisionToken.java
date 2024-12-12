@@ -1,6 +1,7 @@
 package picasso.parser.tokens.operations;
 
 import picasso.parser.language.CharConstants;
+import picasso.parser.tokens.Token;
 import picasso.parser.tokens.chars.CharToken;
 
 /**
@@ -9,15 +10,11 @@ import picasso.parser.tokens.chars.CharToken;
  * @Author Sarah Lathrop
  */
 public class DivisionToken extends CharToken implements OperationInterface {
-	public static final int MULTIPLY_OR_DIVIDE = 4;
    
 	public DivisionToken() {
         super(CharConstants.SLASH);
+        precedence = Token.MULTIPLY_OR_DIVIDE;
     }
 	
-	@Override
-    public int getPrecedence() {
-        return MULTIPLY_OR_DIVIDE;
-    }
 	
 }

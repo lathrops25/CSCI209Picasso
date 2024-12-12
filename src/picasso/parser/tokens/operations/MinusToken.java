@@ -1,6 +1,7 @@
 package picasso.parser.tokens.operations;
 
 import picasso.parser.language.CharConstants;
+import picasso.parser.tokens.Token;
 import picasso.parser.tokens.chars.CharToken;
 
 /**
@@ -8,7 +9,6 @@ import picasso.parser.tokens.chars.CharToken;
  * @author Sarah Lathrop
  */
 public class MinusToken extends CharToken implements OperationInterface {
-	public static final int ADD_OR_SUBTRACT = 5;
 	
 	public MinusToken() {
 		super(CharConstants.MINUS);
@@ -16,7 +16,7 @@ public class MinusToken extends CharToken implements OperationInterface {
 	
 	@Override
     public int getPrecedence() {
-        return ADD_OR_SUBTRACT;
+		return Token.ADD_OR_SUBTRACT;
     }
 	
 	@Override

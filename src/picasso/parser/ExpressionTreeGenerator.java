@@ -173,8 +173,8 @@ public class ExpressionTreeGenerator {
 	        Token top = operators.peek();
 
 	        // Check precedence: pop higher or equal precedence operators
-	        if (token.getPrecedence() < top.getPrecedence() || 
-	           (token.getPrecedence() == top.getPrecedence() && isLeftAssociative(top))) {
+	        if (token.getPrecedence() >= top.getPrecedence()) {
+	         //  (token.getPrecedence() == top.getPrecedence() && isLeftAssociative(top))) {
 	            postfixResults.push(operators.pop());
 	        } else {
 	            break;

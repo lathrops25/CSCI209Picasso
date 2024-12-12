@@ -71,8 +71,4 @@ public class CharToken extends Token {
 		return false;
 	}
 	
-	@Override
-	public int getPrecedence() {
-	    return Integer.MAX_VALUE; // Default precedence (highest possible value, indicating it should not interfere)
-	}
 }

@@ -47,4 +47,13 @@ public abstract class Token {
 	 */
 	public abstract boolean isFunction();
 
+	/**
+	 * Returns false unless token is an operand
+	 * @param token
+	 * @return false
+	 */
+	public boolean isOperand() {
+		return false;
+	}
+
 }

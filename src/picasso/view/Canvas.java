@@ -1,6 +1,7 @@
 package picasso.view;
 
 import java.awt.*;
+
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -43,6 +44,15 @@ public class Canvas extends JPanel {
 				myPixmap.setSize(getSize());
 			}
 		});
+		refresh();
+	}
+	
+	/**
+	 * This sets a new image on the canvas
+	 * @param newPixmap
+	 */
+	public void setImage(Pixmap newPixmap) {
+		myPixmap = newPixmap;
 		refresh();
 	}
 

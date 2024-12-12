@@ -7,14 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import picasso.model.Pixmap;
+import picasso.model.ImprovedNoise;
 import picasso.parser.ExpressionTreeGenerator;
-// import picasso.parser.ParseException;
-//import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 
@@ -459,6 +456,70 @@ public class EvaluatorTests {
 	        }
 	    }
 	}
+	
+	@Test
+	public void testPerlinBWEvaluation() {
+		PerlinBW myTree = new PerlinBW(new X(), new Y());
+
+	    // Test straightforward cases
+	    assertEquals(new RGBColor(ImprovedNoise.noise(0+0, 0+0, 0+0), ImprovedNoise.noise(0+0, 0+0, 0+0), ImprovedNoise.noise(0+0, 0+0, 0+0)), myTree.evaluate(0, 0));
+	    assertEquals(new RGBColor(ImprovedNoise.noise(1+1, 1+1, 1+1), ImprovedNoise.noise(1+1, 1+1, 1+1), ImprovedNoise.noise(1+1, 1+1, 1+1)), myTree.evaluate(1, 1));
+	    assertEquals(new RGBColor(ImprovedNoise.noise(-1+1, -1+1, -1+1), ImprovedNoise.noise(-1+1, -1+1, -1+1), ImprovedNoise.noise(-1+1, -1+1, -1+1)), myTree.evaluate(-1, 1));
+	    
+	    // Test cases with fractional values
+	    assertEquals(new RGBColor(ImprovedNoise.noise(-0.4+0.9, -0.4+0.9, -0.4+0.9), ImprovedNoise.noise(-0.4+0.9, -0.4+0.9, -0.4+0.9), ImprovedNoise.noise(-0.4+0.9, -0.4+0.9, -0.4+0.9)), myTree.evaluate(-0.4, 0.9));
+
+	    // Test the multiplication of integers
+	    for (int i = -1; i <= 1; i++) {
+	        for (int j = -1; j <= 1; j++) {
+	            double result = ImprovedNoise.noise(i+j, i+j, i+j);
+	            assertEquals(new RGBColor(result, result, result), myTree.evaluate(i, j));
+	        }
+	    }
+
+	    // Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
+
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	        	double result = ImprovedNoise.noise(testLeftVal+testRightVal, testLeftVal+testRightVal, testLeftVal+testRightVal);
+	            assertEquals(new RGBColor(result, result, result),
+	                    myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
+	}
+
+
+	
+	@Test
+	public void testYCrCbToRGBEvaluation() {
+		YCrCbToRGB myTree = new YCrCbToRGB(new X());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(0 + 0*1.4022, 0 + 0*-0.3456 + 0*-0.7145, 0 + 0*1.7710), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(1 + 1*1.4022, 1 + 1*-0.3456 + 1*-0.7145, 1 + 1*1.7710), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(-1 + -1*1.4022, -1 + -1*-0.3456 + -1*-0.7145, -1 + -1*1.7710), myTree.evaluate(-1, 0));
+		
+		assertEquals(new RGBColor(-.4 + -.4*1.4022, -.4 + -.4*-0.3456 + -.4*-0.7145, -.4 + -.4*1.7710), myTree.evaluate(-.4, 0.9));
+
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(i + i*1.4022, i + i*-0.3456 + i*-0.7145, i + i*1.7710), myTree.evaluate(i, i));
+			assertEquals(new RGBColor(-i + -i*1.4022, -i + -i*-0.3456 + -i*-0.7145, -i + -i*1.7710), myTree.evaluate(-i, i));
+
+		}
+
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testVal : tests) {
+			assertEquals(new RGBColor(testVal + testVal*1.4022, testVal + testVal*-0.3456 + testVal*-0.7145, testVal + testVal*1.7710), myTree.evaluate(testVal, -1));
+					myTree.evaluate(testVal, testVal);
+		}
+	}
+
+
+
 
 	@Test
 	public void testDivisionEvaluation() {
@@ -622,6 +683,31 @@ public class EvaluatorTests {
 
 	
 	@Test
+	public void testExponentialEvaluation() {
+	    Exponentiate myTree = new Exponentiate(new X(), new Y());
+
+	    // Test straightforward cases
+	    assertEquals(new RGBColor(Math.pow(0, 0), Math.pow(0, 0), Math.pow(0, 0)), myTree.evaluate(0, 0));
+	    assertEquals(new RGBColor(Math.pow(1, 1), Math.pow(1,1), Math.pow(1, 1)), myTree.evaluate(1, 1));
+	    assertEquals(new RGBColor(Math.pow(-1, 1), Math.pow(-1,1), Math.pow(-1, 1)), myTree.evaluate(-1, 1));
+	    // assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-1, 0.5));
+
+	    // Test cases with fractional values
+	    assertEquals(new RGBColor(Math.pow(-0.4, 0.9), Math.pow(-0.4, 0.9), Math.pow(-0.4, 0.9)), myTree.evaluate(-0.4, 0.9));
+
+	     //Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
+
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	            double exponentiateResult = Math.pow(testLeftVal, testRightVal);
+	            assertEquals(new RGBColor(exponentiateResult, exponentiateResult, exponentiateResult),
+	                    myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
+	}
+	
+	@Test
 	public void testRandomEvaluation() {
 		RandomFunction myTree = new RandomFunction(); 
 		double color1 = myTree.getRand1();
@@ -675,14 +761,38 @@ public class EvaluatorTests {
 		}
 	}
 
+	
+	@Test
+	public void testPerlinColorEvaluation() {
+		PerlinColor myTree = new PerlinColor(new X(), new Y());
+
+	    // Test straightforward cases
+	    assertEquals(new RGBColor(ImprovedNoise.noise(0+0.3, 0+0.3, 0), ImprovedNoise.noise(0-0.8, 0-0.8, 0), ImprovedNoise.noise(0+0.1, 0+0.1, 0)), myTree.evaluate(0, 0));
+	    assertEquals(new RGBColor(ImprovedNoise.noise(1+0.3, 1+0.3, 0), ImprovedNoise.noise(1-0.8, 1-0.8, 0), ImprovedNoise.noise(1+0.1, 1+0.1, 0)), myTree.evaluate(1, 1));
+	    assertEquals(new RGBColor(ImprovedNoise.noise(-1+0.3, 1+0.3, 0), ImprovedNoise.noise(-1-0.8, 1-0.8, 0), ImprovedNoise.noise(-1+0.1, 1+0.1, 0)), myTree.evaluate(-1, 1));
+
+	    // Test cases with fractional values
+	    assertEquals(new RGBColor(ImprovedNoise.noise(-0.4+0.3, 0.9+0.3, 0), ImprovedNoise.noise(-0.4-0.8, 0.9-0.8, 0), ImprovedNoise.noise(-0.4+0.1, 0.9+0.1, 0)), myTree.evaluate(-0.4, 0.9));
+
+	    // Test the perlinColor
+	    for (int i = -1; i <= 1; i++) {
+	        for (int j = -1; j <= 1; j++) {
+	            assertEquals(new RGBColor(ImprovedNoise.noise(i+0.3, j+0.3, 0), ImprovedNoise.noise(i-0.8, j-0.8, 0), ImprovedNoise.noise(i+0.1, j+0.1, 0)), myTree.evaluate(i, j));
+	            
+	        }
+	    }
+
+	    // Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
+
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	            assertEquals(new RGBColor(ImprovedNoise.noise(testLeftVal+0.3, testRightVal+0.3, 0), ImprovedNoise.noise(testLeftVal-0.8, testRightVal-0.8, 0), ImprovedNoise.noise(testLeftVal+0.1, testRightVal+0.1, 0)),
+	                    myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
+	}
 }
-
-
-
-
-
-
-
 
 
 

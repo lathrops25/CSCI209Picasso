@@ -84,7 +84,6 @@ public class DatabaseTests {
 		long id = db.insertExpression("x + y");
 		boolean wasUpdated = db.updateExpression(id, null, null);
 
-		System.out.println("wasUpdated: " + wasUpdated);
 		assertEquals(false, wasUpdated);
 	}
 
@@ -106,8 +105,6 @@ public class DatabaseTests {
 
 		List<StoredExpression> expressions = db.getAllExpressions();
 
-		System.out.println("expressions: " + expressions.size());
-		System.out.println("expressions: " + expressions);
 		assertEquals(4, expressions.size());
 	}
 

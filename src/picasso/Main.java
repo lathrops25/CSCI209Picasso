@@ -24,18 +24,22 @@ public class Main {
 
 			// Initialize the Database
 			db = new ExpressionDB();
-			
+
 			if (ExpressionDB.dbEnabled) {
 				System.out.println("Database Enabled!");
 				db.createTable();
-				viewer = new DatabaseViewer();
-				viewer.setVisible(true);
+//				viewer = new DatabaseViewer();
+
 			} else {
 				System.out.println("Database Disabled :(");
 			}
 
 			Frame frame = new Frame(SIZE);
 			frame.setVisible(true);
+
+			if (ExpressionDB.dbEnabled && viewer != null) {
+				viewer.setVisible(true);
+			}
 
 		} catch (Exception e) {
 			ErrorDialog.showDialog("An error occurred: <br/>" + e.getMessage());

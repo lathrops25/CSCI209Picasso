@@ -177,7 +177,7 @@ public class Frame extends JFrame {
 	 * 
 	 * @param size of new frame
 	 */
-	private void evaluateInNewPanel(Dimension size) {
+	public void evaluateInNewPanel(Dimension size) {
 		if (textField.getText().isBlank()) {
 			System.out.println("No expression provided");
 			return;

@@ -13,6 +13,9 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
+import picasso.Main;
+import picasso.view.Frame;
+
 /**
  * A simple java swing based database viewer for the ExpressionDB.
  * 
@@ -69,8 +72,9 @@ public class DatabaseViewer extends JFrame {
 
 				StoredExpression expr = tableModel.getExpressionAt(selectedRow);
 
-				// !! TODO: Currently not implemented: just print a message
-				System.out.println("Attempting to open expression: " + expr);
+				Frame temp = new Frame(Main.SIZE);
+				temp.setExpression(expr.getExpStr());
+				temp.evaluateInNewPanel(Main.SIZE);
 			}
 		});
 

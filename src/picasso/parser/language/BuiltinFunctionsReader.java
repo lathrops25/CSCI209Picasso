@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 import picasso.view.ErrorDialog;
 
 /**
@@ -56,6 +57,8 @@ public class BuiltinFunctionsReader {
 				functionsList.add(function);
 			}
 		}
+
+		reader.close();
 	}
 
 }

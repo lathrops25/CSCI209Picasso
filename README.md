@@ -36,6 +36,11 @@ To run Picasso, run `picasso.Main`
 - The random expression is pseudorandom because every expression does not have an identical probability of being generated. Smaller expressions with less depth have a greater probability of being generated, but to the user the expression should appear random.
 - This extension was implemented by generating a random expression depth, selecting a random operator or function, and then recursively selecting new operators or functions depending on the depth. Each time an operator, function, variable, or constant is generated, a String builder appends the element with its corresponding parenthesis to a string. Once the function is complete, this String is added to the text field for the user to see.
 
+**Allow users to view multiple images at once in different windows**
+
+- When the user clicks on the "new panel" button, a new panel is opened on the screen. 
+- A second button was initially created to evaluate the expression in the text field in a new panel, but this button was later removed. The functionality was reused in the database extension so that users can click on a previously evaluated expression and open it in a new window.
+
 **Other extensions here**
 
 ## Code Base History

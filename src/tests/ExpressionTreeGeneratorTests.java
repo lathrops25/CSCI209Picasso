@@ -302,6 +302,13 @@ public class ExpressionTreeGeneratorTests {
 		e = parser.makeExpression("x / y / [ -.51, 0, 1]");
 		assertEquals(new Division(new Division(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
+	
+	@Test
+	public void expExpressionTest() {
+		ExpressionTreeNode e = parser.makeExpression("exp(x)");
+		assertEquals(new Exp(new X()), e);
+		
+	}
 
 	// TODO: more tests
 }

@@ -18,4 +18,9 @@ public class MinusToken extends CharToken implements OperationInterface {
     public int getPrecedence() {
         return ADD_OR_SUBTRACT;
     }
+	
+	@Override
+    public boolean isLeftAssociative() {
+        return true; // Subtraction is left-associative
+    }
 }

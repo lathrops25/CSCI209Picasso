@@ -166,14 +166,32 @@ public class ExpressionTreeGenerator {
 	}
 	
 	/**
-	 * This handles the operator token, comparing precedence.
+	 * This handles the operator token, comparing precedence and associativity.
 	 */
 	private void handleOperator(Token token, Stack<Token> operators, Stack<Token> postfixResults) {
-	    while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken) &&
-	            token.getPrecedence() <= operators.peek().getPrecedence()) {
-	        postfixResults.push(operators.pop());
+	    while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken)) {
+	        Token top = operators.peek();
+
+	        // Check precedence: pop higher or equal precedence operators
+	        if (token.getPrecedence() < top.getPrecedence() || 
+	           (token.getPrecedence() == top.getPrecedence() && isLeftAssociative(top))) {
+	            postfixResults.push(operators.pop());
+	        } else {
+	            break;
+	        }
 	    }
 	    operators.push(token);
+	}
+	
+	/**
+	 * Determines if the operator is left-associative.
+	 *
+	 * @param token the operator token
+	 * @return true if the operator is left-associative
+	 */
+	private boolean isLeftAssociative(Token token) {
+	    // Exponentiation (^) is right-associative; everything else is left-associative
+	    return !(token instanceof ExponentiateToken);
 	}
 	
 	/**

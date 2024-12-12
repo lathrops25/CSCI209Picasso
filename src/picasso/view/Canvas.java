@@ -53,6 +53,7 @@ public class Canvas extends JPanel {
 	 */
 	public void setImage(Pixmap newPixmap) {
 		myPixmap = newPixmap;
+		myPixmap.setSize(getSize());
 		refresh();
 	}
 

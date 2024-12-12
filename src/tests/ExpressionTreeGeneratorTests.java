@@ -386,4 +386,15 @@ public class ExpressionTreeGeneratorTests {
 		
 	}
 	
+	@Test
+	void testInfixToPostfixConversion() {
+	    ExpressionTreeGenerator generator = new ExpressionTreeGenerator();
+
+	    Stack<Token> postfix = generator.infixToPostfix("x + y * x");
+	    assertEquals("[x, y, x, *, +]", postfix.toString());
+
+	    postfix = generator.infixToPostfix("(x + y) * x");
+	    assertEquals("[x, y, +, x, *]", postfix.toString());
+	}
+	
 }

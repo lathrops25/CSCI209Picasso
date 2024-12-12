@@ -19,4 +19,12 @@ public class MultiplicationToken extends CharToken implements OperationInterface
     public int getPrecedence() {
         return MULTIPLY_OR_DIVIDE;  // Return the precedence for multiplication/division
     }
+	
+	/**
+     * Multiplication is left-associative.
+     */
+    @Override
+    public boolean isLeftAssociative() {
+        return true;
+    }
 }

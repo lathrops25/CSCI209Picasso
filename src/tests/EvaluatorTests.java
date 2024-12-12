@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import picasso.parser.ExpressionTreeGenerator;
-import picasso.parser.ParseException;
+//import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 
@@ -422,6 +422,35 @@ public class EvaluatorTests {
 	        }
 	    }
 	}
+	
+	@Test
+	public void testExpEvaluation() {
+		Exp myTree = new Exp(new X());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(Math.exp(0), Math.exp(0), Math.exp(0)), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(Math.exp(1), Math.exp(1), Math.exp(1)), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(Math.exp(-1), Math.exp(-1), Math.exp(-1)), myTree.evaluate(-1, 0));
+
+		assertEquals(new RGBColor(Math.exp(-.4), Math.exp(-.4), Math.exp(-.4)), myTree.evaluate(-.4, 0.9));
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(Math.exp(i), Math.exp(i), Math.exp(i)), myTree.evaluate(i, -i));
+			assertEquals(new RGBColor(Math.exp(i), Math.exp(i), Math.exp(i)), myTree.evaluate(i, i));
+		}
+
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testVal : tests) {
+			double expOfTestVal = Math.exp(testVal);
+			assertEquals(new RGBColor(expOfTestVal, expOfTestVal, expOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(expOfTestVal, expOfTestVal, expOfTestVal),
+					myTree.evaluate(testVal, testVal));
+		}
+	}
+	
+	
 }
 
 

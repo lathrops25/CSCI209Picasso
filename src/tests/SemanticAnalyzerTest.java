@@ -23,6 +23,7 @@ import picasso.parser.tokens.operations.*;
  * helps to isolate where the problem is)
  * 
  * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine
+ * @author Sara Sprenkle, Sarah Lathrop, Allison Hidalgo 
  *
  */
 class SemanticAnalyzerTest {
@@ -64,6 +65,19 @@ class SemanticAnalyzerTest {
 		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
 
 		assertEquals(new Addition(new X(), new Y()), actual);
+	}
+	
+	@Test
+	void testParseSubtaction() {
+
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new IdentifierToken("y"));
+		tokens.push(new MinusToken());
+
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new Subtraction(new X(), new Y()), actual);
 	}
 	
 	@Test 
@@ -130,6 +144,23 @@ class SemanticAnalyzerTest {
 		
 	}
 	
+	@Test
+	void testParseImageClip() {
+		
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new StringToken("vortex.jpg"));
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new PlusToken());
+		tokens.push(new IdentifierToken("y"));
+		tokens.push(new ImageClipToken());
+		
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+		
+		assertEquals(new ImageClip(new Y(), new Addition(new X(), new X() ), "vortex.jpg"), actual);
+		
+	}
+	
 	@Test 
 	void testParseStringNode() {
 		
@@ -193,5 +224,93 @@ class SemanticAnalyzerTest {
 
 	    // Expected: perlinBW(x, y)
 	    assertEquals(new PerlinBW(new X(), new Y()), actual);
+	}
+
+	@Test
+	void testParseyCrCbToRGB() {
+
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new YCrCbToRGBToken());
+
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new YCrCbToRGB(new X()), actual);
+	}
+
+	@Test
+	void testParsergbToYCrCb() {
+
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new RgbToYCrCbToken());
+
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new RgbToYCrCb(new X()), actual);
+	}
+
+	@Test
+	void testNegation() {
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new NegationToken());
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new Negation(new X()), actual);
+	}
+	
+	@Test
+	void testParseDivision() {
+
+	    // Set up the token stack for "x * y"
+	    Stack<Token> tokens = new Stack<>();
+	    tokens.push(new IdentifierToken("x")); // Push the left operand
+	    tokens.push(new IdentifierToken("y")); // Push the right operand
+	    tokens.push(new DivisionToken());     // Push the multiplication operator
+
+	    // Generate the expression tree
+	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+	    // Expected: Multiplication(x, y)
+	    assertEquals(new Division(new X(), new Y()), actual);
+	}
+	
+	@Test
+	void testExp() {
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new ExpToken());
+		
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+		assertEquals(new Exp(new X()), actual);
+	}
+	
+	@Test
+	void testExponentiate() {
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new ExponentiateToken());
+	
+		
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+		assertEquals(new Exponentiate(new X(), new X()), actual);
+	}
+	
+	@Test
+	void testParsePerlinColor() {
+
+	    // Set up the token stack for "perlinColor(x, y)"
+	    Stack<Token> tokens = new Stack<>();
+	    tokens.push(new IdentifierToken("x")); // Push the left operand
+	    tokens.push(new IdentifierToken("y")); // Push the right operand
+	    tokens.push(new PerlinColorToken());     // Push the perlinColor function
+
+	    // Generate the expression tree
+	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+	    // Expected: perlinColor(x, y)
+	    assertEquals(new PerlinColor(new X(), new Y()), actual);
 	}
 }

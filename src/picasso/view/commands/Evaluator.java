@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.JTextField;
 
+import picasso.Main;
+import picasso.database.ExpressionDB;
 import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
 import picasso.parser.language.ExpressionTreeNode;
@@ -82,6 +84,14 @@ public class Evaluator implements Command<Pixmap> {
 		// Take the current expression in the text field
 		inputString = textIn.getText();
 		history.add(inputString);
+
+		if (ExpressionDB.dbEnabled) {
+			ExpressionDB db = new ExpressionDB();
+			long newId = db.insertExpression(inputString);
+			System.out.println("Inserted new expression with ID: " + newId);
+			Main.viewer.loadData();
+		}
+
 		ExpressionTreeGenerator expTreeGen = new ExpressionTreeGenerator();
 		return expTreeGen.makeExpression(inputString);
 	}

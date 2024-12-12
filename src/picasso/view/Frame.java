@@ -15,7 +15,9 @@ import javax.swing.JTextField;
 
 import picasso.model.Pixmap;
 import picasso.util.ThreadedCommand;
-import picasso.view.commands.*;
+import picasso.view.commands.Evaluator;
+import picasso.view.commands.Reader;
+import picasso.view.commands.Writer;
 
 /**
  * Main container for the Picasso application
@@ -23,6 +25,7 @@ import picasso.view.commands.*;
  * @author Robert Duvall (rcd@cs.duke.edu)
  * @author Jonathan Carranza Cortes
  * @author Naka Assoumatine
+ * @author Gabriel Hogan
  */
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
@@ -34,30 +37,28 @@ public class Frame extends JFrame {
 	private int historyPTR;
 
 	public Frame(Dimension size) {
-
-
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// setting up history
 		history = new ArrayList<>();
 		historyPTR = -1;
-		
+
 		// create GUI components
 		Canvas canvas = new Canvas(this);
 		canvas.setSize(size);
 		setTitle("CodeCatalysts");
-		
+
 		// create an input text field
 		textField = new JTextField(40);
 		aFile = new Reader(textField);
 		eval = new Evaluator(textField, history);
-		
+
 		// add commands to test here
 		ButtonPanel commands = new ButtonPanel(canvas);
-		commands.add("Open", new ThreadedCommand<Pixmap>(canvas,aFile));
+		commands.add("Open", new ThreadedCommand<Pixmap>(canvas, aFile));
 		commands.add("Evaluate", new ThreadedCommand<Pixmap>(canvas, eval));
 		commands.add("Save", new Writer());
-		
+
 		// evaluate when pressing enter
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -65,10 +66,10 @@ public class Frame extends JFrame {
 				history.add(textField.getText());
 				JButton evalButton = new JButton();
 				evalButton = commands.getButton(1);
-				evalButton.doClick();	// simulates clicking the evaluate button
+				evalButton.doClick(); // simulates clicking the evaluate button
 			}
 		});
-		
+
 		textField.addKeyListener(new KeyListener() {
 
 			@Override
@@ -78,14 +79,16 @@ public class Frame extends JFrame {
 					if (historyPTR < 0) {
 						historyPTR = 0;
 					}
-					textField.setText(history.get(historyPTR));;
+					textField.setText(history.get(historyPTR));
+					;
 				}
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 					historyPTR++;
 					if (historyPTR >= history.size()) {
-						historyPTR = history.size()-1;
+						historyPTR = history.size() - 1;
 					}
-					textField.setText(history.get(historyPTR));;
+					textField.setText(history.get(historyPTR));
+					;
 				}
 			}
 
@@ -97,14 +100,14 @@ public class Frame extends JFrame {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// no action needed, has to be included for KeyListener()
-			}});
-					
+			}
+		});
+
 		// add our container to Frame and show it
 		getContentPane().add(canvas, BorderLayout.SOUTH);
 		getContentPane().add(commands, BorderLayout.CENTER);
 		getContentPane().add(textField, BorderLayout.NORTH);
 		pack();
 	}
-		
-		
+
 }

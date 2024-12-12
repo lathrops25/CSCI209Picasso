@@ -36,4 +36,25 @@ class InfixToPostfixTest {
 		assertEquals (new IdentifierToken("y"), postfix.pop());
 		assertEquals (new IdentifierToken("a"), postfix.pop());
 	}
+	
+
+	@Test
+	void testInfixToPostfixConversion() {
+	    String expression1 = "x + y * x";
+	    postfix = expressionTree.infixToPostfix (expression1);
+	    assertEquals(new PlusToken(), postfix.pop());
+	    assertEquals (new MultiplicationToken(), postfix.pop());
+	    assertEquals (new IdentifierToken("x"), postfix.pop());
+		assertEquals (new IdentifierToken("y"), postfix.pop());
+		assertEquals (new IdentifierToken("x"), postfix.pop());
+		
+		
+	    String expression2 = "(x + y) * x";
+	    postfix = expressionTree.infixToPostfix (expression2);
+	    assertEquals (new MultiplicationToken(), postfix.pop());
+	    assertEquals (new IdentifierToken("x"), postfix.pop());
+	    assertEquals(new PlusToken(), postfix.pop());
+		assertEquals (new IdentifierToken("y"), postfix.pop());
+		assertEquals (new IdentifierToken("x"), postfix.pop());
+	}
 }

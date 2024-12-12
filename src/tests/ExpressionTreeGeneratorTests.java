@@ -287,7 +287,7 @@ public class ExpressionTreeGeneratorTests {
 	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
 	
-	/** @Test
+	 @Test
 	public void moduloExpressionTests() {
 	    // Basic test for "x % y"
 	    ExpressionTreeNode e = parser.makeExpression("x % y");
@@ -298,7 +298,7 @@ public class ExpressionTreeGeneratorTests {
 	    // Test with a color constant and modulo
 	    e = parser.makeExpression("[1,.3,-1] % y");
 	    assertEquals(new Modulo(new RGBColor(1, .3, -1), new Y()), e);
-	} **/
+	} 
 	
 	@Test
 	public void perlinBWExpressionTests() {
@@ -395,17 +395,6 @@ public class ExpressionTreeGeneratorTests {
 		ExpressionTreeNode e2 = parser.makeExpression("x ^ y");
 		assertEquals(new Exponentiate(new X(), new Y()), e2);
 		
-	}
-	
-	@Test
-	void testInfixToPostfixConversion() {
-	    ExpressionTreeGenerator generator = new ExpressionTreeGenerator();
-
-	    Stack<Token> postfix = generator.infixToPostfix("x + y * x");
-	    assertEquals("[x, y, x, *, +]", postfix.toString());
-
-	    postfix = generator.infixToPostfix("(x + y) * x");
-	    assertEquals("[x, y, +, x, *]", postfix.toString());
 	}
 	
 }

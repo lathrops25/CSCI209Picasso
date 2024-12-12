@@ -150,11 +150,7 @@ public class Frame extends JFrame {
 		getContentPane().add(textField, BorderLayout.NORTH);
 		pack();
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> branch 'main' of https://github.com/WLU-CSCI209-F24/picasso-codecatalysts.git
 	/**
 	 * single argument constructor for compatibility
 	 * 
@@ -197,9 +193,6 @@ public class Frame extends JFrame {
 			System.out.println("Failed to evaluate expression: " + e.getMessage());
 		}
 	}
-<<<<<<< HEAD
-	
-=======
 
 	/**
 	 * This sets the expression in the text field and evaluates it
@@ -228,6 +221,4 @@ public class Frame extends JFrame {
 	public void setExpression(String expression) {
 		this.setExpression(expression, false);
 	}
-
->>>>>>> branch 'main' of https://github.com/WLU-CSCI209-F24/picasso-codecatalysts.git
 }

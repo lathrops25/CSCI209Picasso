@@ -17,12 +17,11 @@ public class RgbToYCrCb extends ExpressionTreeNode {
 	/**
 	 * Create an rgbToYCrCb expression tree that takes as a parameter the given expression
 	 * 
-	 * @param param1 the first expression to rgbToYCrCb
+	 * @param param the first expression to rgbToYCrCb
 	 */
 	
 	public RgbToYCrCb(ExpressionTreeNode param) {
 		this.param = param;
-		// this.param2 = param2;
 	}
 	
 	/**
@@ -42,5 +41,31 @@ public class RgbToYCrCb extends ExpressionTreeNode {
 		double green = resultExpression1.getRed() * -0.1687 + resultExpression1.getGreen() * -0.3312 + resultExpression1.getBlue() * 0.5;
 		double blue = resultExpression1.getRed() * 0.5000 + resultExpression1.getGreen() * -0.4183 + resultExpression1.getBlue() * -0.0816;
 		return new RGBColor(red, green, blue);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) {
+			return true;
+		}
+
+		if (!(o instanceof RgbToYCrCb)) {
+			return false;
+		}
+
+		// Make sure the objects are the same type
+
+		if (o.getClass() != this.getClass()) {
+			return false;
+		}
+
+		RgbToYCrCb uf = (RgbToYCrCb) o;
+
+		// check if their parameters are equal
+		
+		if (!this.param.equals(uf.param)) {
+			return false;
+		}
+		return true;
 	}
 }

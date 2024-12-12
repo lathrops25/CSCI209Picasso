@@ -287,4 +287,6 @@ public class ExpressionTreeGeneratorTests {
 	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
 	
+
+	
 }

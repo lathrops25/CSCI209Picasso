@@ -66,6 +66,19 @@ class SemanticAnalyzerTest {
 		assertEquals(new Addition(new X(), new Y()), actual);
 	}
 	
+	@Test
+	void testParseSubtaction() {
+
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new IdentifierToken("y"));
+		tokens.push(new MinusToken());
+
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new Subtraction(new X(), new Y()), actual);
+	}
+	
 	@Test 
 	void testParseLog(){
 		Stack<Token> tokens = new Stack<>();
@@ -194,5 +207,21 @@ class SemanticAnalyzerTest {
 		assertThrows(ParseException.class, () -> {
 			semAnalyzer.generateExpressionTree(tokens);
 		});
+	}
+	
+	@Test
+	void testParseDivision() {
+
+	    // Set up the token stack for "x * y"
+	    Stack<Token> tokens = new Stack<>();
+	    tokens.push(new IdentifierToken("x")); // Push the left operand
+	    tokens.push(new IdentifierToken("y")); // Push the right operand
+	    tokens.push(new DivisionToken());     // Push the multiplication operator
+
+	    // Generate the expression tree
+	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+	    // Expected: Multiplication(x, y)
+	    assertEquals(new Division(new X(), new Y()), actual);
 	}
 }

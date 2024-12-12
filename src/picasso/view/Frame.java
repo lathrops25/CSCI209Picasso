@@ -66,7 +66,8 @@ public class Frame extends JFrame {
 				history.add(textField.getText());
 				JButton evalButton = new JButton();
 				evalButton = commands.getButton(1);
-				evalButton.doClick(); // simulates clicking the evaluate button
+				evalButton.doClick();	// simulates clicking the evaluate button
+				historyPTR = history.size();
 			}
 		});
 

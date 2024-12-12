@@ -38,7 +38,7 @@ To run Picasso, run `picasso.Main`
 
 **Allow users to view multiple images at once in different windows**
 
-- When the user clicks on the "new panel" button, a new panel is opened on the screen. 
+- When users click on the "new panel" button, a new panel is opened on the screen. 
 - A second button was initially created to evaluate the expression in the text field in a new panel, but this button was later removed. The functionality was reused in the database extension so that users can click on a previously evaluated expression and open it in a new window.
 
 **Other extensions here**

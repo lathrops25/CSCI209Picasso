@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import picasso.model.Pixmap;
 import picasso.util.ThreadedCommand;
 import picasso.view.commands.Evaluator;
+import picasso.view.commands.RandomExpression;
 import picasso.view.commands.Reader;
 import picasso.view.commands.Writer;
 
@@ -38,16 +39,16 @@ public class Frame extends JFrame {
 	private RandomExpression randomEx;
 	private List<String> history;
 	private int historyPTR;
-	
+	private ButtonPanel commands;
+
 	/**
 	 * Creates the frame for Picasso
+	 * 
 	 * @param size- size of the frame
 	 */
 	public Frame(Dimension size, Pixmap initialImage) {
 
-
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
 
 		// setting up history
 		history = new ArrayList<>();
@@ -57,12 +58,12 @@ public class Frame extends JFrame {
 		Canvas canvas = new Canvas(this);
 		canvas.setSize(size);
 		setTitle("CodeCatalysts");
-		
-		//initial image
+
+		// initial image
 		if (initialImage != null) {
 			canvas.setImage(initialImage);
 		}
-		
+
 		// create an input text field
 		textField = new JTextField(40);
 		aFile = new Reader(textField);
@@ -70,13 +71,13 @@ public class Frame extends JFrame {
 		eval = new Evaluator(textField, history);
 
 		// add commands to test here
-		ButtonPanel commands = new ButtonPanel(canvas);
+		commands = new ButtonPanel(canvas);
 		commands.add("Open", new ThreadedCommand<Pixmap>(canvas, aFile));
 		commands.add("Evaluate", new ThreadedCommand<Pixmap>(canvas, eval));
 		commands.add("Random", new ThreadedCommand<Pixmap>(canvas, randomEx));
 		commands.add("Save", new Writer());
-		
-		//New button panel for an empty panel 
+
+		// New button panel for an empty panel
 		JButton newPanelButton = new JButton("New Panel");
 		newPanelButton.addActionListener(new ActionListener() {
 			@Override
@@ -85,17 +86,19 @@ public class Frame extends JFrame {
 			}
 		});
 		commands.add("New Panel", newPanelButton);
-		
-		//New button for evaluating an expression in the text box to a new panel 
-		JButton evaluateNewPanelButton = new JButton("Evaluate in New Panel");
-		evaluateNewPanelButton.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        Frame.this.evaluateInNewPanel(size);
-		    }
-		});
-		commands.add("Evaluate in New Panel", evaluateNewPanelButton);
-		
+
+		// New button for evaluating an expression in the text box to a new panel
+//		Functionality moved to the database viewer
+
+//		JButton evaluateNewPanelButton = new JButton("Evaluate in New Panel");
+//		evaluateNewPanelButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Frame.this.evaluateInNewPanel(size);
+//			}
+//		});
+//		commands.add("Evaluate in New Panel", evaluateNewPanelButton);
+
 		// evaluate when pressing enter
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -103,7 +106,7 @@ public class Frame extends JFrame {
 				history.add(textField.getText());
 				JButton evalButton = new JButton();
 				evalButton = commands.getButton(1);
-				evalButton.doClick();	// simulates clicking the evaluate button
+				evalButton.doClick(); // simulates clicking the evaluate button
 				historyPTR = history.size();
 			}
 		});
@@ -147,15 +150,16 @@ public class Frame extends JFrame {
 		getContentPane().add(textField, BorderLayout.NORTH);
 		pack();
 	}
-	
+
 	/**
-	 * single argument constructor for compatibility 
+	 * single argument constructor for compatibility
+	 * 
 	 * @param size
 	 */
 	public Frame(Dimension size) {
 		this(size, null);
 	}
-	
+
 	/**
 	 * This creates a new frame with the same dimensions
 	 * 
@@ -166,27 +170,56 @@ public class Frame extends JFrame {
 		newFrame.setLocationRelativeTo(null);
 		newFrame.setVisible(true);
 	}
-	
+
 	/**
-	 * This is taking the input and opening a new frame with the expression evaluated 
+	 * This is taking the input and opening a new frame with the expression
+	 * evaluated
 	 * 
-	 * @param size of new frame 
+	 * @param size of new frame
 	 */
 	private void evaluateInNewPanel(Dimension size) {
-	    if (textField.getText().isBlank()) {
-	        System.out.println("No expression provided");
-	        return;
-	    }
+		if (textField.getText().isBlank()) {
+			System.out.println("No expression provided");
+			return;
+		}
 
-	    try {
-	        Pixmap evaluatedImage = new Pixmap(size.width, size.height);
-	        eval.execute(evaluatedImage);
-	        Frame newFrame = new Frame(size, evaluatedImage);
-	        newFrame.setLocationRelativeTo(null);
-	        newFrame.setVisible(true);
-	    } catch (Exception e) {
-	        System.out.println("Failed to evaluate expression: " + e.getMessage());
-	    }
+		try {
+			Pixmap evaluatedImage = new Pixmap(size.width, size.height);
+			eval.execute(evaluatedImage);
+			Frame newFrame = new Frame(size, evaluatedImage);
+			newFrame.setLocationRelativeTo(null);
+			newFrame.setVisible(true);
+		} catch (Exception e) {
+			System.out.println("Failed to evaluate expression: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * This sets the expression in the text field and evaluates it
+	 * 
+	 * @param expression
+	 * @param evaluate
+	 */
+	public void setExpression(String expression, boolean evaluate) {
+		textField.setText(expression);
+
+		if (evaluate) {
+			history.add(expression);
+			JButton evalButton = new JButton();
+			evalButton = commands.getButton(1);
+			evalButton.doClick();
+			historyPTR = history.size();
+		}
+
+	}
+
+	/**
+	 * This sets the expression in the text field
+	 * 
+	 * @param expression
+	 */
+	public void setExpression(String expression) {
+		this.setExpression(expression, false);
 	}
 
 }

@@ -1,3 +1,8 @@
 +=Plus
 \==Assignment
 *=Multiplication
+%=Modulo
+^=Exponentiate
+-=Minus
+\!=Negation
+/=Division

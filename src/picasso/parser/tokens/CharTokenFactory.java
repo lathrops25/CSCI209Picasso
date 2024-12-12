@@ -12,6 +12,11 @@ import picasso.parser.tokens.operations.*;
  * @author Owen Astrachan
  * @author Sara Sprenkle
  * @author Jonathan Carranza Cortes
+ * @author Naka Assoumatine
+<<<<<<< HEAD
+=======
+ * @author Sarah Lathrop
+>>>>>>> branch 'main' of https://github.com/WLU-CSCI209-F24/picasso-codecatalysts.git
  */
 public class CharTokenFactory {
 
@@ -37,11 +42,12 @@ public class CharTokenFactory {
 		tokenList[CharConstants.EQUAL] = new AssignmentToken();
 		tokenList[CharConstants.COMMA] = new CommaToken();
 		tokenList[CharConstants.PLUS] = new PlusToken();
+		tokenList[CharConstants.MINUS] = new MinusToken();
 		tokenList[CharConstants.QUOTE] = new QuoteToken();
 		tokenList[CharConstants.STAR] = new MultiplicationToken();
-
-		// TODO: What other tokens should be in here?
-		// TODO: Need to create the associated Token classes too.
-
+		tokenList[CharConstants.MOD] = new ModuloToken();
+		tokenList[CharConstants.CARET] = new ExponentiateToken();
+		tokenList[CharConstants.BANG] = new NegationToken();
+		tokenList[CharConstants.SLASH] = new DivisionToken();
 	}
 }

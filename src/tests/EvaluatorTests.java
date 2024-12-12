@@ -654,6 +654,31 @@ public class EvaluatorTests {
 
 	
 	@Test
+	public void testExponentialEvaluation() {
+	    Exponentiate myTree = new Exponentiate(new X(), new Y());
+
+	    // Test straightforward cases
+	    assertEquals(new RGBColor(Math.pow(0, 0), Math.pow(0, 0), Math.pow(0, 0)), myTree.evaluate(0, 0));
+	    assertEquals(new RGBColor(Math.pow(1, 1), Math.pow(1,1), Math.pow(1, 1)), myTree.evaluate(1, 1));
+	    assertEquals(new RGBColor(Math.pow(-1, 1), Math.pow(-1,1), Math.pow(-1, 1)), myTree.evaluate(-1, 1));
+	    // assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-1, 0.5));
+
+	    // Test cases with fractional values
+	    assertEquals(new RGBColor(Math.pow(-0.4, 0.9), Math.pow(-0.4, 0.9), Math.pow(-0.4, 0.9)), myTree.evaluate(-0.4, 0.9));
+
+	     //Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
+
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	            double exponentiateResult = Math.pow(testLeftVal, testRightVal);
+	            assertEquals(new RGBColor(exponentiateResult, exponentiateResult, exponentiateResult),
+	                    myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
+	}
+	
+	@Test
 	public void testRandomEvaluation() {
 		RandomFunction myTree = new RandomFunction(); 
 		double color1 = myTree.getRand1();

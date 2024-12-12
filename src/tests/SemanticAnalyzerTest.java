@@ -22,8 +22,7 @@ import picasso.parser.tokens.operations.*;
  * Test the parsing from the Stack (not as easy as using a String as input, but
  * helps to isolate where the problem is)
  * 
- * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine
- * @author Sara Sprenkle, Sarah Lathrop, Allison Hidalgo 
+ * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine, Allison Hidalgo
  *
  */
 class SemanticAnalyzerTest {

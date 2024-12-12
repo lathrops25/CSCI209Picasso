@@ -208,4 +208,15 @@ class SemanticAnalyzerTest {
 			semAnalyzer.generateExpressionTree(tokens);
 		});
 	}
+	
+	@Test
+	void testNegation() {
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new NegationToken());
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new Negation(new X()), actual);
+		
+	}
 }

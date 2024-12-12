@@ -287,4 +287,10 @@ public class ExpressionTreeGeneratorTests {
 	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
 	
+	@Test
+	public void negationTest() {
+		ExpressionTreeNode e = parser.makeExpression("!x");
+		assertEquals(new Negation(new X()), e);
+	}
+	
 }

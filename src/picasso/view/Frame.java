@@ -26,6 +26,7 @@ import picasso.view.commands.Writer;
  * @author Jonathan Carranza Cortes
  * @author Naka Assoumatine
  * @author Gabriel Hogan
+ * @author Sarah Lathrop
  */
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
@@ -33,9 +34,15 @@ public class Frame extends JFrame {
 	private JTextField textField;
 	private Evaluator eval;
 	private Reader aFile;
+	private RandomExpression randomEx;
 	private List<String> history;
 	private int historyPTR;
 
+	
+	/**
+	 * Creates the frame for Picasso
+	 * @param size- size of the frame
+	 */
 	public Frame(Dimension size) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -51,12 +58,14 @@ public class Frame extends JFrame {
 		// create an input text field
 		textField = new JTextField(40);
 		aFile = new Reader(textField);
+		randomEx = new RandomExpression(textField);
 		eval = new Evaluator(textField, history);
 
 		// add commands to test here
 		ButtonPanel commands = new ButtonPanel(canvas);
 		commands.add("Open", new ThreadedCommand<Pixmap>(canvas, aFile));
 		commands.add("Evaluate", new ThreadedCommand<Pixmap>(canvas, eval));
+		commands.add("Random", new ThreadedCommand<Pixmap>(canvas, randomEx));
 		commands.add("Save", new Writer());
 
 		// evaluate when pressing enter

@@ -30,6 +30,12 @@ To run Picasso, run `picasso.Main`
 
 - Sometimes, user may have to press up and down arrow twice to change history. This is because of the cursor changing location in the text box.
 
+**Generate Expressions Randomly**
+
+- When the user clicks on the "random" button, a random expression is generated and set in the text box of Picasso. The user then presses the "evaluate" button to evaluate the random expression.
+- The random expression is pseudorandom because every expression does not have an identical probability of being generated. Smaller expressions with less depth have a greater probability of being generated, but to the user the expression should appear random.
+- This extension was implemented by generating a random expression depth, selecting a random operator or function, and then recursively selecting new operators or functions depending on the depth. Each time an operator, function, variable, or constant is generated, a String builder appends the element with its corresponding parenthesis to a string. Once the function is complete, this String is added to the text field for the user to see.
+
 **Other extensions here**
 
 ## Code Base History

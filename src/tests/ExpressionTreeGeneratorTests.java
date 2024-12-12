@@ -59,6 +59,22 @@ public class ExpressionTreeGeneratorTests {
 		e = parser.makeExpression("x + y + [ -.51, 0, 1]");
 		assertEquals(new Addition(new Addition(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
+	
+	@Test
+	public void subtractionExpressionTests() {
+		ExpressionTreeNode e = parser.makeExpression("x - y");
+		assertEquals(new Subtraction(new X(), new Y()), e);
+
+		// no spaces!
+		e = parser.makeExpression("x-y");
+		assertEquals(new Subtraction(new X(), new Y()), e);
+
+		e = parser.makeExpression("[1,.3,-1] - y");
+		assertEquals(new Subtraction(new RGBColor(1, .3, -1), new Y()), e);
+
+		e = parser.makeExpression("x - y - [ -.51, 0, 1]");
+		assertEquals(new Subtraction(new Subtraction(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
+	}
 
 	@Test
 	public void parenthesesExpressionTests() {
@@ -67,6 +83,15 @@ public class ExpressionTreeGeneratorTests {
 
 		e = parser.makeExpression("( x + (y + [ 1, 1, 1] ) )");
 		assertEquals(new Addition(new X(), new Addition(new Y(), new RGBColor(1, 1, 1))), e);
+	}
+	
+	@Test
+	public void parenthesesExpressionTestsSub() {
+		ExpressionTreeNode e = parser.makeExpression("( x - y )");
+		assertEquals(new Subtraction(new X(), new Y()), e);
+
+		e = parser.makeExpression("( x - (y - [ 1, 1, 1] ) )");
+		assertEquals(new Subtraction(new X(), new Subtraction(new Y(), new RGBColor(1, 1, 1))), e);
 	}
 
 	@Test
@@ -81,7 +106,20 @@ public class ExpressionTreeGeneratorTests {
 		expected.push(new PlusToken());
 
 		assertEquals(expected, stack);
+		
+		Stack<Token> stack2 = parser.infixToPostfix("x - y * x");
+
+		Stack<Token> expected2 = new Stack<>();
+		expected2.push(new IdentifierToken("x"));
+		expected2.push(new IdentifierToken("y"));
+		expected2.push(new IdentifierToken("x"));
+		expected2.push(new MultiplicationToken());
+		expected2.push(new MinusToken());
+
+		assertEquals(expected2, stack2);
 	}
+	
+	
 
 	@Test
 	public void floorFunctionTests() {
@@ -184,8 +222,16 @@ public class ExpressionTreeGeneratorTests {
 	}
 	
 	@Test
+	public void imageClipFunctionTest() {
+		ExpressionTreeNode e = parser.makeExpression("imageClip( \"vortex.jpg\", x+x, y )");
+		assertEquals(new ImageClip(new Y(), new Addition(new X(), new X()), "vortex.jpg"), e);
+		
+		ExpressionTreeNode e1 = parser.makeExpression("imageClip(\"foo.jpg\", x, y + y)");
+		assertEquals(new ImageClip(new Addition(new Y(), new Y()), new X(), "foo.jpg"), e1);
+	}
+	
+	@Test
 	public void stringNodeTest() {
-		ExpressionTreeNode e = parser.makeExpression("test");
 		assertThrows(IllegalArgumentException.class, () -> {
 			new StringNode("test");
 		});
@@ -246,14 +292,109 @@ public class ExpressionTreeGeneratorTests {
 	    // Basic test for "x % y"
 	    ExpressionTreeNode e = parser.makeExpression("x % y");
 	    assertEquals(new Modulo(new X(), new Y()), e);
-
-	    // Test with no spaces
 	    e = parser.makeExpression("x%y");
 	    assertEquals(new Modulo(new X(), new Y()), e);
 
 	    // Test with a color constant and modulo
 	    e = parser.makeExpression("[1,.3,-1] % y");
 	    assertEquals(new Modulo(new RGBColor(1, .3, -1), new Y()), e);
+	}
+	
+	@Test
+	public void perlinBWExpressionTests() {
+	    // Basic test for "PerlinBW(x, y)"
+	    ExpressionTreeNode e = parser.makeExpression("perlinBW(x, y)");
+	    assertEquals(new PerlinBW(new X(), new Y()), e);
+	    e = parser.makeExpression("perlinBW(x,y)");
+	    assertEquals(new PerlinBW(new X(), new Y()), e);
+
+	    // Test with a color constant and PerlinBW
+	    e = parser.makeExpression("perlinBW([1,.3,-1], y)");
+	    assertEquals(new PerlinBW(new RGBColor(1, .3, -1), new Y()), e);
 
 	}
+	    
+
+	@Test
+	public void yCrCbToRGBExpressionTests() {
+	    // Basic test for "rgbToYCrCb(x)"
+	    ExpressionTreeNode e = parser.makeExpression("yCrCbToRGB(x)");
+	    assertEquals(new YCrCbToRGB(new X()), e);
+	    
+	    // Test with a color constant and rgbToYCrCb
+	    e = parser.makeExpression("yCrCbToRGB([1,.3,-1])");
+	    assertEquals(new YCrCbToRGB(new RGBColor(1, .3, -1)), e);
+	}
+	
+	@Test
+	public void perlinColornExpressionTests() {
+	    // Basic test for "x * y"
+	    ExpressionTreeNode e = parser.makeExpression("perlinColor(x, y)");
+	    assertEquals(new PerlinColor(new X(), new Y()), e);
+
+	    // Test with no spaces
+	    e = parser.makeExpression("perlinColor(x,y)");
+	    assertEquals(new PerlinColor(new X(), new Y()), e);
+
+	    // Test with a color constant and PerlinColor
+	    e = parser.makeExpression("perlinColor([1,.3,-1], y)");
+	    assertEquals(new PerlinColor(new RGBColor(1, .3, -1), new Y()), e);    
+	}
+	
+	
+
+	@Test
+	public void divisionExpressionTests() {
+		ExpressionTreeNode e = parser.makeExpression("x / y");
+		assertEquals(new Division(new X(), new Y()), e);
+
+		// no spaces!
+		e = parser.makeExpression("x/y");
+		assertEquals(new Division(new X(), new Y()), e);
+
+		e = parser.makeExpression("[1,.3,-1] / y");
+		assertEquals(new Division(new RGBColor(1, .3, -1), new Y()), e);
+
+		e = parser.makeExpression("x / y / [ -.51, 0, 1]");
+		assertEquals(new Division(new Division(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
+	}
+	
+	
+	@Test
+	public void rgbToYCrCbExpressionTests() {
+	    // Basic test for "rgbToYCrCb(x)"
+	    ExpressionTreeNode e = parser.makeExpression("rgbToYCrCb(x)");
+	    assertEquals(new RgbToYCrCb(new X()), e);
+	}
+
+	@Test
+	public void negationTest() {
+		ExpressionTreeNode e = parser.makeExpression("!x");
+		assertEquals(new Negation(new X()), e);
+	}
+	
+	@Test
+	public void expExpressionTest() {
+		ExpressionTreeNode e = parser.makeExpression("exp(x)");
+		assertEquals(new Exp(new X()), e);
+		
+	}
+
+	@Test
+	public void RGbTOYCrCbTest() {
+	    // Test with a color constant and rgbToYCrCb
+	    ExpressionTreeNode e = parser.makeExpression("rgbToYCrCb([1,.3,-1])");
+	    assertEquals(new RgbToYCrCb(new RGBColor(1, .3, -1)), e);
+	}
+	
+	@Test
+	public void exponentiateTest() {
+		ExpressionTreeNode e = parser.makeExpression("x^x");
+		assertEquals(new Exponentiate(new X(), new X()), e);
+		
+		ExpressionTreeNode e2 = parser.makeExpression("x ^ y");
+		assertEquals(new Exponentiate(new X(), new Y()), e2);
+		
+	}
+	
 }

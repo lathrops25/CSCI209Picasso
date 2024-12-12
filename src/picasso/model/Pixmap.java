@@ -39,8 +39,8 @@ public class Pixmap {
 	public static final String DEFAULT_NAME = "Picasso";
 
 	private String myFileName;
-	private BufferedImage myImage;
-	private Dimension mySize;
+	public BufferedImage myImage;
+	public Dimension mySize;
 
 	/**
 	 * Create a default pixmap (300x300 black)

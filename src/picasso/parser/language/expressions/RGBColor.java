@@ -93,10 +93,11 @@ public class RGBColor extends ExpressionTreeNode {
 	}
 
 	/**
+	 * Checks if two colors are equal.
 	 * 
 	 * @param o the other object
 	 * @return true iff the other object is an RGBColor within ERROR_TOLERANCE for
-	 *         each color component
+	 *         each color component or if the color components are both NaN
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object o) {
@@ -105,11 +106,24 @@ public class RGBColor extends ExpressionTreeNode {
 		}
 		if (o instanceof RGBColor) {
 			RGBColor other = (RGBColor) o;
-			return ((Math.abs(myRed - other.myRed) < ERROR_TOLERANCE)
-					&& (Math.abs(myGreen - other.myGreen) < ERROR_TOLERANCE)
-					&& (Math.abs(myBlue - other.myBlue) < ERROR_TOLERANCE));
+			return areComponentsEqual(myRed, other.myRed) && areComponentsEqual(myGreen, other.myGreen)
+					&& areComponentsEqual(myBlue, other.myBlue);
 		}
 		return false;
+	}
+
+	/**
+	 * Helper method for determining if the same component for two RGBColors are
+	 * equal. Returns true iff the two values are both NaN or if they are within
+	 * ERROR_TOLERANCE of each other
+	 * 
+	 * @param thisOne a component of the RGBColor
+	 * @param thatOne a component of the RGBColor
+	 * @return true iff the two values are both NaN or if they are within
+	 *         ERROR_TOLERANCE of each other.
+	 */
+	private boolean areComponentsEqual(double thisOne, double thatOne) {
+		return (Double.isNaN(thisOne) && Double.isNaN(thatOne)) || (Math.abs(thisOne - thatOne) < ERROR_TOLERANCE);
 	}
 
 	/**
@@ -160,6 +174,7 @@ public class RGBColor extends ExpressionTreeNode {
 
 	/**
 	 * Returns this color
+	 * 
 	 * @param x
 	 * @param y
 	 * @return this color

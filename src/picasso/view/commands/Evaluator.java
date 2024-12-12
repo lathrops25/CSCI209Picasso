@@ -60,7 +60,7 @@ public class Evaluator implements Command<Pixmap> {
 					target.setColor(imageX, imageY, pixelColor);
 				}
 			}
-		} catch (Exception e) {
+		} catch (ParseException | EvaluateException e) {
 			ErrorDialog.showDialog("Error in Evaluator: <br/>" + e.getMessage());
 			return;
 		}

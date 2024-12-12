@@ -66,6 +66,8 @@ public class DatabaseTests {
 			}
 		}
 
+		assertEquals(true, found);
+
 	}
 
 	@Test

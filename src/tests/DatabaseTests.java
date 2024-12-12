@@ -33,7 +33,6 @@ public class DatabaseTests {
 	@BeforeEach
 	public void setUp() throws Exception {
 		db = new ExpressionDB(DB_NAME);
-		db.init();
 
 		if (!ExpressionDB.dbEnabled) {
 			return;
@@ -118,7 +117,6 @@ public class DatabaseTests {
 	@Test
 	public void testSQLException() {
 		ExpressionDB dbbad = new ExpressionDB("badtest.db");
-		dbbad.init();
 
 		// Delete the database file to cause an error
 		try {

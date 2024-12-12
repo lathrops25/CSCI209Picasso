@@ -457,6 +457,34 @@ public class EvaluatorTests {
 	        }
 	    }
 	}
+
+	@Test
+	public void testDivisionEvaluation() {
+		Division myTree = new Division(new X(), new Y());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-1, 0));
+		assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, 1));
+		assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, -1));
+		assertEquals(new RGBColor(1, 1, 1), myTree.evaluate(1, 1));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(1, -1));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-1, 1));
+		assertEquals(new RGBColor(1, 1, 1), myTree.evaluate(-1, -1));
+
+		assertEquals(new RGBColor(-0.444444, -0.444444, -0.444444), myTree.evaluate(-.4, 0.9));
+
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testLeftVal : tests) {
+			for (double testRightVal : tests) {
+				double divisionOfTestVal = testLeftVal / testRightVal;
+				assertEquals(new RGBColor(divisionOfTestVal, divisionOfTestVal, divisionOfTestVal),
+						myTree.evaluate(testLeftVal, testRightVal));
+			}
+		}
+	}
 	
 	@Test
 	public void testStringNodeEvaluation() {

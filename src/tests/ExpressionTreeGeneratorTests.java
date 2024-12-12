@@ -286,5 +286,22 @@ public class ExpressionTreeGeneratorTests {
 	    e = parser.makeExpression("x * y * [ -.51, 0, 1]");
 	    assertEquals(new Multiplication(new Multiplication(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
 	}
-	
+
+	@Test
+	public void divisionExpressionTests() {
+		ExpressionTreeNode e = parser.makeExpression("x / y");
+		assertEquals(new Division(new X(), new Y()), e);
+
+		// no spaces!
+		e = parser.makeExpression("x/y");
+		assertEquals(new Division(new X(), new Y()), e);
+
+		e = parser.makeExpression("[1,.3,-1] / y");
+		assertEquals(new Division(new RGBColor(1, .3, -1), new Y()), e);
+
+		e = parser.makeExpression("x / y / [ -.51, 0, 1]");
+		assertEquals(new Division(new Division(new X(), new Y()), new RGBColor(-.51, 0, 1)), e);
+	}
+
+	// TODO: more tests
 }

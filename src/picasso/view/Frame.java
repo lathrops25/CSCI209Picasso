@@ -24,6 +24,7 @@ import picasso.view.commands.*;
  * @author Jonathan Carranza Cortes
  * @author Naka Assoumatine
  * @author Allison Hidalgo
+ * @author Sarah Lathrop
  */
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
@@ -31,6 +32,7 @@ public class Frame extends JFrame {
 	private JTextField textField;
 	private Evaluator eval;
 	private Reader aFile;
+	private RandomExpression randomEx;
 	private List<String> history;
 	private int historyPTR;
 
@@ -56,12 +58,14 @@ public class Frame extends JFrame {
 		// create an input text field
 		textField = new JTextField(40);
 		aFile = new Reader(textField);
+		randomEx = new RandomExpression(textField);
 		eval = new Evaluator(textField, history);
 		
 		// add commands to test here
 		ButtonPanel commands = new ButtonPanel(canvas);
 		commands.add("Open", new ThreadedCommand<Pixmap>(canvas,aFile));
 		commands.add("Evaluate", new ThreadedCommand<Pixmap>(canvas, eval));
+		commands.add("Random", new ThreadedCommand<Pixmap>(canvas, randomEx));
 		commands.add("Save", new Writer());
 		
 		//New button panel for an empty panel 

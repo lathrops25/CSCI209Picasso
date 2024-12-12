@@ -28,7 +28,7 @@ public class Main {
 			if (ExpressionDB.dbEnabled) {
 				System.out.println("Database Enabled!");
 				db.createTable();
-//				viewer = new DatabaseViewer();
+				viewer = new DatabaseViewer();
 
 			} else {
 				System.out.println("Database Disabled :(");

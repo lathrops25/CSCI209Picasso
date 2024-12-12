@@ -3,6 +3,8 @@ package picasso.database;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -61,10 +63,15 @@ public class DatabaseViewer extends JFrame {
 		}
 
 		// Set fixed width for the first column
-		int fixedWidth = 40;
-		expressionTable.getColumnModel().getColumn(0).setPreferredWidth(fixedWidth);
-		expressionTable.getColumnModel().getColumn(0).setMinWidth(fixedWidth);
-		expressionTable.getColumnModel().getColumn(0).setMaxWidth(fixedWidth);
+		int idColWidth = 40;
+		expressionTable.getColumnModel().getColumn(0).setPreferredWidth(idColWidth);
+		expressionTable.getColumnModel().getColumn(0).setMinWidth(idColWidth);
+		expressionTable.getColumnModel().getColumn(0).setMaxWidth(idColWidth);
+
+		// Set preferred & max width for the last column
+		int datetimeColWidth = 170;
+		expressionTable.getColumnModel().getColumn(3).setPreferredWidth(datetimeColWidth);
+		expressionTable.getColumnModel().getColumn(3).setMaxWidth(datetimeColWidth);
 
 		JScrollPane scrollPane = new JScrollPane(expressionTable);
 
@@ -172,7 +179,11 @@ public class DatabaseViewer extends JFrame {
 			case 2:
 				return expr.getExpStr();
 			case 3:
-				return expr.getEvaluatedAt();
+
+				return ZonedDateTime.parse(expr.getEvaluatedAt())
+						.format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss")) + " UTC";
+
+//				return expr.getEvaluatedAt();
 			}
 			return null;
 		}

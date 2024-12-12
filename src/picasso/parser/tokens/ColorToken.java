@@ -102,5 +102,9 @@ public class ColorToken extends Token {
 	public boolean isFunction() {
 		return false;
 	}
+	
+	public boolean isOperand() {
+		return true;
+	}
 
 }

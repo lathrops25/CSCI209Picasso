@@ -31,7 +31,7 @@ public class Frame extends JFrame {
 	public Frame(Dimension size, Pixmap initialImage) {
 
 
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// create GUI components
 		Canvas canvas = new Canvas(this);

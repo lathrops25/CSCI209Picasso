@@ -150,11 +150,9 @@ public class ExpressionTreeGenerator {
 	 * @return true if token is an operand
 	 */
 	private boolean isOperand(Token token) {
-        return token instanceof NumberToken || 
-               token instanceof ColorToken || 
-               token instanceof IdentifierToken || 
-               token instanceof StringToken;
+        return token.isOperand();
     }
+	
 	
 	/**
 	 * This handles the right parenthesis by popping the operators until a left parenthesis is found
@@ -205,16 +203,16 @@ public class ExpressionTreeGenerator {
 	 * @return precedence level
 	 */
 	private int orderOfOperation(Token token) {
-        if (token instanceof CommaToken) {
+		if (token instanceof CommaToken) {
             return COMMA;
-        } else if (token instanceof PlusToken || token instanceof MinusToken) {
+        } else if (token instanceof PlusToken) {
             return ADD_OR_SUBTRACT;
-        } else if (token instanceof MultiplyToken || token instanceof DivideToken || token instanceof ModulusToken) {
+        } else if (token instanceof MultiplicationToken) {
             return MULTIPLY_OR_DIVIDE;
-        } else if (token instanceof ExponentiateToken) {
-            return EXPONENT;
-        } else if (token instanceof UnaryOperatorToken) {
-            return UNARY;
+        //} else if (token instanceof ExponentiateToken) {
+       //     return EXPONENT;
+      //  } else if (token instanceof UnaryOperatorToken) {
+         //   return UNARY;
         } else {
             return CONSTANT;
         }

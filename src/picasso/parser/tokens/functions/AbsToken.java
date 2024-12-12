@@ -7,9 +7,15 @@ package picasso.parser.tokens.functions;
  */
 
 public class AbsToken extends FunctionToken {
+	public static final int UNARY = 2;
 	
 	public AbsToken() {
 		super("Abs Function Token");
 	}
+	
+	@Override
+    public int getPrecedence() {
+        return UNARY;
+    }
 
 }

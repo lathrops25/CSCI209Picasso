@@ -7,7 +7,7 @@ package picasso.parser.tokens;
  * Represents tokens in the Picasso programming language
  * 
  * @author Robert C. Duvall
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Allison Hidalgo
  *
  */
 public abstract class Token {
@@ -55,5 +55,11 @@ public abstract class Token {
 	public boolean isOperand() {
 		return false;
 	}
+	
+	/**
+     * Gets the precedence of the token
+     * @return the precedence level of the token
+     */
+    public abstract int getPrecedence();
 
 }

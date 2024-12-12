@@ -10,7 +10,7 @@ import picasso.parser.language.expressions.RGBColor;
  * extend ExpressionTreeNode.
  * 
  * @author Robert C. Duvall
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Allison Hidalgo
  */
 public abstract class ExpressionTreeNode implements EvaluatableExpression {
 
@@ -28,4 +28,15 @@ public abstract class ExpressionTreeNode implements EvaluatableExpression {
 	// TODO: Not being utilized yet. Why would it be useful?
 	// keep a mapping of the element to its value.
 	static protected Map<ExpressionTreeNode, ExpressionTreeNode> gelementsToValue = new TreeMap<ExpressionTreeNode, ExpressionTreeNode>();
+	
+	/**
+     * Returns the precedence of this node
+     * 
+     * This method can be overridden by subclasses to return specific precedence
+     * 
+     * @return a default precedence value (can be overridden)
+     */
+    public int getPrecedence() {
+        return Integer.MAX_VALUE; // Default precedence (highest possible value)
+    }
 }

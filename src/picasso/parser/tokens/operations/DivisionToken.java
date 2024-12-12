@@ -6,17 +6,18 @@ import picasso.parser.tokens.chars.CharToken;
 /**
  * Represents the multiplication token
  * 
- * @Author Allison Hidalgo
+ * @Author Sarah Lathrop
  */
-public class MultiplicationToken extends CharToken implements OperationInterface {
+public class DivisionToken extends CharToken implements OperationInterface {
 	public static final int MULTIPLY_OR_DIVIDE = 4;
-	
-	public MultiplicationToken() {
-        super(CharConstants.STAR);
+   
+	public DivisionToken() {
+        super(CharConstants.SLASH);
     }
 	
 	@Override
     public int getPrecedence() {
-        return MULTIPLY_OR_DIVIDE;  // Return the precedence for multiplication/division
+        return MULTIPLY_OR_DIVIDE;
     }
+	
 }

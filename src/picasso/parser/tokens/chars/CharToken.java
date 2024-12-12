@@ -14,7 +14,7 @@ import picasso.parser.tokens.Token;
  * constructor is package access only
  * 
  * @author Owen Astrachan
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Allison Hidalgo
  */
 public class CharToken extends Token {
 
@@ -69,5 +69,10 @@ public class CharToken extends Token {
 	@Override
 	public boolean isFunction() {
 		return false;
+	}
+	
+	@Override
+	public int getPrecedence() {
+	    return Integer.MAX_VALUE; // Default precedence (highest possible value, indicating it should not interfere)
 	}
 }

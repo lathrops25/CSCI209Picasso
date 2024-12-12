@@ -1,20 +1,18 @@
 package picasso.parser.tokens.functions;
 
-/** 
- * Represents the log function token
- * 
+/**
+ * Represents the imageClip function token
  * @author Jonathan
  */
-public class LogToken extends FunctionToken{
+public class ImageClipToken extends FunctionToken{
 	public static final int UNARY = 2;
 	
-	public LogToken() {
-		super("Sin Function Token");
+	public ImageClipToken() {
+		super("ImageClipo Function Token");
 	}
 	
 	@Override
     public int getPrecedence() {
         return UNARY;
     }
-
 }

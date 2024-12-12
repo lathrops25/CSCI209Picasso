@@ -1,14 +1,15 @@
 package tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -25,12 +26,13 @@ import picasso.database.StoredExpression;
 @TestInstance(Lifecycle.PER_CLASS)
 public class DatabaseTests {
 
-	private static final String DB_NAME = "tests.db";
+	private static final String DB_NAME = "test.db";
 
-	ExpressionDB db = new ExpressionDB(DB_NAME);
+	private ExpressionDB db;
 
-	@BeforeAll
+	@BeforeEach
 	public void setUp() throws Exception {
+		db = new ExpressionDB(DB_NAME);
 		db.init();
 
 		if (!ExpressionDB.dbEnabled) {
@@ -41,8 +43,8 @@ public class DatabaseTests {
 
 	}
 
-	@AfterAll
-	public static void tearDown() {
+	@AfterEach
+	public void tearDown() {
 		try {
 			Files.deleteIfExists(Paths.get(DB_NAME));
 		} catch (IOException e) {
@@ -70,11 +72,20 @@ public class DatabaseTests {
 	@Test
 	public void testUpdateExpression() {
 		long id = db.insertExpression("x + y");
-		db.updateExpression(id, "x-y", "Test Expression");
+		db.updateExpression(id, "x - y", "Test Expression");
 
 		StoredExpression expr = db.getExpressionById(id);
 		assertEquals("x - y", expr.getExpStr());
 		assertEquals("Test Expression", expr.getExpName());
+	}
+
+	@Test
+	public void testUpdateExpressionWithNoData() {
+		long id = db.insertExpression("x + y");
+		boolean wasUpdated = db.updateExpression(id, null, null);
+
+		System.out.println("wasUpdated: " + wasUpdated);
+		assertEquals(false, wasUpdated);
 	}
 
 	@Test
@@ -94,6 +105,9 @@ public class DatabaseTests {
 		db.insertExpression("x / y");
 
 		List<StoredExpression> expressions = db.getAllExpressions();
+
+		System.out.println("expressions: " + expressions.size());
+		System.out.println("expressions: " + expressions);
 		assertEquals(4, expressions.size());
 	}
 
@@ -102,6 +116,42 @@ public class DatabaseTests {
 		long id = db.insertExpression("x + y");
 		StoredExpression expr = db.getExpressionById(id);
 		assertEquals("x + y", expr.getExpStr());
+	}
+
+	@Test
+	public void testSQLException() {
+		ExpressionDB dbbad = new ExpressionDB("badtest.db");
+		dbbad.init();
+
+		// Delete the database file to cause an error
+		try {
+			Files.deleteIfExists(Paths.get("badtest.db"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertThrows(RuntimeException.class, () -> {
+			dbbad.createTable();
+		});
+		assertThrows(RuntimeException.class, () -> {
+			dbbad.dropTable();
+		});
+		assertThrows(RuntimeException.class, () -> {
+			dbbad.insertExpression("x + y");
+		});
+		assertThrows(RuntimeException.class, () -> {
+			dbbad.getAllExpressions();
+		});
+		assertThrows(RuntimeException.class, () -> {
+			dbbad.getExpressionById(1);
+		});
+		assertThrows(RuntimeException.class, () -> {
+			dbbad.updateExpression(1, "x + y", "Test");
+		});
+		assertThrows(RuntimeException.class, () -> {
+			dbbad.deleteExpression(1);
+		});
+
 	}
 
 }

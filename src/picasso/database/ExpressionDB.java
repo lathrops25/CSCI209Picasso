@@ -16,7 +16,7 @@ public class ExpressionDB {
 
 	public static boolean dbEnabled = false;
 
-	private static String DB_URL = "jdbc:sqlite:expression.db";
+	private static String DB_URL;
 
 	// SQL statements
 	private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS EXPRESSION ("
@@ -33,11 +33,29 @@ public class ExpressionDB {
 	private static final String UPDATE_SQL_END = " WHERE EXP_ID = ?;";
 	private static final String DELETE_SQL = "DELETE FROM EXPRESSION WHERE EXP_ID = ?;";
 
-	public ExpressionDB(String dbPath) {
-		DB_URL = "jdbc:sqlite:" + dbPath;
+	/**
+	 * Constructor that creates a new database with the given name.
+	 * 
+	 * @param dbName Database file name.
+	 */
+	public ExpressionDB(String dbName) {
+		DB_URL = "jdbc:sqlite:file:" + dbName;
+
+		try (Connection conn = DriverManager.getConnection(DB_URL + "?mode=rwc")) {
+			// Do nothing, the try is enough
+		} catch (SQLException e) {
+			throw new RuntimeException("There was an error while creating or reading the database ", e);
+		} finally {
+			DB_URL = DB_URL + "?mode=rw";
+			init();
+		}
 	}
 
+	/**
+	 * Default constructor that creates a new database with the default name.
+	 */
 	public ExpressionDB() {
+		this("expression.db");
 	}
 
 	public void init() {
@@ -83,6 +101,7 @@ public class ExpressionDB {
 	 * 
 	 * @param expStr Expression string.
 	 * @return The newly inserted row's ID or -1 on failure.
+	 * @throws RuntimeException if there was an error inserting the expression.
 	 */
 	public long insertExpression(String expStr) {
 		return insertExpression(expStr, expStr);
@@ -104,10 +123,7 @@ public class ExpressionDB {
 			pstmt.setString(2, expName);
 			pstmt.setString(3, Instant.now().toString());
 
-			int affectedRows = pstmt.executeUpdate();
-			if (affectedRows == 0) {
-				return -1;
-			}
+			pstmt.executeUpdate();
 
 			try (ResultSet keys = pstmt.getGeneratedKeys()) {
 				if (keys.next()) {

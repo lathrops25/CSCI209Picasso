@@ -60,6 +60,14 @@ public class Evaluator implements Command<Pixmap> {
 			}
 		} catch (Exception e) {
 			ErrorDialog.showDialog("Error in Evaluator: <br/>" + e.getMessage());
+			return;
+		}
+
+		if (ExpressionDB.dbEnabled) {
+			ExpressionDB db = new ExpressionDB();
+			long newId = db.insertExpression(inputString);
+			System.out.println("Inserted new expression with ID: " + newId);
+			Main.viewer.loadData();
 		}
 
 	}
@@ -84,13 +92,6 @@ public class Evaluator implements Command<Pixmap> {
 		// Take the current expression in the text field
 		inputString = textIn.getText();
 		history.add(inputString);
-
-		if (ExpressionDB.dbEnabled) {
-			ExpressionDB db = new ExpressionDB();
-			long newId = db.insertExpression(inputString);
-			System.out.println("Inserted new expression with ID: " + newId);
-			Main.viewer.loadData();
-		}
 
 		ExpressionTreeGenerator expTreeGen = new ExpressionTreeGenerator();
 		return expTreeGen.makeExpression(inputString);

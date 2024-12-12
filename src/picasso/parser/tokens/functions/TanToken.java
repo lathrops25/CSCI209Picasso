@@ -6,6 +6,7 @@ package picasso.parser.tokens.functions;
  * @author Jonathan
  */
 public class TanToken extends FunctionToken{
+
 	public TanToken() {
 		super("Tan Function Token");
 	}

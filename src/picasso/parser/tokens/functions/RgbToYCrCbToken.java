@@ -1,5 +1,3 @@
-
-
 package picasso.parser.tokens.functions;
 
 /**
@@ -8,6 +6,7 @@ package picasso.parser.tokens.functions;
  * @author Naka ASsoumatine
  */
 public class RgbToYCrCbToken extends FunctionToken{
+	
 	public RgbToYCrCbToken() {
 		super("RgbToYCrCb Function Token");
 	}

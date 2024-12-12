@@ -1,6 +1,5 @@
 package picasso.parser;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -18,16 +17,6 @@ import picasso.parser.tokens.operations.*;
  * @author Sara Sprenkle modified for Picasso
  */
 public class ExpressionTreeGenerator {
-
-	// TODO: Do these belong here?
-	private static final int CONSTANT = 0;
-	private static final int GROUPING = 1; // parentheses
-	private static final int UNARY = 2;
-	private static final int EXPONENT = 3;
-	private static final int MULTIPLY_OR_DIVIDE = 4;
-	private static final int ADD_OR_SUBTRACT = 5;
-	private static final int COMMA = 6;
-
 	/**
 	 * Converts the given string into expression tree for easier manipulation.
 	 * 
@@ -106,7 +95,7 @@ public class ExpressionTreeGenerator {
 			} else if (token instanceof RightParenToken) {
 				handelRightParenthesis(operators, postfixResult);
 			} else if (token instanceof OperationInterface) {
-                handelOperator(token, operators, postfixResult);
+                handleOperator(token, operators, postfixResult);
             } else if (token instanceof CommaToken){
             	handleCommaToken(operators, postfixResult);
             } else {
@@ -176,45 +165,33 @@ public class ExpressionTreeGenerator {
 	}
 	
 	/**
-	 * This handles the operator token
+	 * This handles the operator token, comparing precedence and associativity.
 	 */
-	private void handelOperator(Token token, Stack<Token> operators, Stack<Token> postfixResults) {
-		while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken) && orderOfOperation(token) >= orderOfOperation(operators.peek())) {
-			postfixResults.push(operators.pop());
-		}
-		operators.push(token);
+	private void handleOperator(Token token, Stack<Token> operators, Stack<Token> postfixResults) {
+	    while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken)) {
+	        Token top = operators.peek();
+
+	        // Check precedence: pop higher or equal precedence operators
+	        if (token.getPrecedence() >= top.getPrecedence()) {
+	         //  (token.getPrecedence() == top.getPrecedence() && isLeftAssociative(top))) {
+	            postfixResults.push(operators.pop());
+	        } else {
+	            break;
+	        }
+	    }
+	    operators.push(token);
 	}
 	
+	
 	/**
-	 * This handles the comma token 
+	 * This handles the comma token.
 	 */
 	private void handleCommaToken(Stack<Token> operators, Stack<Token> postfixResult) {
 		while (!operators.isEmpty() && !(operators.peek() instanceof LeftParenToken)) {
 			postfixResult.push(operators.pop());
 		}
 		if (operators.isEmpty()) {
-			throw new ParseException("Misplaed comma or mismatched parenthesis");
+			throw new ParseException("Misplaced comma or mismatched parenthesis");
 		}
 	}
-
-	/**
-	 * Determines precedent level of given operator tokens 
-	 * @param token
-	 * @return precedence level
-	 */
-	private int orderOfOperation(Token token) {
-		if (token instanceof CommaToken) {
-            return COMMA;
-        } else if (token instanceof PlusToken || token instanceof MinusToken) {
-            return ADD_OR_SUBTRACT;
-        } else if (token instanceof MultiplicationToken || token instanceof DivisionToken || token instanceof ModuloToken) {
-            return MULTIPLY_OR_DIVIDE;
-        } else if (token instanceof ExponentiateToken) {
-            return EXPONENT;
-        } else if (token instanceof NegationToken) {
-            return UNARY;
-        } else {
-            return CONSTANT;
-        }
-    }
 }

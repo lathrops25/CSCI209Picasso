@@ -5,7 +5,7 @@ import picasso.parser.language.ExpressionTreeNode;
 /**
  * Represents a constant in the Picasso language.
  * 
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Allison Hidalgo 
  * 
  */
 public class Constant extends ExpressionTreeNode {
@@ -66,4 +66,5 @@ public class Constant extends ExpressionTreeNode {
 		Constant other = (Constant) obj;
 		return Double.compare(other.value, value) == 0;
 	}
+
 }

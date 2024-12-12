@@ -238,5 +238,4 @@ public class Frame extends JFrame {
 	public void setExpression(String expression) {
 		this.setExpression(expression, false);
 	}
-
 }

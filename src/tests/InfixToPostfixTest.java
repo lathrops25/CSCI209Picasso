@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import picasso.parser.tokens.Token;
 import picasso.parser.ExpressionTreeGenerator;
+import picasso.parser.ParseException;
 import picasso.parser.tokens.IdentifierToken;
 import picasso.parser.tokens.operations.*;
 
@@ -35,5 +36,34 @@ class InfixToPostfixTest {
 		assertEquals (new AssignmentToken(), postfix.pop());
 		assertEquals (new IdentifierToken("y"), postfix.pop());
 		assertEquals (new IdentifierToken("a"), postfix.pop());
+	}
+	
+
+	@Test
+	void testInfixToPostfixConversion() {
+	    String expression1 = "x + y * x";
+	    postfix = expressionTree.infixToPostfix (expression1);
+	    assertEquals(new PlusToken(), postfix.pop());
+	    assertEquals (new MultiplicationToken(), postfix.pop());
+	    assertEquals (new IdentifierToken("x"), postfix.pop());
+		assertEquals (new IdentifierToken("y"), postfix.pop());
+		assertEquals (new IdentifierToken("x"), postfix.pop());
+		
+		
+	    String expression2 = "(x + y) * x";
+	    postfix = expressionTree.infixToPostfix (expression2);
+	    assertEquals (new MultiplicationToken(), postfix.pop());
+	    assertEquals (new IdentifierToken("x"), postfix.pop());
+	    assertEquals(new PlusToken(), postfix.pop());
+		assertEquals (new IdentifierToken("y"), postfix.pop());
+		assertEquals (new IdentifierToken("x"), postfix.pop());
+	}
+	
+	@Test
+	void testInvalidToken () {
+		String expression = "&";
+		assertThrows(ParseException.class, () -> {
+			expressionTree.infixToPostfix (expression);
+		});
 	}
 }

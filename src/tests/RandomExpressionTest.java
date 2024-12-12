@@ -38,9 +38,7 @@ class RandomExpressionTest {
 		// the minimum size of an expression for depth i is i+1
 		for (int i = 0; i <= 10; i++) {
 			String expression = RandomExpression.build(i);
-			System.out.println(expression);
 			postfix = expressionTree.infixToPostfix(expression);
-			System.out.println(postfix);
 			double sizeExpected = postfix.size();
 			double sizeMin = i + 1;
 			double sizeMax = 0;

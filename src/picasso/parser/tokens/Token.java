@@ -7,12 +7,20 @@ package picasso.parser.tokens;
  * Represents tokens in the Picasso programming language
  * 
  * @author Robert C. Duvall
- * @author Sara Sprenkle
+ * @author Sara Sprenkle, Allison Hidalgo
  *
  */
 public abstract class Token {
+	public static final int CONSTANT = 0;
+	public static final int GROUPING = 1; // parentheses 
+	public static final int UNARY = 2; 
+	public static final int EXPONENT = 3; 
+	public static final int MULTIPLY_OR_DIVIDE = 4;
+	public static final int ADD_OR_SUBTRACT = 5;
+	public static final int COMMA = 6;
 
 	private String description;
+	protected int precedence = CONSTANT;
 
 	/**
 	 * Creates a token with the given description
@@ -55,5 +63,13 @@ public abstract class Token {
 	public boolean isOperand() {
 		return false;
 	}
+	
+	/**
+     * Gets the precedence of the token
+     * @return the precedence level of the token
+     */
+    public int getPrecedence() {
+        return precedence;
+    }
 
 }

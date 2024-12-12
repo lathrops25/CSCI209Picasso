@@ -1,6 +1,7 @@
 package picasso.parser.tokens.operations;
 
 import picasso.parser.language.CharConstants;
+import picasso.parser.tokens.Token;
 import picasso.parser.tokens.chars.CharToken;
 
 /**
@@ -8,7 +9,14 @@ import picasso.parser.tokens.chars.CharToken;
  * @author Sarah Lathrop
  */
 public class MinusToken extends CharToken implements OperationInterface {
+	
 	public MinusToken() {
 		super(CharConstants.MINUS);
+		precedence= Token.ADD_OR_SUBTRACT;
 	}
+	
+	@Override
+    public boolean isLeftAssociative() {
+        return true; // Subtraction is left-associative
+    }
 }

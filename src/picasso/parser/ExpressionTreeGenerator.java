@@ -205,14 +205,14 @@ public class ExpressionTreeGenerator {
 	private int orderOfOperation(Token token) {
 		if (token instanceof CommaToken) {
             return COMMA;
-        } else if (token instanceof PlusToken) {
+        } else if (token instanceof PlusToken || token instanceof MinusToken) {
             return ADD_OR_SUBTRACT;
-        } else if (token instanceof MultiplicationToken) {
+        } else if (token instanceof MultiplicationToken || token instanceof DivisionToken || token instanceof ModuloToken) {
             return MULTIPLY_OR_DIVIDE;
-        //} else if (token instanceof ExponentiateToken) {
-       //     return EXPONENT;
-      //  } else if (token instanceof UnaryOperatorToken) {
-         //   return UNARY;
+        } else if (token instanceof ExponentiateToken) {
+            return EXPONENT;
+        } else if (token instanceof NegationToken) {
+            return UNARY;
         } else {
             return CONSTANT;
         }

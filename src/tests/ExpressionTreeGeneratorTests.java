@@ -304,6 +304,11 @@ public class ExpressionTreeGeneratorTests {
 	}
 	
 	@Test
+	public void negationTest() {
+		ExpressionTreeNode e = parser.makeExpression("!x");
+		assertEquals(new Negation(new X()), e);
+	}
+	
 	public void expExpressionTest() {
 		ExpressionTreeNode e = parser.makeExpression("exp(x)");
 		assertEquals(new Exp(new X()), e);

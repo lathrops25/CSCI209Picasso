@@ -1,5 +1,7 @@
 +=Plus
 \==Assignment
 *=Multiplication
+\!=Negation
+-=Minus
 /=Division
 -=Minus

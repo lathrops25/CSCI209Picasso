@@ -40,8 +40,8 @@ public class CharTokenFactory {
 		tokenList[CharConstants.MINUS] = new MinusToken();
 		tokenList[CharConstants.QUOTE] = new QuoteToken();
 		tokenList[CharConstants.STAR] = new MultiplicationToken();
+		tokenList[CharConstants.BANG] = new NegationToken();
 		tokenList[CharConstants.SLASH] = new DivisionToken();
-
 		// TODO: What other tokens should be in here?
 		// TODO: Need to create the associated Token classes too.
 

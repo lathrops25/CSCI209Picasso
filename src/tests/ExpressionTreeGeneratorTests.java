@@ -288,6 +288,34 @@ public class ExpressionTreeGeneratorTests {
 	}
 	
 	@Test
+	public void moduloExpressionTests() {
+	    // Basic test for "x % y"
+	    ExpressionTreeNode e = parser.makeExpression("x % y");
+	    assertEquals(new Modulo(new X(), new Y()), e);
+	    e = parser.makeExpression("x%y");
+	    assertEquals(new Modulo(new X(), new Y()), e);
+
+	    // Test with a color constant and modulo
+	    e = parser.makeExpression("[1,.3,-1] % y");
+	    assertEquals(new Modulo(new RGBColor(1, .3, -1), new Y()), e);
+	}
+	
+	@Test
+	public void perlinBWExpressionTests() {
+	    // Basic test for "PerlinBW(x, y)"
+	    ExpressionTreeNode e = parser.makeExpression("perlinBW(x, y)");
+	    assertEquals(new PerlinBW(new X(), new Y()), e);
+	    e = parser.makeExpression("perlinBW(x,y)");
+	    assertEquals(new PerlinBW(new X(), new Y()), e);
+
+	    // Test with a color constant and PerlinBW
+	    e = parser.makeExpression("perlinBW([1,.3,-1], y)");
+	    assertEquals(new PerlinBW(new RGBColor(1, .3, -1), new Y()), e);
+
+	}
+	    
+
+	@Test
 	public void yCrCbToRGBExpressionTests() {
 	    // Basic test for "rgbToYCrCb(x)"
 	    ExpressionTreeNode e = parser.makeExpression("yCrCbToRGB(x)");

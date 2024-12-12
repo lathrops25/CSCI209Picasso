@@ -22,7 +22,7 @@ import picasso.parser.tokens.operations.*;
  * Test the parsing from the Stack (not as easy as using a String as input, but
  * helps to isolate where the problem is)
  * 
- * @author Sara Sprenkle, Sarah Lathrop, Allison Hidalgo 
+ * @author Sara Sprenkle, Sarah Lathrop, Naka Assoumatine, Allison Hidalgo
  *
  */
 class SemanticAnalyzerTest {
@@ -209,6 +209,38 @@ class SemanticAnalyzerTest {
 		});
 	}
 	
+	@Test
+	void testParseModulo() {
+
+	    // Set up the token stack for "x % y"
+	    Stack<Token> tokens = new Stack<>();
+	    tokens.push(new IdentifierToken("x")); // Push the left operand
+	    tokens.push(new IdentifierToken("y")); // Push the right operand
+	    tokens.push(new ModuloToken());     // Push the multiplication operator
+
+	    // Generate the expression tree
+	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+	    // Expected: Modulo(x, y)
+	    assertEquals(new Modulo(new X(), new Y()), actual);
+	}
+	
+	@Test
+	void testParsePerlinBW() {
+
+	    // Set up the token stack for "perlinBW(x, y)"
+	    Stack<Token> tokens = new Stack<>();
+	    tokens.push(new IdentifierToken("x")); // Push the left operand
+	    tokens.push(new IdentifierToken("y")); // Push the right operand
+	    tokens.push(new PerlinBWToken());     // Push the perlinBW function
+
+	    // Generate the expression tree
+	    ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+	    // Expected: perlinBW(x, y)
+	    assertEquals(new PerlinBW(new X(), new Y()), actual);
+	}
+
 	@Test
 	void testParseyCrCbToRGB() {
 

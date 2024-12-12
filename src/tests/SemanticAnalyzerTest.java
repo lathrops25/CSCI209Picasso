@@ -178,4 +178,16 @@ class SemanticAnalyzerTest {
 			semAnalyzer.generateExpressionTree(tokens);
 		});
 	}
+	
+	@Test
+	void testParseyCrCbToRGB() {
+
+		Stack<Token> tokens = new Stack<>();
+		tokens.push(new IdentifierToken("x"));
+		tokens.push(new YCrCbToRGBToken());
+
+		ExpressionTreeNode actual = semAnalyzer.generateExpressionTree(tokens);
+
+		assertEquals(new YCrCbToRGB(new X()), actual);
+	}
 }

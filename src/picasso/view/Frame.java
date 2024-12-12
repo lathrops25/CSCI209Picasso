@@ -66,6 +66,7 @@ public class Frame extends JFrame {
 				JButton evalButton = new JButton();
 				evalButton = commands.getButton(1);
 				evalButton.doClick();	// simulates clicking the evaluate button
+				historyPTR = history.size();
 			}
 		});
 		

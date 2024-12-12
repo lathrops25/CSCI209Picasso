@@ -5,10 +5,17 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.Color;
+import java.awt.Dimension;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
+// import picasso.parser.ParseException;
+
+//import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
 
@@ -252,6 +259,7 @@ public class EvaluatorTests {
 		}
 	}
 	
+   @Test
   public void testCosEvaluation() {
 		Cos myTree = new Cos(new X());
 
@@ -452,7 +460,198 @@ public class EvaluatorTests {
 	        }
 	    }
 	}
+
 	
+	@Test
+	public void testYCrCbToRGBEvaluation() {
+		YCrCbToRGB myTree = new YCrCbToRGB(new X());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(0 + 0*1.4022, 0 + 0*-0.3456 + 0*-0.7145, 0 + 0*1.7710), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(1 + 1*1.4022, 1 + 1*-0.3456 + 1*-0.7145, 1 + 1*1.7710), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(-1 + -1*1.4022, -1 + -1*-0.3456 + -1*-0.7145, -1 + -1*1.7710), myTree.evaluate(-1, 0));
+		
+		assertEquals(new RGBColor(-.4 + -.4*1.4022, -.4 + -.4*-0.3456 + -.4*-0.7145, -.4 + -.4*1.7710), myTree.evaluate(-.4, 0.9));
+
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(i + i*1.4022, i + i*-0.3456 + i*-0.7145, i + i*1.7710), myTree.evaluate(i, i));
+			assertEquals(new RGBColor(-i + -i*1.4022, -i + -i*-0.3456 + -i*-0.7145, -i + -i*1.7710), myTree.evaluate(-i, i));
+
+		}
+
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testVal : tests) {
+			assertEquals(new RGBColor(testVal + testVal*1.4022, testVal + testVal*-0.3456 + testVal*-0.7145, testVal + testVal*1.7710), myTree.evaluate(testVal, -1));
+					myTree.evaluate(testVal, testVal);
+		}
+	}
+
+
+
+
+	@Test
+	public void testDivisionEvaluation() {
+		Division myTree = new Division(new X(), new Y());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-1, 0));
+		assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, 1));
+		assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, -1));
+		assertEquals(new RGBColor(1, 1, 1), myTree.evaluate(1, 1));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(1, -1));
+		assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(-1, 1));
+		assertEquals(new RGBColor(1, 1, 1), myTree.evaluate(-1, -1));
+
+		assertEquals(new RGBColor(-0.444444, -0.444444, -0.444444), myTree.evaluate(-.4, 0.9));
+
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testLeftVal : tests) {
+			for (double testRightVal : tests) {
+				double divisionOfTestVal = testLeftVal / testRightVal;
+				assertEquals(new RGBColor(divisionOfTestVal, divisionOfTestVal, divisionOfTestVal),
+						myTree.evaluate(testLeftVal, testRightVal));
+			}
+		}
+	}
+	
+	@Test
+	public void testNegationEvaluation() {
+	    Negation myTree = new Negation(new X());
+
+	    // Test straightforward cases
+	    assertEquals(new RGBColor(0, 0, 0), myTree.evaluate(0, 0));
+	    assertEquals(new RGBColor(-1, -1, -1), myTree.evaluate(1, 0));
+	    assertEquals(new RGBColor(1, 1, 1), myTree.evaluate(-1, 1));
+
+	    // Test cases with fractional values
+	    assertEquals(new RGBColor(0.4, 0.4, 0.4), myTree.evaluate(-0.4, 0.9));
+
+	    // Test the multiplication of integers
+	    for (int i = -1; i <= 1; i++) {
+	        for (int j = -1; j <= 1; j++) {
+	            double result = -i;
+	            assertEquals(new RGBColor(result, result, result), myTree.evaluate(i, j));
+	        }
+	    }
+
+	    // Test a range of floating-point values
+	    double[] tests = { -.7, -.00001, .000001, .5 };
+
+	    for (double testLeftVal : tests) {
+	        for (double testRightVal : tests) {
+	            double negationResult = -testLeftVal;
+	            assertEquals(new RGBColor(negationResult, negationResult, negationResult),
+	                    myTree.evaluate(testLeftVal, testRightVal));
+	        }
+	    }
+	}
+	
+	@Test
+	public void testExpEvaluation() {
+		Exp myTree = new Exp(new X());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(Math.exp(0), Math.exp(0), Math.exp(0)), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(Math.exp(1), Math.exp(1), Math.exp(1)), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(Math.exp(-1), Math.exp(-1), Math.exp(-1)), myTree.evaluate(-1, 0));
+
+		assertEquals(new RGBColor(Math.exp(-.4), Math.exp(-.4), Math.exp(-.4)), myTree.evaluate(-.4, 0.9));
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(Math.exp(i), Math.exp(i), Math.exp(i)), myTree.evaluate(i, -i));
+			assertEquals(new RGBColor(Math.exp(i), Math.exp(i), Math.exp(i)), myTree.evaluate(i, i));
+		}
+
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testVal : tests) {
+			double expOfTestVal = Math.exp(testVal);
+			assertEquals(new RGBColor(expOfTestVal, expOfTestVal, expOfTestVal), myTree.evaluate(testVal, -1));
+			assertEquals(new RGBColor(expOfTestVal, expOfTestVal, expOfTestVal),
+					myTree.evaluate(testVal, testVal));
+		}
+	}
+	
+	
+	@Test
+	public void testStringNodeEvaluation() {
+		Pixmap image = new Pixmap("images/foo.jpg");
+		StringNode myTree = new StringNode("images/foo.jpg");
+		
+		// evaluate it for each pixel
+		Dimension size = image.getSize();
+		for (int imageY = 0; imageY < size.height; imageY++) {
+			for (int imageX = 0; imageX < size.width; imageX++) {
+				// get evaluated color
+				Color RGB_Ex = myTree.evaluate(imageX, imageY).toJavaColor();
+				int eRed = RGB_Ex.getRed();
+				int eGreen = RGB_Ex.getGreen();
+				int eBlue = RGB_Ex.getBlue();
+				// get actual color from image
+				Color RGB_Ac = new Color(image.myImage.getRGB(imageX, imageY));
+				int aRed = RGB_Ac.getRed();
+				int aGreen = RGB_Ac.getGreen();
+				int aBlue = RGB_Ac.getBlue();
+				// compare both colors with an error margin of 1
+				// this is probably something with the conversion from RGBColor to Color
+				assertEquals(eRed, aRed, 1);
+				assertEquals(eGreen, aGreen, 1);
+				assertEquals(eBlue, aBlue, 1);
+				}
+			}
+	}
+	
+	@Test
+	public void testImageWrapEvaluation() {
+		// testImage.jpg uses floor(x) as an expression so any -x is black, any +x is gray
+		String fileName = "images/testImage.jpg";
+		// using string node because it already has an evaluate method unlike Pixmap
+		StringNode Tree = new StringNode(fileName);
+		ImageWrap myTree = new ImageWrap(new Y(), new Addition(new X(), new X() ), fileName);
+		// evaluate it for each pixel
+	
+		Color RGB_Ex = myTree.evaluate(0.0, 0.0).toJavaColor();
+		Color RGB_Ac = Tree.evaluate(0.0, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+		
+		RGB_Ex = myTree.evaluate(0.75, 0.0).toJavaColor();
+		RGB_Ac = Tree.evaluate(-0.5, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+		
+		RGB_Ex = myTree.evaluate(-0.75, 0.0).toJavaColor();
+		RGB_Ac = Tree.evaluate(0.5, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+	}
+	
+	@Test
+	public void testImageClipEvaluation() {
+		// testImage.jpg uses floor(x) as an expression so any -x is black, any +x is gray
+		String fileName = "images/testImage.jpg";
+		// using string node because it already has an evaluate method unlike Pixmap
+		StringNode Tree = new StringNode(fileName);
+		ImageClip myTree = new ImageClip(new Y(), new Addition(new X(), new X() ), fileName);
+		// evaluate it for each pixel
+	
+		Color RGB_Ex = myTree.evaluate(0.0, 0.0).toJavaColor();
+		Color RGB_Ac = Tree.evaluate(0.0, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+		
+		RGB_Ex = myTree.evaluate(0.75, 0.0).toJavaColor();
+		RGB_Ac = Tree.evaluate(1.0, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+		
+		RGB_Ex = myTree.evaluate(-0.75, 0.0).toJavaColor();
+		RGB_Ac = Tree.evaluate(-1.0, 0.0).toJavaColor();
+		assertEquals(RGB_Ac, RGB_Ex);
+	}
+
 	
 	@Test
 	public void testExponentialEvaluation() {
@@ -509,13 +708,39 @@ public class EvaluatorTests {
 				assertEquals(new RGBColor (color1b, color2b, color3b), myTree2.evaluate(a, b));
 				}
 		}
-		
 	}
+	
+	
+	
+	
+	@Test
+	public void testRgbToYCrCbEvaluation() {
+		RgbToYCrCb myTree = new RgbToYCrCb(new X());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(0*0.2989 + 0*0.5866 + 0*0.1145, 0*-0.1687 + 0*-0.3312 + 0*0.5, 0*0.5000 + 0*-0.4183 + 0*-0.0816), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(1*0.2989 + 1*0.5866 + 1*0.1145, 1*-0.1687 + 1*-0.3312 + 1*0.5, 1*0.5000 + 1*-0.4183 + 1*-0.0816), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(-1*0.2989 + -1*0.5866 + -1*0.1145, -1*-0.1687 + -1*-0.3312 + -1*0.5, -1*0.5000 + -1*-0.4183 + -1*-0.0816), myTree.evaluate(-1, 0));
+
+		assertEquals(new RGBColor(-.4*0.2989 + -.4*0.5866 + -.4*0.1145, -.4*-0.1687 + -.4* -0.3312 + -.4*0.5, -.4*0.5000 + -.4*-0.4183 + -.4*-0.0816), myTree.evaluate(-.4, 0.9));
+
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(i*0.2989 + i*0.5866 + i*0.1145, i*-0.1687 + i*-0.3312 + i*0.5, i*0.5000 + i*-0.4183 + i*-0.0816), myTree.evaluate(i, i));
+			assertEquals(new RGBColor(i*0.2989 + i*0.5866 + i*0.1145, i*-0.1687 + i*-0.3312 + i*0.5, i*0.5000 + i*-0.4183 + i*-0.0816), myTree.evaluate(i, -i));
+
+		}
+
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testVal : tests) {
+			assertEquals(new RGBColor(testVal*0.2989 + testVal*0.5866 + testVal*0.1145, testVal*-0.1687 + testVal*-0.3312 + testVal*0.5, testVal*0.5000 + testVal*-0.4183 + testVal*-0.0816), myTree.evaluate(testVal, -1));
+					myTree.evaluate(testVal, testVal);
+		}
+	}
+
 }
-
-
-
-
 
 
 

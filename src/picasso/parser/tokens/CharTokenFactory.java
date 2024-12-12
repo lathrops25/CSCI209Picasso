@@ -13,6 +13,7 @@ import picasso.parser.tokens.operations.*;
  * @author Sara Sprenkle
  * @author Jonathan Carranza Cortes
  * @author Naka Assoumatine
+ * @author Sarah Lathrop
  */
 public class CharTokenFactory {
 
@@ -42,9 +43,8 @@ public class CharTokenFactory {
 		tokenList[CharConstants.QUOTE] = new QuoteToken();
 		tokenList[CharConstants.STAR] = new MultiplicationToken();
 		tokenList[CharConstants.CARET] = new ExponentiateToken();
-
-		// TODO: What other tokens should be in here?
-		// TODO: Need to create the associated Token classes too.
+		tokenList[CharConstants.BANG] = new NegationToken();
+		tokenList[CharConstants.SLASH] = new DivisionToken();
 
 	}
 }

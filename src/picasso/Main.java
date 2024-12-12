@@ -41,8 +41,10 @@ public class Main {
 				viewer.setVisible(true);
 			}
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			ErrorDialog.showDialog("An error occurred: <br/>" + e.getMessage());
+		} catch (Exception e) {
+			ErrorDialog.showDialog("An unknown error occurred: <br/>" + e.getMessage());
 		}
 	}
 }

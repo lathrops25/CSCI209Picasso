@@ -1,6 +1,4 @@
-# CodeCatalysts Picasso Project
-
-# Picasso
+# CodeCatalysts Picasso
 
 An application that allows the user to create expressions that
 evaluate to colors and then eventually to images. This project implements the full picasso specification that can be found This application is mostly fully featured and ready for your use to generate cool images from expressions!

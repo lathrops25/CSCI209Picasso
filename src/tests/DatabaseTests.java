@@ -11,8 +11,6 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import picasso.database.ExpressionDB;
 import picasso.database.StoredExpression;
@@ -23,7 +21,6 @@ import picasso.database.StoredExpression;
  * @author Gabriel Hogan
  * 
  */
-@TestInstance(Lifecycle.PER_CLASS)
 public class DatabaseTests {
 
 	private static final String DB_NAME = "test.db";
@@ -50,8 +47,6 @@ public class DatabaseTests {
 			e.printStackTrace();
 		}
 	}
-
-	// Add more tests here
 
 	@Test
 	public void testInsertExpression() {

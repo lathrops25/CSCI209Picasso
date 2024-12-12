@@ -11,6 +11,7 @@ package picasso.parser.tokens;
  *
  */
 public abstract class Token {
+	public static final int CONSTANT = 0;
 
 	private String description;
 

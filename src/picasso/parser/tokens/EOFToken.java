@@ -45,5 +45,10 @@ public class EOFToken extends Token {
 	public boolean isFunction() {
 		return false;
 	}
+	
+	@Override
+	public int getPrecedence() {
+	    return Integer.MIN_VALUE; // EOFToken has the lowest precedence since it is not an operator.
+	}
 
 }

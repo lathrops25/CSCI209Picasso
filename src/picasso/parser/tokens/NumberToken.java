@@ -65,5 +65,15 @@ public class NumberToken extends Token {
 	public boolean isOperand() {
 		return true;
 	}
+	
+	/**
+     * Specifies precedence of a NumberToken as CONSTANT
+     * 
+     * @return precedence level for constants
+     */
+    @Override
+    public int getPrecedence() {
+        return Token.CONSTANT;
+    }
 
 }

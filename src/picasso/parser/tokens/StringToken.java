@@ -48,6 +48,16 @@ public class StringToken extends Token{
 	public boolean isOperand() {
 		return true;
 	}
+	
+	/**
+     * Specifies the precedence of a StringToken as CONSTANT
+     * 
+     * @return precedence level for constants
+     */
+    @Override
+    public int getPrecedence() {
+        return CONSTANT;
+    }
 
 	
 }

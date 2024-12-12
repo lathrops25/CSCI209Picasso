@@ -106,5 +106,15 @@ public class ColorToken extends Token {
 	public boolean isOperand() {
 		return true;
 	}
+	
+	/**
+	 * Specifies precedence of a ColorToken as CONSTANT
+	 * 
+	 * @return precedence level for constants
+	 */
+	@Override
+	public int getPrecedence() {
+		return Token.CONSTANT;
+	}
 
 }

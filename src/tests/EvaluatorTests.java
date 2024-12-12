@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import picasso.model.Pixmap;
 import picasso.parser.ExpressionTreeGenerator;
 // import picasso.parser.ParseException;
+
 //import picasso.parser.ParseException;
 import picasso.parser.language.ExpressionTreeNode;
 import picasso.parser.language.expressions.*;
@@ -460,6 +461,37 @@ public class EvaluatorTests {
 	    }
 	}
 
+	
+	@Test
+	public void testYCrCbToRGBEvaluation() {
+		YCrCbToRGB myTree = new YCrCbToRGB(new X());
+
+		// some straightforward tests
+		assertEquals(new RGBColor(0 + 0*1.4022, 0 + 0*-0.3456 + 0*-0.7145, 0 + 0*1.7710), myTree.evaluate(0, 0));
+		assertEquals(new RGBColor(1 + 1*1.4022, 1 + 1*-0.3456 + 1*-0.7145, 1 + 1*1.7710), myTree.evaluate(1, 0));
+		assertEquals(new RGBColor(-1 + -1*1.4022, -1 + -1*-0.3456 + -1*-0.7145, -1 + -1*1.7710), myTree.evaluate(-1, 0));
+		
+		assertEquals(new RGBColor(-.4 + -.4*1.4022, -.4 + -.4*-0.3456 + -.4*-0.7145, -.4 + -.4*1.7710), myTree.evaluate(-.4, 0.9));
+
+
+		// test the ints; remember that u's value doesn't matter
+		for (int i = -1; i <= 1; i++) {
+			assertEquals(new RGBColor(i + i*1.4022, i + i*-0.3456 + i*-0.7145, i + i*1.7710), myTree.evaluate(i, i));
+			assertEquals(new RGBColor(-i + -i*1.4022, -i + -i*-0.3456 + -i*-0.7145, -i + -i*1.7710), myTree.evaluate(-i, i));
+
+		}
+
+		double[] tests = { -.7, -.00001, .000001, .5 };
+
+		for (double testVal : tests) {
+			assertEquals(new RGBColor(testVal + testVal*1.4022, testVal + testVal*-0.3456 + testVal*-0.7145, testVal + testVal*1.7710), myTree.evaluate(testVal, -1));
+					myTree.evaluate(testVal, testVal);
+		}
+	}
+
+
+
+
 	@Test
 	public void testDivisionEvaluation() {
 		Division myTree = new Division(new X(), new Y());
@@ -676,9 +708,6 @@ public class EvaluatorTests {
 	}
 
 }
-
-
-
 
 
 

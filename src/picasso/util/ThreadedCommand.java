@@ -55,8 +55,6 @@ public class ThreadedCommand<T> implements Command<T> {
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
-
-						// !! TODO: Temporary Error Display
 						ErrorDialog.showDialog("An error occured in a ThreadedCommand: " + e.getMessage());
 					}
 				}

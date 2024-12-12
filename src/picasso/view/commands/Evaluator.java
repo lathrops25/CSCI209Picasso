@@ -2,6 +2,7 @@ package picasso.view.commands;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JTextField;
 
@@ -25,14 +26,16 @@ public class Evaluator implements Command<Pixmap> {
 
 	private static String inputString;
 	private JTextField textIn;
+	private List history;
 
 	/**
 	 * Constructor that takes input from text field and saves it
 	 * 
 	 * @param text field
 	 */
-	public Evaluator(JTextField textIn) {
+	public Evaluator(JTextField textIn, List history) {
 		this.textIn = textIn;
+		this.history = history;
 	}
 
 	/**
@@ -78,7 +81,7 @@ public class Evaluator implements Command<Pixmap> {
 		// String test = "x + y";
 		// Take the current expression in the text field
 		inputString = textIn.getText();
-
+		history.add(inputString);
 		ExpressionTreeGenerator expTreeGen = new ExpressionTreeGenerator();
 		return expTreeGen.makeExpression(inputString);
 	}
